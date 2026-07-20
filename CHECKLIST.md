@@ -34,12 +34,15 @@ Official category: **Apps for your life**
 - [x] Record the demo using the 2-minute script in `SUBMISSION.md`.
 - [x] Explicitly say how Codex **and GPT-5.6** were used.
 - [ ] Upload the demo as a **public YouTube video under three minutes**.
-- [ ] Create or select the code repository URL for judging.
+- [x] Create or select the code repository URL for judging:
+  `https://github.com/AbbyFitz2-droid/second-mind` (public).
 - [x] If public, choose and add an appropriate open-source licence.
 - [ ] If private, share repository access with:
   `testing@devpost.com` and `build-week-event@openai.com`.
-- [ ] Push this exact final source state to the submitted repository.
-- [ ] Run the repository setup once from a clean clone or clean folder.
+- [x] Push this exact final source state to the submitted repository.
+- [x] Run the repository setup once from a clean clone or clean folder.
+  (Verified 2026-07-20: fresh `git clone`, install, 54/54 tests, 28/28 eval,
+  full browser flow — see smoke test below.)
 - [x] Get the `/feedback` Codex session ID for the task containing most of the
   core build.
 - [ ] Enter the recorded session ID in the submission form.
@@ -51,18 +54,20 @@ Official category: **Apps for your life**
 
 ## Final five-minute smoke test
 
-- [ ] `npm install`
-- [ ] `cp .env.example .env`
-- [ ] `npm start`
-- [ ] Open `http://localhost:3000`
-- [ ] Choose **Share a screenshot**
-- [ ] Choose **Try a fictional screenshot**
-- [ ] Confirm OCR review shows Fran and leaves the date blank
-- [ ] File the capture
-- [ ] Open **View source**
-- [ ] Open **Action** and confirm both response panels render
-- [ ] Run `npm test`
-- [ ] Run `npm run eval`
+Completed 2026-07-20 from a clean clone (Node v24.14.0).
+
+- [x] `npm install`
+- [x] `cp .env.example .env`
+- [x] `npm start`
+- [x] Open `http://localhost:3000`
+- [x] Choose **Share a screenshot**
+- [x] Choose **Try a fictional screenshot**
+- [x] Confirm OCR review shows Fran and leaves the date blank
+- [x] File the capture
+- [x] Open **View source**
+- [x] Open **Action** and confirm both response panels render
+- [x] Run `npm test` — 54/54 passed
+- [x] Run `npm run eval` — 28/28 passed (100% intent, schema, isolation)
 
 ## Do not add before submission
 
