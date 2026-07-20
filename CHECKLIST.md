@@ -33,7 +33,8 @@ Official category: **Apps for your life**
 - [ ] Choose **Apps for your life** as the category.
 - [x] Record the demo using the 2-minute script in `SUBMISSION.md`.
 - [x] Explicitly say how Codex **and GPT-5.6** were used.
-- [ ] Upload the demo as a **public YouTube video under three minutes**.
+- [x] Upload the demo as a **public YouTube video under three minutes**:
+  https://youtu.be/2V-b4F51elE
 - [x] Create or select the code repository URL for judging:
   `https://github.com/AbbyFitz2-droid/second-mind` (public).
 - [x] If public, choose and add an appropriate open-source licence.
@@ -47,7 +48,8 @@ Official category: **Apps for your life**
   core build.
 - [ ] Enter the recorded session ID in the submission form.
 - [ ] Paste the project description and supporting copy from `SUBMISSION.md`.
-- [ ] Add the public YouTube URL and repository URL.
+- [x] Add the public YouTube URL and repository URL to the prepared submission
+  details.
 - [ ] Add a cover image or product screenshot if the form requests one.
 - [ ] Preview every submitted link while signed out.
 - [ ] Submit before the deadline and save the confirmation page or email.
@@ -79,13 +81,10 @@ Completed 2026-07-20 from a clean clone (Node v24.14.0).
 - Additional relationship scoring
 - Unvalidated psychological or intent inference
 
-## Manual decision still required
+## Repository route selected
 
-Choose one repository route:
+The public repository route is complete:
+https://github.com/AbbyFitz2-droid/second-mind
 
-1. **Public repository:** add a licence you deliberately select, then publish.
-2. **Private repository:** keep the code private and grant access to both
-   judging email addresses above.
-
-Do not publish personal `.env` files, screenshots, API keys, or real relationship
-data.
+The repository contains an MIT licence and excludes personal `.env` files, API
+keys, real screenshots, and real relationship data.

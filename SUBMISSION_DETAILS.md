@@ -8,9 +8,9 @@
 
 ## Links
 
-**Demo video:** `submission-assets/second-mind-build-week-demo-v4.mp4`
-(85.7 seconds; 1920×1080 product-only crop; normal-speed interaction; video
-and narration verified; pending YouTube upload)
+**Demo video:** https://youtu.be/2V-b4F51elE
+(Public; 85.7 seconds; 1920×1080 product-only crop; normal-speed interaction;
+video and narration verified.)
 **Code repository:** https://github.com/AbbyFitz2-droid/second-mind
 
 ## Codex session
