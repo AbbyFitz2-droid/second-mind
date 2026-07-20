@@ -1,0 +1,15 @@
+.env
+.DS_Store
+node_modules/
+.venv/
+.pnpm-store/
+.ruff_cache/
+__pycache__/
+data/external/
+coverage/
+*.log
+releases/
+submission-assets/audio/
+submission-assets/frames/
+submission-assets/*.mov
+submission-assets/*.mp4

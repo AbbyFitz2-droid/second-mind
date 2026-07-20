@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A leakage-controlled evaluation of conversational outcome forecasting on the ConvoKit Conversations Gone Awry corpus."
+    />
+    <meta name="theme-color" content="#eef0e8" />
+    <title>Second Mind — Conversation outcome benchmark</title>
+    <link rel="stylesheet" href="/convokit-outcomes.css" />
+  </head>
+  <body>
+    <main class="report-shell">
+      <header class="report-header">
+        <a class="brand" href="/" aria-label="Return to Second Mind">
+          <span class="brand-mark" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </span>
+          <span><strong>Second Mind</strong><small>Research bench · Team Abby</small></span>
+        </a>
+        <nav aria-label="Report actions">
+          <a href="/">Open product</a>
+          <a href="/convokit-outcome-metrics.csv" download>Download metrics</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <p class="eyebrow">CONVERSATION OUTCOME BENCHMARK · 01</p>
+        <h1>Can an opening reveal<br /><em>how a conversation ends?</em></h1>
+        <div class="hero-copy">
+          <p>
+            We tested a local forecasting baseline on matched Wikipedia
+            conversations. The result is promising enough to study—and far too
+            uncertain to judge people.
+          </p>
+          <span class="run-state" id="runState">Loading verified results…</span>
+        </div>
+      </section>
+
+      <section class="boundary" aria-label="Interpretation boundary">
+        <span>What “outcome” means here</span>
+        <p>
+          Whether a later turn receives the corpus’s crowdsourced
+          <strong>personal-attack label</strong>. It does not mean relationship
+          success, danger, intent, manipulation, or trustworthiness.
+        </p>
+      </section>
+
+      <section class="stat-grid" id="statGrid" aria-label="Dataset summary"></section>
+
+      <section class="result-story">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CONTEXT CURVE · 02</p>
+            <h2>Early signals stay weak. Fuller context helps.</h2>
+          </div>
+          <div class="metric-switch" id="metricSwitch" aria-label="Displayed metric">
+            <button type="button" data-metric="accuracy">Accuracy</button>
+            <button type="button" data-metric="roc_auc" class="active">ROC-AUC</button>
+            <button type="button" data-metric="pairwise_accuracy">Pairwise</button>
+          </div>
+        </div>
+        <p class="section-intro" id="metricDefinition"></p>
+        <div class="context-chart" id="contextChart"></div>
+        <p class="selection-note">
+          Each stage’s model family and regularization were selected on the
+          validation split. The 840-case test split was opened only for the final
+          measurements shown here.
+        </p>
+      </section>
+
+      <section class="design-grid">
+        <article>
+          <p class="eyebrow">DATA DESIGN · 03</p>
+          <h2>A fairer test than a random split</h2>
+          <div class="split-visual" id="splitVisual"></div>
+          <ul>
+            <li><strong>Matched pairs remain together</strong> in one split.</li>
+            <li><strong>Wikipedia pages never cross</strong> between splits.</li>
+            <li><strong>Future turns and outcome annotations</strong> are excluded.</li>
+          </ul>
+        </article>
+        <article class="integrity-card">
+          <p class="eyebrow">INTEGRITY CHECK</p>
+          <h2 id="integrityTitle">Validating adapter…</h2>
+          <div class="integrity-list" id="integrityList"></div>
+        </article>
+      </section>
+
+      <section class="model-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">ALL MODELS · 04</p>
+            <h2>The full result, not only the winner</h2>
+          </div>
+          <p>
+            Structural features describe turn-taking and punctuation. Lexical
+            features use word and character patterns. Combined uses both.
+          </p>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Context</th>
+                <th>Model</th>
+                <th>Validation AUC</th>
+                <th>Test accuracy</th>
+                <th>Test ROC-AUC</th>
+                <th>Pairwise</th>
+                <th>F1</th>
+              </tr>
+            </thead>
+            <tbody id="modelRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="diagnostic-grid">
+        <article class="confusion-panel">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">ERROR SHAPE · 05</p>
+              <h2>Where predictions land</h2>
+            </div>
+            <label>
+              <span>Context</span>
+              <select id="confusionView"></select>
+            </label>
+          </div>
+          <div class="confusion-grid" id="confusionGrid"></div>
+        </article>
+        <article class="reading-panel">
+          <p class="eyebrow">HOW TO READ THIS</p>
+          <h2>A risk score is not a social verdict.</h2>
+          <p id="confusionReading"></p>
+          <div class="calibration-line">
+            <span>50%</span><i></i><span>100%</span>
+          </div>
+          <small>
+            On this balanced research set, 50% accuracy is chance. Real-world
+            attack rates are not 50%, so these probabilities are not calibrated
+            for ordinary conversations.
+          </small>
+        </article>
+      </section>
+
+      <section class="error-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">FAILURE REVIEW · 06</p>
+            <h2>Read the mistakes, not just the metric</h2>
+          </div>
+          <div class="error-switch" id="errorSwitch">
+            <button type="button" data-errors="highest_confidence_false_positives" class="active">
+              False alarms
+            </button>
+            <button type="button" data-errors="highest_confidence_false_negatives">
+              Missed derailments
+            </button>
+          </div>
+        </div>
+        <p class="section-intro">
+          These are public research excerpts with source usernames replaced by
+          local speaker aliases. They show why surface cues cannot establish intent.
+        </p>
+        <div class="error-cards" id="errorCards"></div>
+      </section>
+
+      <section class="reconciliation-panel">
+        <div>
+          <p class="eyebrow">SCHEMA RECONCILIATION · 07</p>
+          <h2>Connected to Cognisyn without inventing relationships</h2>
+        </div>
+        <div class="schema-flow">
+          <article>
+            <span>Source</span>
+            <strong>ConvoKit Corpus</strong>
+            <small>conversations · utterances · speakers · matched pairs</small>
+          </article>
+          <b aria-hidden="true">→</b>
+          <article>
+            <span>Adapter</span>
+            <strong>External outcome v1</strong>
+            <small>pseudonymous participants · turns · provenance · views</small>
+          </article>
+          <b aria-hidden="true">→</b>
+          <article>
+            <span>Cognisyn bridge</span>
+            <strong>Interaction evidence</strong>
+            <small>reply edges only · no invented closeness or trust</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="limits-panel">
+        <div>
+          <p class="eyebrow">RESEARCH BOUNDARY · 08</p>
+          <h2>What this cannot tell us</h2>
+        </div>
+        <ol id="limitations"></ol>
+      </section>
+
+      <footer>
+        <p id="generatedAt"></p>
+        <p>
+          Source:
+          <a href="https://convokit.cornell.edu/documentation/awry.html">ConvoKit CGA-WIKI</a>
+          · Research:
+          <a href="https://aclanthology.org/P18-1125/">Conversations Gone Awry</a>
+          · Local model · no paid API calls
+        </p>
+      </footer>
+    </main>
+    <script type="module" src="/convokit-outcomes.js"></script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "conversations": 4188,
+  "turns": 26188,
+  "source_utterances_including_section_headers": 30021,
+  "source_speakers_including_section_headers": 8069,
+  "participants": 8056,
+  "participant_roles_across_conversations": 13656,
+  "labels": {
+    "not_awry": 2094,
+    "awry": 2094
+  },
+  "splits": {
+    "train": 2508,
+    "test": 840,
+    "val": 840
+  },
+  "split_labels": {
+    "test:awry": 420,
+    "test:not_awry": 420,
+    "train:awry": 1254,
+    "train:not_awry": 1254,
+    "val:awry": 420,
+    "val:not_awry": 420
+  },
+  "turn_length": {
+    "minimum": 3,
+    "median": 6.0,
+    "mean": 6.253,
+    "maximum": 19
+  },
+  "verified_conversations": 1168,
+  "awry_conversations_with_attack_on_final_turn": 2088,
+  "awry_conversations_with_attack_before_final_turn": 6,
+  "pair_split_mismatches": 0,
+  "pages_in_multiple_splits": 0,
+  "canonical_validation_errors": 0,
+  "source_fields_excluded_from_model": [
+    "outcome.label",
+    "outcome.attack_turn_index",
+    "turns[].outcome_annotation",
+    "utterance.meta.toxicity",
+    "source.page_id",
+    "source.page_title",
+    "source.annotation_year",
+    "source.official_split",
+    "future_turns"
+  ]
+}

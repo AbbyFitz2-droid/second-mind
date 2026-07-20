@@ -1,0 +1,694 @@
+{
+  "report_id": "team-abby-convokit-cga-outcome-v1",
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-19T23:22:19.547448+00:00",
+  "generated_by": "Team Abby",
+  "execution": {
+    "mode": "local_zero_cost",
+    "paid_api_used": false,
+    "dataset": "conversations-gone-awry-corpus",
+    "dataset_source": "ConvoKit CGA-WIKI",
+    "model_family": "TF-IDF + structural features + logistic regression",
+    "official_split_used": true,
+    "validation_for_hyperparameters": true,
+    "test_cases": 840
+  },
+  "corpus_profile": {
+    "conversations": 4188,
+    "turns": 26188,
+    "source_utterances_including_section_headers": 30021,
+    "source_speakers_including_section_headers": 8069,
+    "participants": 8056,
+    "participant_roles_across_conversations": 13656,
+    "labels": {
+      "not_awry": 2094,
+      "awry": 2094
+    },
+    "splits": {
+      "train": 2508,
+      "test": 840,
+      "val": 840
+    },
+    "split_labels": {
+      "test:awry": 420,
+      "test:not_awry": 420,
+      "train:awry": 1254,
+      "train:not_awry": 1254,
+      "val:awry": 420,
+      "val:not_awry": 420
+    },
+    "turn_length": {
+      "minimum": 3,
+      "median": 6.0,
+      "mean": 6.253,
+      "maximum": 19
+    },
+    "verified_conversations": 1168,
+    "awry_conversations_with_attack_on_final_turn": 2088,
+    "awry_conversations_with_attack_before_final_turn": 6,
+    "pair_split_mismatches": 0,
+    "pages_in_multiple_splits": 0,
+    "canonical_validation_errors": 0,
+    "source_fields_excluded_from_model": [
+      "outcome.label",
+      "outcome.attack_turn_index",
+      "turns[].outcome_annotation",
+      "utterance.meta.toxicity",
+      "source.page_id",
+      "source.page_title",
+      "source.annotation_year",
+      "source.official_split",
+      "future_turns"
+    ]
+  },
+  "schema_reconciliation": {
+    "source_schema": "ConvoKit Corpus",
+    "canonical_schema": "external-conversation-outcome.schema.json",
+    "canonical_records": 4188,
+    "validation_errors": 0,
+    "relationship_fields_invented": false,
+    "speaker_source_ids_pseudonymised": true
+  },
+  "metrics": [
+    {
+      "view": "first_turn",
+      "view_label": "First substantive turn",
+      "model": "structural",
+      "selected_c": 4.0,
+      "selection_validation_auc": 0.4866,
+      "test_cases": 840,
+      "accuracy": 0.5393,
+      "accuracy_95_ci": [
+        0.5055,
+        0.5727
+      ],
+      "balanced_accuracy": 0.5393,
+      "f1": 0.5495,
+      "precision": 0.5376,
+      "recall": 0.5619,
+      "roc_auc": 0.5614,
+      "roc_auc_95_ci": [
+        0.52,
+        0.5975
+      ],
+      "brier_score": 0.2487,
+      "pairwise_accuracy": 0.5857,
+      "pair_count": 420,
+      "true_negative": 217,
+      "false_positive": 203,
+      "false_negative": 184,
+      "true_positive": 236
+    },
+    {
+      "view": "first_turn",
+      "view_label": "First substantive turn",
+      "model": "lexical",
+      "selected_c": 0.25,
+      "selection_validation_auc": 0.5245,
+      "test_cases": 840,
+      "accuracy": 0.5321,
+      "accuracy_95_ci": [
+        0.4983,
+        0.5657
+      ],
+      "balanced_accuracy": 0.5321,
+      "f1": 0.5349,
+      "precision": 0.5318,
+      "recall": 0.5381,
+      "roc_auc": 0.5512,
+      "roc_auc_95_ci": [
+        0.5132,
+        0.5904
+      ],
+      "brier_score": 0.2479,
+      "pairwise_accuracy": 0.5595,
+      "pair_count": 420,
+      "true_negative": 221,
+      "false_positive": 199,
+      "false_negative": 194,
+      "true_positive": 226
+    },
+    {
+      "view": "first_turn",
+      "view_label": "First substantive turn",
+      "model": "combined",
+      "selected_c": 0.25,
+      "selection_validation_auc": 0.5206,
+      "test_cases": 840,
+      "accuracy": 0.5381,
+      "accuracy_95_ci": [
+        0.5043,
+        0.5716
+      ],
+      "balanced_accuracy": 0.5381,
+      "f1": 0.5403,
+      "precision": 0.5377,
+      "recall": 0.5429,
+      "roc_auc": 0.5564,
+      "roc_auc_95_ci": [
+        0.5178,
+        0.5958
+      ],
+      "brier_score": 0.2475,
+      "pairwise_accuracy": 0.5595,
+      "pair_count": 420,
+      "true_negative": 224,
+      "false_positive": 196,
+      "false_negative": 192,
+      "true_positive": 228
+    },
+    {
+      "view": "opening_exchange",
+      "view_label": "Opening two-turn exchange",
+      "model": "structural",
+      "selected_c": 4.0,
+      "selection_validation_auc": 0.5251,
+      "test_cases": 840,
+      "accuracy": 0.5488,
+      "accuracy_95_ci": [
+        0.515,
+        0.5822
+      ],
+      "balanced_accuracy": 0.5488,
+      "f1": 0.5629,
+      "precision": 0.5459,
+      "recall": 0.581,
+      "roc_auc": 0.5577,
+      "roc_auc_95_ci": [
+        0.5182,
+        0.5948
+      ],
+      "brier_score": 0.2477,
+      "pairwise_accuracy": 0.5833,
+      "pair_count": 420,
+      "true_negative": 217,
+      "false_positive": 203,
+      "false_negative": 176,
+      "true_positive": 244
+    },
+    {
+      "view": "opening_exchange",
+      "view_label": "Opening two-turn exchange",
+      "model": "lexical",
+      "selected_c": 0.25,
+      "selection_validation_auc": 0.533,
+      "test_cases": 840,
+      "accuracy": 0.5667,
+      "accuracy_95_ci": [
+        0.5329,
+        0.5998
+      ],
+      "balanced_accuracy": 0.5667,
+      "f1": 0.5677,
+      "precision": 0.5664,
+      "recall": 0.569,
+      "roc_auc": 0.5834,
+      "roc_auc_95_ci": [
+        0.5452,
+        0.6196
+      ],
+      "brier_score": 0.2454,
+      "pairwise_accuracy": 0.5857,
+      "pair_count": 420,
+      "true_negative": 237,
+      "false_positive": 183,
+      "false_negative": 181,
+      "true_positive": 239
+    },
+    {
+      "view": "opening_exchange",
+      "view_label": "Opening two-turn exchange",
+      "model": "combined",
+      "selected_c": 4.0,
+      "selection_validation_auc": 0.5381,
+      "test_cases": 840,
+      "accuracy": 0.5238,
+      "accuracy_95_ci": [
+        0.49,
+        0.5574
+      ],
+      "balanced_accuracy": 0.5238,
+      "f1": 0.5249,
+      "precision": 0.5237,
+      "recall": 0.5262,
+      "roc_auc": 0.5516,
+      "roc_auc_95_ci": [
+        0.514,
+        0.5896
+      ],
+      "brier_score": 0.2709,
+      "pairwise_accuracy": 0.5548,
+      "pair_count": 420,
+      "true_negative": 219,
+      "false_positive": 201,
+      "false_negative": 199,
+      "true_positive": 221
+    },
+    {
+      "view": "pre_outcome",
+      "view_label": "All substantive turns available before the outcome",
+      "model": "structural",
+      "selected_c": 4.0,
+      "selection_validation_auc": 0.6596,
+      "test_cases": 840,
+      "accuracy": 0.5988,
+      "accuracy_95_ci": [
+        0.5653,
+        0.6314
+      ],
+      "balanced_accuracy": 0.5988,
+      "f1": 0.5824,
+      "precision": 0.6072,
+      "recall": 0.5595,
+      "roc_auc": 0.6468,
+      "roc_auc_95_ci": [
+        0.6038,
+        0.6841
+      ],
+      "brier_score": 0.2361,
+      "pairwise_accuracy": 0.6667,
+      "pair_count": 420,
+      "true_negative": 268,
+      "false_positive": 152,
+      "false_negative": 185,
+      "true_positive": 235
+    },
+    {
+      "view": "pre_outcome",
+      "view_label": "All substantive turns available before the outcome",
+      "model": "lexical",
+      "selected_c": 0.25,
+      "selection_validation_auc": 0.6218,
+      "test_cases": 840,
+      "accuracy": 0.6417,
+      "accuracy_95_ci": [
+        0.6087,
+        0.6734
+      ],
+      "balanced_accuracy": 0.6417,
+      "f1": 0.6512,
+      "precision": 0.6343,
+      "recall": 0.669,
+      "roc_auc": 0.6739,
+      "roc_auc_95_ci": [
+        0.6396,
+        0.7124
+      ],
+      "brier_score": 0.2335,
+      "pairwise_accuracy": 0.6857,
+      "pair_count": 420,
+      "true_negative": 258,
+      "false_positive": 162,
+      "false_negative": 139,
+      "true_positive": 281
+    },
+    {
+      "view": "pre_outcome",
+      "view_label": "All substantive turns available before the outcome",
+      "model": "combined",
+      "selected_c": 0.25,
+      "selection_validation_auc": 0.6627,
+      "test_cases": 840,
+      "accuracy": 0.6381,
+      "accuracy_95_ci": [
+        0.605,
+        0.6699
+      ],
+      "balanced_accuracy": 0.6381,
+      "f1": 0.632,
+      "precision": 0.6429,
+      "recall": 0.6214,
+      "roc_auc": 0.6742,
+      "roc_auc_95_ci": [
+        0.6356,
+        0.71
+      ],
+      "brier_score": 0.2299,
+      "pairwise_accuracy": 0.6833,
+      "pair_count": 420,
+      "true_negative": 275,
+      "false_positive": 145,
+      "false_negative": 159,
+      "true_positive": 261
+    }
+  ],
+  "selected_by_view": {
+    "first_turn": {
+      "view": "first_turn",
+      "view_label": "First substantive turn",
+      "model": "lexical",
+      "selected_c": 0.25,
+      "selection_validation_auc": 0.5245,
+      "test_cases": 840,
+      "accuracy": 0.5321,
+      "accuracy_95_ci": [
+        0.4983,
+        0.5657
+      ],
+      "balanced_accuracy": 0.5321,
+      "f1": 0.5349,
+      "precision": 0.5318,
+      "recall": 0.5381,
+      "roc_auc": 0.5512,
+      "roc_auc_95_ci": [
+        0.5132,
+        0.5904
+      ],
+      "brier_score": 0.2479,
+      "pairwise_accuracy": 0.5595,
+      "pair_count": 420,
+      "true_negative": 221,
+      "false_positive": 199,
+      "false_negative": 194,
+      "true_positive": 226
+    },
+    "opening_exchange": {
+      "view": "opening_exchange",
+      "view_label": "Opening two-turn exchange",
+      "model": "combined",
+      "selected_c": 4.0,
+      "selection_validation_auc": 0.5381,
+      "test_cases": 840,
+      "accuracy": 0.5238,
+      "accuracy_95_ci": [
+        0.49,
+        0.5574
+      ],
+      "balanced_accuracy": 0.5238,
+      "f1": 0.5249,
+      "precision": 0.5237,
+      "recall": 0.5262,
+      "roc_auc": 0.5516,
+      "roc_auc_95_ci": [
+        0.514,
+        0.5896
+      ],
+      "brier_score": 0.2709,
+      "pairwise_accuracy": 0.5548,
+      "pair_count": 420,
+      "true_negative": 219,
+      "false_positive": 201,
+      "false_negative": 199,
+      "true_positive": 221
+    },
+    "pre_outcome": {
+      "view": "pre_outcome",
+      "view_label": "All substantive turns available before the outcome",
+      "model": "combined",
+      "selected_c": 0.25,
+      "selection_validation_auc": 0.6627,
+      "test_cases": 840,
+      "accuracy": 0.6381,
+      "accuracy_95_ci": [
+        0.605,
+        0.6699
+      ],
+      "balanced_accuracy": 0.6381,
+      "f1": 0.632,
+      "precision": 0.6429,
+      "recall": 0.6214,
+      "roc_auc": 0.6742,
+      "roc_auc_95_ci": [
+        0.6356,
+        0.71
+      ],
+      "brier_score": 0.2299,
+      "pairwise_accuracy": 0.6833,
+      "pair_count": 420,
+      "true_negative": 275,
+      "false_positive": 145,
+      "false_negative": 159,
+      "true_positive": 261
+    }
+  },
+  "opening_exchange_explainability": {
+    "model": "combined",
+    "warning": "Coefficients are dataset associations, not causal social rules.",
+    "top_coefficients": {
+      "associated_with_awry": [
+        {
+          "feature": "word__to the",
+          "coefficient": 1.7077
+        },
+        {
+          "feature": "word__my",
+          "coefficient": 1.6095
+        },
+        {
+          "feature": "word__his",
+          "coefficient": 1.5179
+        },
+        {
+          "feature": "word__even",
+          "coefficient": 1.4437
+        },
+        {
+          "feature": "word__this and",
+          "coefficient": 1.4422
+        },
+        {
+          "feature": "word__that is",
+          "coefficient": 1.4221
+        },
+        {
+          "feature": "word__was an",
+          "coefficient": 1.396
+        },
+        {
+          "feature": "word__100",
+          "coefficient": 1.3888
+        },
+        {
+          "feature": "char__.. ",
+          "coefficient": 1.3846
+        },
+        {
+          "feature": "word__be great",
+          "coefficient": 1.3251
+        },
+        {
+          "feature": "word__for it",
+          "coefficient": 1.3238
+        },
+        {
+          "feature": "word__vote",
+          "coefficient": 1.2988
+        }
+      ],
+      "associated_with_not_awry": [
+        {
+          "feature": "word__don think",
+          "coefficient": -1.7897
+        },
+        {
+          "feature": "word__speaker_01 speaker_01",
+          "coefficient": -1.7046
+        },
+        {
+          "feature": "word__we are",
+          "coefficient": -1.5237
+        },
+        {
+          "feature": "word__entry",
+          "coefficient": -1.4894
+        },
+        {
+          "feature": "word__it not",
+          "coefficient": -1.4347
+        },
+        {
+          "feature": "word__that do",
+          "coefficient": -1.3332
+        },
+        {
+          "feature": "word__rule",
+          "coefficient": -1.2953
+        },
+        {
+          "feature": "word__wiki_link speaker_02",
+          "coefficient": -1.2747
+        },
+        {
+          "feature": "word__wouldn",
+          "coefficient": -1.2707
+        },
+        {
+          "feature": "word__25",
+          "coefficient": -1.2548
+        },
+        {
+          "feature": "word__detail",
+          "coefficient": -1.2502
+        },
+        {
+          "feature": "word__total",
+          "coefficient": -1.2373
+        }
+      ]
+    }
+  },
+  "opening_exchange_error_analysis": {
+    "highest_confidence_false_positives": [
+      {
+        "record_id": "cga-abbc3a81ecdb3ac8",
+        "actual": "not_awry",
+        "predicted_probability_awry": 0.9405,
+        "opening_exchange": [
+          {
+            "speaker": "speaker_01",
+            "text": "Keep yo mind on yo money pedro...I thought i got blocked for another edit, yea that has some unserious \"categories\" but if you are able to see past that,,,,then you will see a decent point,,,,it's only on the discussion page brobrah"
+          },
+          {
+            "speaker": "speaker_02",
+            "text": "Ditto for . My confusion here is that previously you made good and useful contributions to the encyclopedia. What's changed?"
+          }
+        ]
+      },
+      {
+        "record_id": "cga-fb9afec4c5ad4d2c",
+        "actual": "not_awry",
+        "predicted_probability_awry": 0.909,
+        "opening_exchange": [
+          {
+            "speaker": "speaker_01",
+            "text": "I am very suprised,I mean this article is an event that just happened today, and yet already has more than 500 edits plus a discussion page that has already been archived,all at a time when most people should be at work or school.I dont even think too many tv stations are even re"
+          },
+          {
+            "speaker": "speaker_02",
+            "text": "I doubt they are connected."
+          }
+        ]
+      },
+      {
+        "record_id": "cga-7f395cb9ca800184",
+        "actual": "not_awry",
+        "predicted_probability_awry": 0.9039,
+        "opening_exchange": [
+          {
+            "speaker": "speaker_01",
+            "text": "Cut: (however these examples are heavily disputed in the scientific community) DDT is not \"heavily disputed\" - it recently changed to supporting Crichton. Second-hand smoke is disputed, but not heavily, it's pretty much a dead issue. Global warming is not \"heavily disputed\", eith"
+          },
+          {
+            "speaker": "speaker_02",
+            "text": "Crichton is a global warming skeptic. I hadn't heard about the DDT thing, any sources for that?"
+          }
+        ]
+      },
+      {
+        "record_id": "cga-80ac6e225c9e900b",
+        "actual": "not_awry",
+        "predicted_probability_awry": 0.8953,
+        "opening_exchange": [
+          {
+            "speaker": "speaker_01",
+            "text": "Much cited information has been removed without any comment on the talk page. This is malicious editing with covert agenda. None of those Dzogchen pseudo-scholars including those well commercially published are my equal and to be honest they know it as well. This is a professiona"
+          },
+          {
+            "speaker": "speaker_02",
+            "text": "Sounds like somebody's not happy here. -"
+          }
+        ]
+      },
+      {
+        "record_id": "cga-91bb09de626ea40f",
+        "actual": "not_awry",
+        "predicted_probability_awry": 0.8866,
+        "opening_exchange": [
+          {
+            "speaker": "speaker_01",
+            "text": "Why CIS membership is continiously being removed from the article? Is it irrelevant?"
+          },
+          {
+            "speaker": "speaker_02",
+            "text": "Yeah im asking the same question:CIS is organisation like the others and even bigger in territory than terrible EU.It should be included. I agree that both GUAM and CIS does not need to be listed here. Those are not active in international relations and mostly focused on their me"
+          }
+        ]
+      }
+    ],
+    "highest_confidence_false_negatives": [
+      {
+        "record_id": "cga-e246ea7dd03770d2",
+        "actual": "awry",
+        "predicted_probability_awry": 0.0481,
+        "opening_exchange": [
+          {
+            "speaker": "speaker_01",
+            "text": "Should the article include material about the Senate Judiciary Committee investigation of Fusion GPS cofounder Glenn Simpson, similar to the proposed text below? -"
+          },
+          {
+            "speaker": "speaker_02",
+            "text": "'''Support''' it's a significant development. \ufffd\ufffd"
+          }
+        ]
+      },
+      {
+        "record_id": "cga-40b06df63c3ef9cf",
+        "actual": "awry",
+        "predicted_probability_awry": 0.0897,
+        "opening_exchange": [
+          {
+            "speaker": "speaker_01",
+            "text": "The IP 106.51.44.224 has recently been removing summary information without giving a reason. I suspect it is to prevent spoilers, rather than to decrease the length of the page. , I will no longer revert this individual's removal(s), as I have informed them on to come here and di"
+          },
+          {
+            "speaker": "speaker_02",
+            "text": "I've reverted your change. WP:SPOILER is quite clear that we don't edit for spoilers; moreover, the outcome of a broadcast episode is no longer a spoiler. The original description was appropriate, and did not need to be edited. Doing so opens the door for continued reverts for sp"
+          }
+        ]
+      },
+      {
+        "record_id": "cga-6491e5dc0836f2c4",
+        "actual": "awry",
+        "predicted_probability_awry": 0.1111,
+        "opening_exchange": [
+          {
+            "speaker": "speaker_01",
+            "text": "This is turned into a rather nasty pissing contest between and . It is quite clear that we are coming from opposing ideologies when it comes to sex work (which shouldn't be a problem in and of itself), that each of us has very different opinions as to where neutrality lies regard"
+          },
+          {
+            "speaker": "speaker_02",
+            "text": "I have some more opinions as well, that might be useful now. Its a shame nobody else has come to the party yet. The cooling off period seems like a good idea, just be careful that editing citations and internal links doesn't become contentious. I would suggest forming a consensus"
+          }
+        ]
+      },
+      {
+        "record_id": "cga-a363d6fce491ad78",
+        "actual": "awry",
+        "predicted_probability_awry": 0.1181,
+        "opening_exchange": [
+          {
+            "speaker": "speaker_01",
+            "text": "Sitush, great work finding all the information to piece this together! Your Cambridge degrees are a huge help! I think I might need to take a bit of an English \"English\" language class. Here's the things I had questions about regarding Sleaford ref you found: carucates sokeman vi"
+          },
+          {
+            "speaker": "speaker_02",
+            "text": "No Asgarby is a seperate hamlet. other questions to be answered shortly."
+          }
+        ]
+      },
+      {
+        "record_id": "cga-61289f7a07e491b4",
+        "actual": "awry",
+        "predicted_probability_awry": 0.1219,
+        "opening_exchange": [
+          {
+            "speaker": "speaker_01",
+            "text": "Hey bob. The video is a re-upload of the viral. The original was taken down by the police. If you actually went on the info part of the YT video you would see there is a link to the newspaper - do some research and there is ample evidence that the video went viral. Also don't thr"
+          },
+          {
+            "speaker": "speaker_02",
+            "text": "Accusing me of being threatening is also twattish. If you have any evidence to back up what you say then by all means add it to the article."
+          }
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "The target is a crowdsourced personal-attack label on Wikipedia talk pages, not general conversational success.",
+    "Public online discussions differ substantially from private, spoken, and real-life relationships.",
+    "Matched and balanced data makes accuracy interpretable here but does not reflect real-world base rates.",
+    "Lexical associations can encode topic, community, demographic, and annotation artifacts.",
+    "The model estimates risk; it does not establish intent, character, diagnosis, or causality.",
+    "No prediction should trigger an irreversible or high-stakes action without human review."
+  ]
+}

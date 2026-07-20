@@ -1,0 +1,38 @@
+Real conversations have history, but most AI assistants see only one message.
+Second Mind is a cognitive companion designed to improve reasoning without
+becoming the decision-maker.
+
+The experience begins with natural capture. Instead of asking someone to
+maintain a relationship database, the user shares a conversation screenshot.
+Second Mind reads the image locally, identifies the people and messages, and
+extracts promises, requests, and unresolved issues.
+
+Here, Fran has arranged a technician, asked for confirmation, and promised to
+have a loose tap checked. The screenshot contains times but no calendar date,
+so Second Mind leaves the date unknown. It never silently substitutes the
+upload date.
+
+After one useful clarification, the capture becomes an editable relationship
+record. Promises and completed actions remain different states, and each item
+stays linked to its source.
+
+The relationship map keeps closeness and trust separate. It also prevents
+another person’s history from entering this response accidentally.
+
+The interpretation view separates what was directly said from possible
+interpretations, alternative readings, and what is still uncertain. An
+AI-generated interpretation never becomes trusted memory automatically.
+
+Finally, Second Mind compares an isolated response with one grounded in the
+context the user selected. It can identify two open commitments and suggest a
+clear next step without claiming deception, motive, or personality. Every
+context item remains visible, and the response stays editable.
+
+I used Codex with GPT-5.6 to build and test the capture pipeline, structured
+context architecture, epistemic result contract, and evaluation suite. The
+optional live reasoning path uses GPT-5.6 Terra through the Responses API. The
+judge demonstration defaults to a reproducible zero-cost mode without a
+private API key.
+
+Second Mind preserves the evidence, exposes the inference, and returns the
+decision to the person. Context before composition. Think clearly. Stay yours.

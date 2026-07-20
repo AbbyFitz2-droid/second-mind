@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cognisyn.local/schemas/external-conversation-outcome.v1.json",
+  "title": "Cognisyn external conversation outcome record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "metadata",
+    "source",
+    "participants",
+    "turns",
+    "outcome",
+    "prediction_views",
+    "cognisyn_bridge"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "record_id": { "type": "string", "minLength": 3 },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data_class",
+        "synthetic",
+        "provenance",
+        "pii_status",
+        "language",
+        "prediction_eligible"
+      ],
+      "properties": {
+        "data_class": { "const": "public_research_dataset" },
+        "synthetic": { "const": false },
+        "provenance": { "const": "convokit_cga_wiki" },
+        "pii_status": { "const": "source_ids_pseudonymised" },
+        "language": { "const": "en" },
+        "prediction_eligible": { "type": "boolean" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset",
+        "conversation_id",
+        "pair_id",
+        "page_id",
+        "page_title",
+        "annotation_year",
+        "official_split"
+      ],
+      "properties": {
+        "dataset": { "const": "conversations-gone-awry-corpus" },
+        "conversation_id": { "type": "string" },
+        "pair_id": { "type": "string" },
+        "page_id": { "type": ["integer", "string"] },
+        "page_title": { "type": "string" },
+        "annotation_year": { "enum": ["2018", "2019"] },
+        "official_split": { "enum": ["train", "val", "test"] }
+      }
+    },
+    "participants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "source_id_hash", "first_turn_index"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^speaker_[0-9]{2}$" },
+          "source_id_hash": { "type": "string", "pattern": "^[a-f0-9]{16}$" },
+          "first_turn_index": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "turns": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "turn_index",
+          "speaker_id",
+          "reply_to",
+          "timestamp",
+          "text",
+          "outcome_annotation"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "turn_index": { "type": "integer", "minimum": 1 },
+          "speaker_id": { "type": "string" },
+          "reply_to": { "type": ["string", "null"] },
+          "timestamp": { "type": ["number", "null"] },
+          "text": { "type": "string" },
+          "outcome_annotation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["contains_personal_attack"],
+            "properties": {
+              "contains_personal_attack": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "verified",
+        "pair_verified",
+        "attack_turn_index"
+      ],
+      "properties": {
+        "label": { "enum": ["awry", "not_awry"] },
+        "verified": { "type": "boolean" },
+        "pair_verified": { "type": "boolean" },
+        "attack_turn_index": { "type": ["integer", "null"], "minimum": 1 }
+      }
+    },
+    "prediction_views": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["first_turn", "opening_exchange", "pre_outcome"],
+      "properties": {
+        "first_turn": { "$ref": "#/$defs/predictionView" },
+        "opening_exchange": { "$ref": "#/$defs/predictionView" },
+        "pre_outcome": { "$ref": "#/$defs/predictionView" }
+      }
+    },
+    "cognisyn_bridge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "people",
+        "interaction_edges",
+        "intentionally_unmapped"
+      ],
+      "properties": {
+        "people": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "display_name", "relationship_profile_available"],
+            "properties": {
+              "id": { "type": "string" },
+              "display_name": { "type": "string" },
+              "relationship_profile_available": { "const": false }
+            }
+          }
+        },
+        "interaction_edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from", "to", "reply_count"],
+            "properties": {
+              "from": { "type": "string" },
+              "to": { "type": "string" },
+              "reply_count": { "type": "integer", "minimum": 1 }
+            }
+          }
+        },
+        "intentionally_unmapped": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      }
+    }
+  },
+  "$defs": {
+    "predictionView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "turn_ids",
+        "excludes_attack_turn",
+        "excluded_target_fields"
+      ],
+      "properties": {
+        "turn_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "excludes_attack_turn": { "const": true },
+        "excluded_target_fields": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

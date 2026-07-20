@@ -1,0 +1,1084 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Second Mind uses user-controlled relationship and situation context to support clearer reasoning without replacing human judgment."
+    />
+    <meta name="theme-color" content="#f3efe6" />
+    <title>Second Mind — Context before composition</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/context.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="app-shell context-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Second Mind home">
+          <span class="brand-mark" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+          <span class="brand-copy">
+            <strong>Second Mind</strong>
+            <small>by Cognisyn</small>
+          </span>
+        </a>
+
+        <div class="session-status">
+          <a class="research-link" href="/convokit-outcomes.html">Research results</a>
+          <span class="privacy-dot"></span>
+          <span id="sessionLabel">Local-first · zero cost</span>
+          <button
+            class="icon-button"
+            id="privacyButton"
+            type="button"
+            aria-label="About privacy"
+          >
+            i
+          </button>
+        </div>
+      </header>
+
+      <section class="welcome-panel" id="welcomePanel">
+        <p class="eyebrow">Build your own Second Mind</p>
+        <h1>Your relationships have context.<br /><em>Your AI should too.</em></h1>
+        <p>
+          Share a screenshot and Second Mind turns it into an editable,
+          evidence-linked relationship record. You only answer when something
+          consequential is genuinely unclear.
+        </p>
+        <div class="welcome-actions">
+          <button class="reason-button" id="startCaptureButton" type="button">
+            <span>Share a screenshot</span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <button class="quiet-button" id="startPersonalButton" type="button">
+            <span>Start my relationship map</span>
+          </button>
+          <button class="quiet-button" id="exploreDemoButton" type="button">
+            Explore message context
+          </button>
+          <button class="quiet-button pattern-demo-button" id="explorePatternDemoButton" type="button">
+            Explore Merlin’s pattern demo
+          </button>
+          <button class="quiet-button commitment-demo-button" id="exploreCommitmentDemoButton" type="button">
+            Explore commitments demo
+          </button>
+        </div>
+        <small>
+          Screenshot text is read locally in this browser. Source images can be
+          kept on this device and removed from the privacy panel. Do not add
+          highly sensitive information to this prototype.
+        </small>
+      </section>
+
+      <div id="productContent" hidden>
+      <section class="context-hero">
+        <div>
+          <p class="eyebrow">Context before composition</p>
+          <h1>Understand the situation.<br /><em>Keep the judgment yours.</em></h1>
+        </div>
+        <p>
+          Most AI sees one message. Second Mind lets you inspect the people,
+          history, boundaries, and uncertainty that may actually matter—before
+          anything is interpreted or written.
+        </p>
+      </section>
+
+      <section class="case-intake" aria-labelledby="caseTitle">
+        <div class="case-heading">
+          <div>
+            <span class="case-label" id="workspaceLabel">Your current thought</span>
+            <h2 id="caseTitle">Relationship context</h2>
+          </div>
+          <button class="text-button" id="resetCaseButton" type="button">
+            Switch workspace
+          </button>
+        </div>
+
+        <div class="intake-grid">
+          <label class="message-field" for="incomingMessage">
+            <span>Incoming message</span>
+            <textarea id="incomingMessage" rows="3" maxlength="4000"></textarea>
+          </label>
+
+          <div class="case-controls">
+            <label for="senderSelect">
+              <span>Who sent it?</span>
+              <select id="senderSelect"></select>
+            </label>
+            <label for="toneSelect">
+              <span>Desired tone</span>
+              <select id="toneSelect">
+                <option value="warm">Warm</option>
+                <option value="neutral">Neutral</option>
+                <option value="direct">Direct</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <fieldset class="goal-picker">
+          <legend>What are you trying to do?</legend>
+          <label>
+            <input
+              type="radio"
+              name="goal"
+              value="warm_boundary"
+              checked
+            />
+            <span>Remain warm, keep my boundary</span>
+          </label>
+          <label>
+            <input type="radio" name="goal" value="clarify_intent" />
+            <span>Clarify what they meant</span>
+          </label>
+          <label>
+            <input type="radio" name="goal" value="welcome_connection" />
+            <span>Welcome the connection</span>
+          </label>
+          <label>
+            <input type="radio" name="goal" value="keep_distance" />
+            <span>Reply briefly, create distance</span>
+          </label>
+          <label>
+            <input type="radio" name="goal" value="coordinate_practical" />
+            <span>Coordinate a practical outcome</span>
+          </label>
+          <label>
+            <input type="radio" name="goal" value="create_record" />
+            <span>Create a clear factual record</span>
+          </label>
+        </fieldset>
+
+        <div class="intake-action">
+          <p>
+            The sender, goal, and selected history remain visible and editable.
+          </p>
+          <button class="reason-button" id="analyseButton" type="button">
+            <span>Build with context</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <div class="error-message" id="errorMessage" role="alert"></div>
+      </section>
+
+      <section class="context-workspace" aria-label="Context case workspace">
+        <nav class="context-tabs" aria-label="Case areas">
+          <button
+            class="context-tab active"
+            data-view="situation"
+            type="button"
+            aria-selected="true"
+          >
+            <span>01</span>
+            <strong>Situation</strong>
+            <small>Distinct events</small>
+          </button>
+          <button
+            class="context-tab"
+            data-view="people"
+            type="button"
+            aria-selected="false"
+          >
+            <span>02</span>
+            <strong>People</strong>
+            <small>Relationship map</small>
+          </button>
+          <button
+            class="context-tab"
+            data-view="interpretation"
+            type="button"
+            aria-selected="false"
+          >
+            <span>03</span>
+            <strong>Interpretation</strong>
+            <small>Facts ≠ inference</small>
+          </button>
+          <button
+            class="context-tab"
+            data-view="action"
+            type="button"
+            aria-selected="false"
+          >
+            <span>04</span>
+            <strong>Action</strong>
+            <small>Compare responses</small>
+          </button>
+        </nav>
+
+        <div class="context-panel" data-panel="situation">
+          <div class="panel-title-row">
+            <div>
+              <p class="panel-kicker">SITUATION TIMELINE</p>
+              <h2>Keep events separate, but connected.</h2>
+            </div>
+            <span class="selection-count" id="selectionCount"></span>
+          </div>
+
+          <section
+            class="capture-inbox"
+            id="captureInbox"
+            aria-labelledby="captureInboxTitle"
+          >
+            <div class="capture-heading">
+              <div>
+                <p class="panel-kicker">NATURAL CAPTURE</p>
+                <h3 id="captureInboxTitle">Share it. Second Mind does the filing.</h3>
+                <p>
+                  Names, messages, promises, issues, and visible dates are
+                  extracted locally. Missing dates stay missing.
+                </p>
+              </div>
+              <span class="capture-privacy">On-device OCR · zero API cost</span>
+            </div>
+
+            <div class="capture-dropzone" id="captureDropzone">
+              <input
+                id="captureFile"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                hidden
+              />
+              <div class="capture-dropzone-copy">
+                <strong>Drop a conversation screenshot here</strong>
+                <span>PNG, JPEG, or WebP · up to 8 MB</span>
+              </div>
+              <div class="capture-dropzone-actions">
+                <button class="secondary-button" id="chooseCaptureButton" type="button">
+                  Choose screenshot
+                </button>
+                <button class="text-button" id="tryCaptureDemoButton" type="button">
+                  Try a fictional screenshot
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="capture-progress"
+              id="captureProgress"
+              role="status"
+              aria-live="polite"
+              hidden
+            >
+              <div>
+                <span id="captureProgressLabel">Preparing local text recognition…</span>
+                <strong id="captureProgressValue">0%</strong>
+              </div>
+              <progress id="captureProgressBar" max="100" value="0"></progress>
+            </div>
+
+            <form class="capture-review" id="captureReviewForm" hidden>
+              <div class="capture-review-layout">
+                <div class="capture-source-preview">
+                  <img id="capturePreview" alt="Screenshot selected for local extraction" />
+                  <span id="captureFileLabel">Source screenshot</span>
+                  <small>The image is not uploaded to an AI service.</small>
+                </div>
+
+                <div class="capture-review-content">
+                  <div class="capture-review-heading">
+                    <div>
+                      <span>READY TO REVIEW</span>
+                      <h4 id="captureSummary">Second Mind found structured context.</h4>
+                    </div>
+                    <span class="capture-confidence" id="captureConfidence">
+                      OCR confidence pending
+                    </span>
+                  </div>
+
+                  <div class="capture-clarifications">
+                    <label>
+                      <span>Person</span>
+                      <input
+                        id="capturePersonName"
+                        maxlength="100"
+                        placeholder="Who is this conversation with?"
+                        required
+                      />
+                    </label>
+                    <label>
+                      <span>Relationship <small>only if you know it</small></span>
+                      <input
+                        id="captureRelationship"
+                        maxlength="100"
+                        placeholder="For example: landlord, friend, colleague"
+                      />
+                    </label>
+                    <label class="capture-date-field">
+                      <span>Event date <small>optional</small></span>
+                      <input id="captureEventDate" type="datetime-local" />
+                      <small id="captureDateNote">
+                        Not visible in the source. Leave blank unless you know it.
+                      </small>
+                    </label>
+                  </div>
+
+                  <details class="capture-text-review">
+                    <summary>Check the extracted text</summary>
+                    <textarea
+                      id="captureExtractedText"
+                      rows="8"
+                      maxlength="12000"
+                      aria-label="Extracted screenshot text"
+                    ></textarea>
+                    <button class="text-button" id="refreshCaptureButton" type="button">
+                      Refresh findings from edited text
+                    </button>
+                  </details>
+                </div>
+              </div>
+
+              <div class="capture-findings">
+                <div class="capture-findings-heading">
+                  <div>
+                    <span>WHAT WILL BE FILED</span>
+                    <h4>Evidence first. Interpretations stay labelled.</h4>
+                  </div>
+                  <span id="captureFindingCount">0 items</span>
+                </div>
+                <div id="captureFindingList"></div>
+              </div>
+
+              <div class="capture-questions" id="captureQuestionList"></div>
+
+              <label class="capture-retention">
+                <input id="captureKeepSource" type="checkbox" checked />
+                <span>
+                  <strong>Keep the source screenshot on this device</strong>
+                  <small>
+                    Stored locally as evidence. It is never added to browser
+                    localStorage or sent to an AI service.
+                  </small>
+                </span>
+              </label>
+
+              <div class="capture-review-actions">
+                <button class="reason-button" id="fileCaptureButton" type="submit">
+                  <span>File into Second Mind</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                <button class="text-button" id="cancelCaptureButton" type="button">
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <section
+            class="commitment-workspace"
+            id="commitmentWorkspace"
+            aria-labelledby="commitmentWorkspaceTitle"
+          >
+            <div class="commitment-heading">
+              <div>
+                <p class="panel-kicker">COMMITMENTS &amp; OUTCOMES</p>
+                <h3 id="commitmentWorkspaceTitle">Promises are not completed actions.</h3>
+                <p>
+                  Track what was said, what changed, and the evidence behind
+                  each status.
+                </p>
+              </div>
+              <div class="commitment-actions">
+                <span class="commitment-count" id="commitmentCount">No commitments yet</span>
+                <button class="secondary-button" id="addCommitmentButton" type="button">
+                  Add commitment
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="commitment-pipeline"
+              id="commitmentPipeline"
+              role="img"
+              aria-label="Commitment progression summary"
+            ></div>
+
+            <div class="commitment-list" id="commitmentList"></div>
+
+            <details class="commitment-form-shell" id="commitmentDetails">
+              <summary id="commitmentSummary">Record a promise or outcome</summary>
+              <form id="commitmentForm">
+                <div class="commitment-form-grid">
+                  <label>
+                    <span>Person responsible</span>
+                    <select id="commitmentPerson" required></select>
+                  </label>
+                  <label>
+                    <span>Current status</span>
+                    <select id="commitmentStatus" required>
+                      <option value="mentioned">Mentioned</option>
+                      <option value="promised" selected>Promised</option>
+                      <option value="scheduled">Scheduled</option>
+                      <option value="confirmed">Confirmed</option>
+                      <option value="delayed">Delayed</option>
+                      <option value="cancelled">Cancelled</option>
+                      <option value="missed">Missed</option>
+                      <option value="completed">Completed</option>
+                      <option value="disputed">Disputed</option>
+                    </select>
+                  </label>
+                  <label class="commitment-wide">
+                    <span>Issue or outcome</span>
+                    <input
+                      id="commitmentIssueTitle"
+                      maxlength="120"
+                      placeholder="Dishwasher repair"
+                      required
+                    />
+                  </label>
+                  <label class="commitment-wide">
+                    <span>What was committed to?</span>
+                    <textarea
+                      id="commitmentDescription"
+                      rows="2"
+                      maxlength="500"
+                      placeholder="Arrange a technician to repair the dishwasher."
+                      required
+                    ></textarea>
+                  </label>
+                  <label>
+                    <span>Promise date <small>optional</small></span>
+                    <input id="commitmentPromisedAt" type="datetime-local" />
+                  </label>
+                  <label>
+                    <span>Expected by <small>optional</small></span>
+                    <input id="commitmentDueAt" type="datetime-local" />
+                  </label>
+                  <label class="commitment-wide">
+                    <span>Evidence or source</span>
+                    <input
+                      id="commitmentSource"
+                      maxlength="240"
+                      placeholder="Message on 8 July, screenshot, or user note"
+                      required
+                    />
+                  </label>
+                </div>
+                <div class="commitment-form-actions">
+                  <button class="secondary-button" type="submit">
+                    Save commitment
+                  </button>
+                  <button class="text-button" id="cancelCommitmentButton" type="button">
+                    Cancel
+                  </button>
+                  <button
+                    class="danger-text-button"
+                    id="deleteCommitmentButton"
+                    type="button"
+                    hidden
+                  >
+                    Delete commitment
+                  </button>
+                </div>
+              </form>
+            </details>
+
+            <details class="outstanding-report" id="outstandingReport">
+              <summary>Outstanding-items report</summary>
+              <div class="outstanding-report-body">
+                <pre id="outstandingReportText">No commitments recorded.</pre>
+                <button class="copy-button" id="copyOutstandingReportButton" type="button">
+                  Copy report
+                </button>
+              </div>
+            </details>
+          </section>
+
+          <div class="timeline" id="situationTimeline"></div>
+
+          <details class="add-event" id="eventDetails">
+            <summary id="eventSummary">Add a separate situation</summary>
+            <form id="eventForm">
+              <label>
+                <span>Event title</span>
+                <input
+                  id="eventTitle"
+                  name="eventTitle"
+                  maxlength="80"
+                  required
+                />
+              </label>
+              <label>
+                <span>What happened?</span>
+                <textarea
+                  id="eventText"
+                  name="eventText"
+                  rows="3"
+                  maxlength="500"
+                  required
+                ></textarea>
+              </label>
+              <label>
+                <span>When did it happen? <small>optional</small></span>
+                <input id="eventDate" name="eventDate" type="datetime-local" />
+                <small class="field-note">
+                  Leave blank if the date is unknown. Second Mind will not use
+                  the date you added the record as the event date.
+                </small>
+              </label>
+              <fieldset class="event-people-field">
+                <legend>Who else was involved? <small>optional</small></legend>
+                <p>
+                  Multi-person events let Merlin connect dynamics across your
+                  relationship map without guessing identities.
+                </p>
+                <div class="event-people-options" id="eventPeopleOptions"></div>
+              </fieldset>
+              <div class="event-form-actions">
+                <button
+                  class="secondary-button"
+                  id="eventSubmitButton"
+                  type="submit"
+                >
+                  Add situation
+                </button>
+                <button
+                  class="text-button"
+                  id="eventCancelButton"
+                  type="button"
+                  hidden
+                >
+                  Cancel editing
+                </button>
+              </div>
+            </form>
+          </details>
+        </div>
+
+        <div class="context-panel" data-panel="people" hidden>
+          <div class="panel-title-row">
+            <div>
+              <p class="panel-kicker">RELATIONSHIP MAP</p>
+              <h2>Closeness and trust are not the same thing.</h2>
+            </div>
+            <div class="people-actions">
+              <span class="relationship-state" id="relationshipState"></span>
+              <button class="secondary-button" id="addPersonButton" type="button">
+                Add person
+              </button>
+            </div>
+          </div>
+
+          <div class="people-directory">
+            <label for="peopleSearch">
+              <span>Find a person</span>
+              <input
+                id="peopleSearch"
+                type="search"
+                placeholder="Search your relationship map"
+              />
+            </label>
+            <div class="person-list" id="personList"></div>
+          </div>
+
+          <div class="people-layout">
+            <div class="relationship-map" id="relationshipMap">
+              <div class="graph-heading">
+                <div>
+                  <span>Living social graph</span>
+                  <small id="graphSummary">Your relationships and observed connections</small>
+                </div>
+                <span class="graph-scope-badge">User-mapped</span>
+              </div>
+              <svg
+                class="map-connection-layer"
+                id="mapConnections"
+                viewBox="0 0 640 500"
+                preserveAspectRatio="xMidYMid meet"
+                role="img"
+                aria-label="Relationship connection graph"
+              ></svg>
+              <div class="selected-metrics" aria-label="Selected relationship metrics">
+                <span class="map-metric">
+                  <small>Closeness</small>
+                  <strong id="mapCloseness">2/4</strong>
+                </span>
+                <span class="map-metric">
+                  <small>Trust</small>
+                  <strong id="mapTrust">3/4</strong>
+                </span>
+              </div>
+              <div class="graph-legend" aria-label="Relationship graph legend">
+                <span><i class="legend-line your-line"></i>Your relationship</span>
+                <span><i class="legend-line observed-line"></i>Between others</span>
+                <span><i class="legend-line uncertain-line"></i>Uncertain</span>
+              </div>
+            </div>
+
+            <form class="profile-editor" id="profileForm">
+              <div class="profile-heading">
+                <div>
+                  <span>Selected person</span>
+                  <h3 id="profilePersonName">Choose a person</h3>
+                </div>
+                <button class="text-button" id="usePersonButton" type="button">
+                  Use in current thought
+                </button>
+              </div>
+              <p class="profile-edit-note">
+                This profile is not permanent. Edit it whenever the relationship
+                changes; updates are saved locally.
+              </p>
+              <label>
+                <span>Person’s name</span>
+                <input id="personNameInput" maxlength="100" />
+              </label>
+              <label>
+                <span>Relationship</span>
+                <input id="relationshipType" maxlength="100" />
+              </label>
+              <label>
+                <span>Current relationship state</span>
+                <input
+                  id="currentStateInput"
+                  maxlength="100"
+                  placeholder="For example: developing, close, strained"
+                />
+              </label>
+              <label class="range-field">
+                <span>Closeness <strong id="closenessValue">2 / 4</strong></span>
+                <input
+                  id="closenessInput"
+                  type="range"
+                  min="0"
+                  max="4"
+                  step="1"
+                />
+                <small>How personally close the relationship currently feels.</small>
+              </label>
+              <label class="range-field">
+                <span>Trust <strong id="trustValue">3 / 4</strong></span>
+                <input
+                  id="trustInput"
+                  type="range"
+                  min="0"
+                  max="4"
+                  step="1"
+                />
+                <small>How much confidence you place in this relationship—not a judgment of character.</small>
+              </label>
+              <label>
+                <span>Your boundary</span>
+                <textarea id="boundaryInput" rows="2" maxlength="240"></textarea>
+              </label>
+              <label>
+                <span>Your relationship goal</span>
+                <textarea id="relationshipGoalInput" rows="2" maxlength="240"></textarea>
+              </label>
+              <label>
+                <span>How you met</span>
+                <input id="metThroughInput" maxlength="160" />
+              </label>
+            </form>
+          </div>
+
+          <section class="connection-editor" aria-labelledby="connectionEditorTitle">
+            <div class="connection-editor-heading">
+              <div>
+                <p class="panel-kicker">RELATIONSHIPS BETWEEN OTHER PEOPLE</p>
+                <h3 id="connectionEditorTitle">Map the wider dynamic</h3>
+                <p>
+                  Record what you know about how people relate to each other.
+                  These are your observations—not diagnoses or hidden facts.
+                </p>
+              </div>
+              <button
+                class="secondary-button"
+                id="addConnectionButton"
+                type="button"
+              >
+                Add relationship
+              </button>
+            </div>
+
+            <div class="connection-list" id="connectionList"></div>
+
+            <form class="connection-form" id="connectionForm" hidden>
+              <div class="connection-form-heading">
+                <div>
+                  <span id="connectionFormKicker">New observed connection</span>
+                  <h4 id="connectionFormTitle">Add a relationship between two people</h4>
+                </div>
+                <button class="text-button" id="cancelConnectionButton" type="button">
+                  Cancel
+                </button>
+              </div>
+              <div class="connection-form-grid">
+                <label>
+                  <span>Person A</span>
+                  <select id="connectionFromPerson" required></select>
+                </label>
+                <label>
+                  <span>Person B</span>
+                  <select id="connectionToPerson" required></select>
+                </label>
+                <label class="connection-wide">
+                  <span>How they know each other</span>
+                  <input
+                    id="connectionRelationshipType"
+                    maxlength="120"
+                    placeholder="Friends, teammates, relatives…"
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Current dynamic</span>
+                  <select id="connectionDynamic">
+                    <option value="supportive">Supportive</option>
+                    <option value="close">Close</option>
+                    <option value="developing">Developing</option>
+                    <option value="neutral">Neutral</option>
+                    <option value="strained">Strained</option>
+                    <option value="distant">Distant</option>
+                    <option value="unknown">Unknown</option>
+                  </select>
+                </label>
+                <label class="range-field">
+                  <span>Connection strength <strong id="connectionStrengthValue">2 / 4</strong></span>
+                  <input
+                    id="connectionStrength"
+                    type="range"
+                    min="0"
+                    max="4"
+                    step="1"
+                    value="2"
+                  />
+                  <small>How established their connection appears to be.</small>
+                </label>
+                <label class="range-field">
+                  <span>Your confidence <strong id="connectionConfidenceValue">2 / 4</strong></span>
+                  <input
+                    id="connectionConfidence"
+                    type="range"
+                    min="0"
+                    max="4"
+                    step="1"
+                    value="2"
+                  />
+                  <small>How confident you are in this mapping—not trust or character.</small>
+                </label>
+                <label class="connection-wide">
+                  <span>Evidence or notes <small>optional</small></span>
+                  <textarea
+                    id="connectionNotes"
+                    rows="3"
+                    maxlength="400"
+                    placeholder="What have you directly observed or been told?"
+                  ></textarea>
+                </label>
+              </div>
+              <div class="connection-form-actions">
+                <button class="secondary-button" id="saveConnectionButton" type="submit">
+                  Save relationship
+                </button>
+                <button class="danger-text-button" id="deleteConnectionButton" type="button" hidden>
+                  Delete relationship
+                </button>
+              </div>
+              <p class="connection-form-note">
+                The graph records your current understanding. Confidence can be
+                low, and every connection remains editable as relationships change.
+              </p>
+            </form>
+          </section>
+
+          <div class="scope-note">
+            <strong>Retrieval boundary</strong>
+            <p id="scopeNote">
+              Only Maya’s selected situations can enter this response. Leo’s
+              history remains outside this context.
+            </p>
+          </div>
+        </div>
+
+        <div class="context-panel" data-panel="interpretation" hidden>
+          <div class="panel-title-row">
+            <div>
+              <p class="panel-kicker">EPISTEMIC REVIEW</p>
+              <h2>See where the account ends and inference begins.</h2>
+            </div>
+            <span class="review-state" id="reviewState">Not saved</span>
+          </div>
+
+          <section class="merlin-insight" id="merlinInsight" hidden>
+            <div class="merlin-insight-heading">
+              <div class="merlin-avatar" aria-hidden="true">
+                <span>✦</span>
+                <strong>M</strong>
+              </div>
+              <div>
+                <p class="panel-kicker" id="merlinEyebrow">MERLIN PATTERN</p>
+                <h3 id="merlinInsightTitle"></h3>
+                <p id="merlinInsightSummary"></p>
+              </div>
+              <span class="merlin-confidence" id="merlinConfidence"></span>
+            </div>
+
+            <div class="merlin-analysis-grid">
+              <article class="merlin-hypothesis-panel">
+                <div class="merlin-section-heading">
+                  <span>Competing hypotheses</span>
+                  <small>Illustrative posterior</small>
+                </div>
+                <div id="merlinHypotheses"></div>
+              </article>
+              <article class="merlin-trend-panel">
+                <div class="merlin-section-heading">
+                  <span>Belief update over time</span>
+                  <small>Selected events only</small>
+                </div>
+                <div id="merlinProbabilityChart"></div>
+              </article>
+            </div>
+
+            <article class="merlin-evidence-panel">
+              <div class="merlin-section-heading">
+                <span>Evidence trail</span>
+                <small>Tap timeline checkboxes to recalculate</small>
+              </div>
+              <div id="merlinEvidenceList"></div>
+            </article>
+
+            <div class="merlin-bottom-line">
+              <div>
+                <strong>Best next question</strong>
+                <p id="merlinNextQuestion"></p>
+              </div>
+              <div>
+                <strong>Evidence Merlin excluded</strong>
+                <div id="merlinExcludedEvidence"></div>
+              </div>
+            </div>
+            <p class="merlin-calibration" id="merlinCalibration"></p>
+          </section>
+
+          <div class="interpretation-grid">
+            <article class="review-card fact-review">
+              <span class="review-number">01</span>
+              <h3>Known or directly reported</h3>
+              <div id="factList"></div>
+            </article>
+            <article class="review-card inference-review">
+              <span class="review-number">02</span>
+              <h3>AI interpretations</h3>
+              <div id="interpretationList"></div>
+            </article>
+            <article class="review-card alternative-review">
+              <span class="review-number">03</span>
+              <h3>Alternative readings</h3>
+              <div id="alternativeList"></div>
+            </article>
+            <article class="review-card unknown-review">
+              <span class="review-number">04</span>
+              <h3>Still uncertain</h3>
+              <div id="uncertaintyList"></div>
+            </article>
+          </div>
+
+          <div class="confirmation-bar">
+            <div>
+              <strong>Nothing becomes trusted memory automatically.</strong>
+              <span>
+                Review the AI interpretations, then confirm only your corrections
+                for the current reasoning session.
+              </span>
+            </div>
+            <button class="secondary-button" id="confirmReviewButton" type="button">
+              Confirm my review
+            </button>
+          </div>
+        </div>
+
+        <div class="context-panel" data-panel="action" hidden>
+          <div class="panel-title-row">
+            <div>
+              <p class="panel-kicker">CONTEXT-AWARE ACTION</p>
+              <h2>Same message. Different information.</h2>
+            </div>
+            <span class="source-badge">Local deterministic demo</span>
+          </div>
+
+          <div class="comparison-grid">
+            <article class="response-card generic-response">
+              <div class="response-label">
+                <span>Without context</span>
+                <small id="genericConfidence"></small>
+              </div>
+              <p class="response-interpretation" id="genericInterpretation"></p>
+              <div class="draft-box">
+                <span>Illustrative response</span>
+                <p id="genericDraft"></p>
+              </div>
+            </article>
+
+            <article class="response-card contextual-response">
+              <div class="response-label">
+                <span>With Second Mind context</span>
+                <small id="contextConfidence"></small>
+              </div>
+              <p class="response-interpretation" id="contextInterpretation"></p>
+              <div class="response-choice-section">
+                <span>Choose a response direction</span>
+                <div class="response-options" id="responseOptions"></div>
+              </div>
+              <label class="draft-box editable-draft" for="contextDraft">
+                <span>Editable response</span>
+                <textarea id="contextDraft" rows="4"></textarea>
+              </label>
+              <button class="copy-button" id="copyDraftButton" type="button">
+                Copy response
+              </button>
+            </article>
+          </div>
+
+          <div class="context-basis">
+            <div>
+              <p class="panel-kicker">WHY THIS CHANGED</p>
+              <p id="contextExplanation"></p>
+            </div>
+            <div>
+              <strong>Exact context used</strong>
+              <ul id="contextBasisList"></ul>
+            </div>
+          </div>
+
+          <p class="agency-note">
+            Literal wording can establish a stated intention. Context can improve
+            fit, but it cannot establish an unspoken motive. The response remains
+            yours to edit, use, or ignore.
+          </p>
+        </div>
+      </section>
+
+      <footer>
+        <p>Second Mind does not diagnose people or decide for you.</p>
+        <p id="footerWorkspace">Prototype · Local browser storage · July 2026</p>
+      </footer>
+      </div>
+    </main>
+
+    <dialog id="personDialog">
+      <button
+        class="dialog-close"
+        id="personDialogClose"
+        type="button"
+        aria-label="Close"
+      >
+        ×
+      </button>
+      <p class="eyebrow">New relationship</p>
+      <h2>Add a person to your map</h2>
+      <form class="person-form" id="personForm">
+        <label>
+          <span>Name</span>
+          <input id="newPersonName" maxlength="80" required />
+        </label>
+        <label>
+          <span>Relationship</span>
+          <input
+            id="newRelationshipType"
+            maxlength="100"
+            placeholder="Friend, colleague, neighbour…"
+            required
+          />
+        </label>
+        <label>
+          <span>How you met <small>optional</small></span>
+          <input id="newMetThrough" maxlength="160" />
+        </label>
+        <div class="dialog-ranges">
+          <label class="range-field">
+            <span>Closeness <strong id="newClosenessValue">1 / 4</strong></span>
+            <input
+              id="newCloseness"
+              type="range"
+              min="0"
+              max="4"
+              step="1"
+              value="1"
+            />
+          </label>
+          <label class="range-field">
+            <span>Trust <strong id="newTrustValue">1 / 4</strong></span>
+            <input
+              id="newTrust"
+              type="range"
+              min="0"
+              max="4"
+              step="1"
+              value="1"
+            />
+          </label>
+        </div>
+        <button class="secondary-button" type="submit">
+          Add to my relationship map
+        </button>
+      </form>
+    </dialog>
+
+    <dialog id="privacyDialog">
+      <button class="dialog-close" id="dialogClose" type="button" aria-label="Close">
+        ×
+      </button>
+      <p class="eyebrow">Prototype privacy architecture</p>
+      <h2>Useful context. Explicit boundaries.</h2>
+      <ul>
+        <li>Personal workspaces are stored in this browser’s local storage.</li>
+        <li>Screenshot OCR runs in the browser without a paid AI request.</li>
+        <li>Retained source images use a separate local evidence store.</li>
+        <li>The prototype is not encrypted; avoid highly sensitive information.</li>
+        <li>Paid API calls and voice transcription remain disabled.</li>
+        <li>Context is retrieved through exact person and situation IDs.</li>
+        <li>AI interpretations remain unreviewed until you explicitly respond.</li>
+      </ul>
+      <button class="danger-button" id="deleteLocalDataButton" type="button">
+        Delete all local relationship data
+      </button>
+      <p class="dialog-note">
+        Production relationship memory would require authentication, encryption,
+        deletion controls, and a formal privacy review.
+      </p>
+    </dialog>
+
+    <dialog class="capture-source-dialog" id="captureSourceDialog">
+      <button
+        class="dialog-close"
+        id="captureSourceDialogClose"
+        type="button"
+        aria-label="Close source"
+      >
+        ×
+      </button>
+      <p class="eyebrow">Evidence source</p>
+      <h2 id="captureSourceTitle">Conversation screenshot</h2>
+      <div class="capture-source-dialog-body">
+        <img id="captureSourceImage" alt="Locally stored source screenshot" hidden />
+        <p class="capture-source-missing" id="captureSourceMissing" hidden>
+          The source image was not retained. Its extracted text and provenance
+          remain in the record.
+        </p>
+        <details>
+          <summary>Extracted text</summary>
+          <pre id="captureSourceText"></pre>
+        </details>
+      </div>
+    </dialog>
+
+    <div class="loading-overlay" id="loadingOverlay" hidden>
+      <div class="loader">
+        <span></span><span></span><span></span>
+      </div>
+      <p>Retrieving the minimum relevant context…</p>
+    </div>
+
+    <div class="context-toast" id="contextToast" role="status" aria-live="polite"></div>
+
+    <script src="/vendor/tesseract/tesseract.min.js"></script>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

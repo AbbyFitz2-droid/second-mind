@@ -1,0 +1,21 @@
+{
+  "name": "second-mind-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch server.mjs",
+    "start": "node server.mjs",
+    "test": "node --test",
+    "eval": "node scripts/run-context-evals.mjs",
+    "download:convokit": ".venv/bin/python scripts/download_convokit_cga.py",
+    "eval:convokit": ".venv/bin/python scripts/evaluate_convokit_outcomes.py"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@tesseract.js-data/eng": "^1.0.0",
+    "tesseract.js": "^7.0.0"
+  }
+}

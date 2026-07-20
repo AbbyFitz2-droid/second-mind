@@ -1,0 +1,1389 @@
+{
+  "report_id": "team-abby-context-evaluation-report-v1",
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-20T19:52:10.061Z",
+  "generated_by": "Team Abby",
+  "execution": {
+    "mode": "local_deterministic",
+    "paid_api_used": false,
+    "source_dataset": "team-abby-context-evaluation-v1",
+    "profile_dataset": "team-abby-relationship-profiles-v1"
+  },
+  "summary": {
+    "total_cases": 28,
+    "passed_cases": 28,
+    "failed_cases": 0,
+    "overall_pass_rate": 100,
+    "intent_accuracy": 100,
+    "input_contract_validity": 100,
+    "result_contract_validity": 100,
+    "epistemic_integrity": 100,
+    "relationship_isolation": 100,
+    "response_diversity": 100,
+    "zero_cost_compliance": 100,
+    "median_latency_ms": 0.139,
+    "p95_latency_ms": 0.926
+  },
+  "intent_coverage": {
+    "gratitude": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "check_in": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "support_offer": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "distress": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "conflict": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "boundary": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "celebration": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "decision": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "update": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "apology": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "request": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "invitation": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "emotional_affection": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    },
+    "physical_affection": {
+      "cases": 2,
+      "passed": 2,
+      "pass_rate": 100
+    }
+  },
+  "rows": [
+    {
+      "test_case_id": "gratitude-001",
+      "profile_id": "supportive-friend",
+      "message": "Thank you for being there for me.",
+      "locale": "en-IE",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "gratitude",
+        "warm"
+      ],
+      "expected_intent": "gratitude",
+      "actual_intent": "gratitude",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Receive it warmly",
+      "contextual_basis_items": 3,
+      "latency_ms": 2.141,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee explicitly expresses appreciation. The desired depth of the exchange remains open. The relationship profile (closeness 4/4, trust 4/4) shapes response style, not the underlying facts.",
+        "recommended_response": "That means a lot to hear. I’m really glad I could be there for you.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "gratitude-002",
+      "profile_id": "practical-neighbour",
+      "message": "Thanks, I really appreciate your help.",
+      "locale": "en-GB",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "gratitude",
+        "brief"
+      ],
+      "expected_intent": "gratitude",
+      "actual_intent": "gratitude",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Keep it simple",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.563,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Noah Williams explicitly expresses appreciation. The desired depth of the exchange remains open. The relationship profile (closeness 1/4, trust 3/4) shapes response style, not the underlying facts.",
+        "recommended_response": "You’re welcome — I appreciate you saying that.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "check-in-001",
+      "profile_id": "supportive-friend",
+      "message": "How are you after yesterday?",
+      "locale": "en-IE",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "check_in",
+        "wellbeing"
+      ],
+      "expected_intent": "check_in",
+      "actual_intent": "check_in",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Open up",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.187,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee explicitly checks in on the user. How much disclosure is expected remains unstated. The relationship profile (closeness 4/4, trust 4/4) shapes response style, not the underlying facts.",
+        "recommended_response": "Thanks for asking. I’ve had a lot on my mind, and I’d like to tell you about it.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "check-in-002",
+      "profile_id": "developing-colleague",
+      "message": "Are you okay?",
+      "locale": "en-US",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "check_in",
+        "privacy"
+      ],
+      "expected_intent": "check_in",
+      "actual_intent": "check_in",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Keep it private",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.098,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Samira Patel explicitly checks in on the user. How much disclosure is expected remains unstated. The relationship profile (closeness 2/4, trust 2/4) shapes response style, not the underlying facts.",
+        "recommended_response": "Thanks for asking. I’d rather not get into it right now, but I appreciate the thought.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "support-001",
+      "profile_id": "supportive-friend",
+      "message": "I’m here for you if you need to talk.",
+      "locale": "en-IE",
+      "channel": "text_message",
+      "risk_level": "moderate",
+      "tags": [
+        "support",
+        "care"
+      ],
+      "expected_intent": "support_offer",
+      "actual_intent": "support_offer",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Accept support",
+      "contextual_basis_items": 3,
+      "latency_ms": 0.926,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee explicitly offers support. The kind of help and the user’s willingness to accept it remain open. The relationship profile (closeness 4/4, trust 4/4) shapes response style, not the underlying facts.",
+        "recommended_response": "Thank you. I could use some support, and I’d like to talk.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "support-002",
+      "profile_id": "developing-colleague",
+      "message": "Let me know if I can help.",
+      "locale": "en-GB",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "support",
+        "practical"
+      ],
+      "expected_intent": "support_offer",
+      "actual_intent": "support_offer",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Appreciate the offer",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.171,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Samira Patel explicitly offers support. The kind of help and the user’s willingness to accept it remain open. The relationship profile (closeness 2/4, trust 2/4) shapes response style, not the underlying facts.",
+        "recommended_response": "Thank you. It helps to know the offer is there.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "distress-001",
+      "profile_id": "supportive-friend",
+      "message": "I’m overwhelmed and don’t know what to do.",
+      "locale": "en-IE",
+      "channel": "text_message",
+      "risk_level": "elevated",
+      "tags": [
+        "distress",
+        "support"
+      ],
+      "expected_intent": "distress",
+      "actual_intent": "distress",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Ask what helps",
+      "contextual_basis_items": 3,
+      "latency_ms": 0.285,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee explicitly reports difficulty or distress. The kind of support wanted is not established. The relationship profile (closeness 4/4, trust 4/4) shapes response style, not the underlying facts.",
+        "recommended_response": "Would it help more if I listened, helped think through options, or gave you some space?",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "distress-002",
+      "profile_id": "developing-colleague",
+      "message": "I feel anxious and exhausted.",
+      "locale": "en-US",
+      "channel": "text_message",
+      "risk_level": "moderate",
+      "tags": [
+        "distress",
+        "capacity"
+      ],
+      "expected_intent": "distress",
+      "actual_intent": "distress",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Acknowledge the difficulty",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.498,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Samira Patel explicitly reports difficulty or distress. The kind of support wanted is not established. The relationship profile (closeness 2/4, trust 2/4) shapes response style, not the underlying facts.",
+        "recommended_response": "That sounds like a lot to carry. Thank you for telling me.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "conflict-001",
+      "profile_id": "strained-relative",
+      "message": "I felt dismissed when you changed the plan.",
+      "locale": "en-IE",
+      "channel": "spoken_interaction",
+      "risk_level": "moderate",
+      "tags": [
+        "conflict",
+        "repair"
+      ],
+      "expected_intent": "conflict",
+      "actual_intent": "conflict",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Clarify the concern",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.238,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Alex Morgan explicitly raises a relational concern or hurt. Cause, responsibility, and repair require more context. The relationship profile (closeness 4/4, trust 2/4) shapes response style, not the underlying facts.",
+        "recommended_response": "Can you tell me which part felt dismissive to you? I want to understand the specific moment.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "conflict-002",
+      "profile_id": "supportive-friend",
+      "message": "I feel hurt because you ignored my question.",
+      "locale": "en-GB",
+      "channel": "text_message",
+      "risk_level": "moderate",
+      "tags": [
+        "conflict",
+        "pause"
+      ],
+      "expected_intent": "conflict",
+      "actual_intent": "conflict",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Pause before replying",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.137,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee explicitly raises a relational concern or hurt. Cause, responsibility, and repair require more context. The relationship profile (closeness 4/4, trust 4/4) shapes response style, not the underlying facts.",
+        "recommended_response": "I hear that you’re upset. I want to take a little time so I can respond thoughtfully.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "boundary-001",
+      "profile_id": "developing-colleague",
+      "message": "Please don’t call me after work.",
+      "locale": "en-IE",
+      "channel": "text_message",
+      "risk_level": "moderate",
+      "tags": [
+        "boundary",
+        "work"
+      ],
+      "expected_intent": "boundary",
+      "actual_intent": "boundary",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Acknowledge and pause",
+      "contextual_basis_items": 3,
+      "latency_ms": 0.398,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Samira Patel explicitly sets a clear limit or asks for space. The reason and duration may still be unstated. The relationship profile (closeness 2/4, trust 2/4) shapes response style, not the underlying facts.",
+        "recommended_response": "Thank you for being clear. I’ll give this some space.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "boundary-002",
+      "profile_id": "strained-relative",
+      "message": "I need space.",
+      "locale": "en-US",
+      "channel": "text_message",
+      "risk_level": "moderate",
+      "tags": [
+        "boundary",
+        "space"
+      ],
+      "expected_intent": "boundary",
+      "actual_intent": "boundary",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Confirm your own limit",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.068,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Alex Morgan explicitly sets a clear limit or asks for space. The reason and duration may still be unstated. The relationship profile (closeness 4/4, trust 2/4) shapes response style, not the underlying facts.",
+        "recommended_response": "I understand your boundary. I’ll respect it, and I’ll keep to my own limits as well.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "celebration-001",
+      "profile_id": "supportive-friend",
+      "message": "Good news — I got approved!",
+      "locale": "en-IE",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "celebration",
+        "achievement"
+      ],
+      "expected_intent": "celebration",
+      "actual_intent": "celebration",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Celebrate fully",
+      "contextual_basis_items": 3,
+      "latency_ms": 0.307,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee explicitly shares a positive event or achievement. The relationship profile helps calibrate enthusiasm. The relationship profile (closeness 4/4, trust 4/4) shapes response style, not the underlying facts.",
+        "recommended_response": "That’s amazing — I’m genuinely so happy for you! Tell me everything.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "celebration-002",
+      "profile_id": "strained-relative",
+      "message": "We did it — I passed!",
+      "locale": "en-GB",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "celebration",
+        "calibration"
+      ],
+      "expected_intent": "celebration",
+      "actual_intent": "celebration",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Celebrate fully",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.092,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Alex Morgan explicitly shares a positive event or achievement. The relationship profile helps calibrate enthusiasm. The relationship profile (closeness 4/4, trust 2/4) shapes response style, not the underlying facts.",
+        "recommended_response": "That’s wonderful news — congratulations!",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "decision-001",
+      "profile_id": "supportive-friend",
+      "message": "I’ve decided to accept the new role.",
+      "locale": "en-IE",
+      "channel": "text_message",
+      "risk_level": "moderate",
+      "tags": [
+        "decision",
+        "career"
+      ],
+      "expected_intent": "decision",
+      "actual_intent": "decision",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Ask for reasoning",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.156,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee explicitly communicates a decision or proposal. Its rationale and flexibility may still need clarification. The relationship profile (closeness 4/4, trust 4/4) shapes response style, not the underlying facts.",
+        "recommended_response": "Can you walk me through the main reasons and what alternatives you considered?",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "decision-002",
+      "profile_id": "developing-colleague",
+      "message": "I propose that we delay the launch.",
+      "locale": "en-US",
+      "channel": "email",
+      "risk_level": "moderate",
+      "tags": [
+        "decision",
+        "project"
+      ],
+      "expected_intent": "decision",
+      "actual_intent": "decision",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Request time",
+      "contextual_basis_items": 3,
+      "latency_ms": 0.149,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Samira Patel explicitly communicates a decision or proposal. Its rationale and flexibility may still need clarification. The relationship profile (closeness 2/4, trust 2/4) shapes response style, not the underlying facts.",
+        "recommended_response": "I understand that’s your current decision. I need a little time to consider its impact.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "update-001",
+      "profile_id": "developing-colleague",
+      "message": "Just letting you know, the deadline has moved.",
+      "locale": "en-IE",
+      "channel": "email",
+      "risk_level": "low",
+      "tags": [
+        "update",
+        "deadline"
+      ],
+      "expected_intent": "update",
+      "actual_intent": "update",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Confirm implications",
+      "contextual_basis_items": 4,
+      "latency_ms": 0.216,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Samira Patel explicitly provides an update. Whether acknowledgment or action is required may remain unstated. The relationship profile (closeness 2/4, trust 2/4) shapes response style, not the underlying facts.",
+        "recommended_response": "Thanks for the update. Does this change anything you need from me?",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "update-002",
+      "profile_id": "practical-neighbour",
+      "message": "FYI, the meeting time has changed.",
+      "locale": "en-GB",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "update",
+        "practical"
+      ],
+      "expected_intent": "update",
+      "actual_intent": "update",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "State your constraint",
+      "contextual_basis_items": 4,
+      "latency_ms": 0.103,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Noah Williams explicitly provides an update. Whether acknowledgment or action is required may remain unstated. The relationship profile (closeness 1/4, trust 3/4) shapes response style, not the underlying facts.",
+        "recommended_response": "Thanks for the update. I still need to keep to what I shared: Keep personal work details private.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "apology-001",
+      "profile_id": "strained-relative",
+      "message": "I’m sorry I broke your confidence.",
+      "locale": "en-IE",
+      "channel": "text_message",
+      "risk_level": "moderate",
+      "tags": [
+        "apology",
+        "repair"
+      ],
+      "expected_intent": "apology",
+      "actual_intent": "apology",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Ask about repair",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.096,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Alex Morgan is explicitly apologising. Whether the apology addresses the relevant harm and what repair they expect require relationship history.",
+        "recommended_response": "Thank you for apologising. What do you think needs to change from here?",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "apology-002",
+      "profile_id": "supportive-friend",
+      "message": "I apologise for sharing that without asking.",
+      "locale": "en-US",
+      "channel": "spoken_interaction",
+      "risk_level": "moderate",
+      "tags": [
+        "apology",
+        "accountability"
+      ],
+      "expected_intent": "apology",
+      "actual_intent": "apology",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Take time",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.034,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee is explicitly apologising. Whether the apology addresses the relevant harm and what repair they expect require relationship history.",
+        "recommended_response": "Thank you for apologising. I need some time to think before I respond fully.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "request-001",
+      "profile_id": "developing-colleague",
+      "message": "Could you send me the notes?",
+      "locale": "en-IE",
+      "channel": "email",
+      "risk_level": "low",
+      "tags": [
+        "request",
+        "work"
+      ],
+      "expected_intent": "request",
+      "actual_intent": "request",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Clarify the request",
+      "contextual_basis_items": 4,
+      "latency_ms": 0.107,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Samira Patel is explicitly asking something. Closeness and trust can shape response style, but they do not change the request itself.",
+        "recommended_response": "Before I answer, could you clarify exactly what you need and by when?",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "request-002",
+      "profile_id": "practical-neighbour",
+      "message": "Can you help me move?",
+      "locale": "en-GB",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "request",
+        "capacity"
+      ],
+      "expected_intent": "request",
+      "actual_intent": "request",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Decline",
+      "contextual_basis_items": 3,
+      "latency_ms": 0.079,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Noah Williams is explicitly asking something. Closeness and trust can shape response style, but they do not change the request itself.",
+        "recommended_response": "I’m not able to do that, but thank you for asking directly.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "invitation-001",
+      "profile_id": "supportive-friend",
+      "message": "Would you like to get coffee?",
+      "locale": "en-IE",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "invitation",
+        "social"
+      ],
+      "expected_intent": "invitation",
+      "actual_intent": "invitation",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Accept",
+      "contextual_basis_items": 3,
+      "latency_ms": 0.139,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee is proposing time together. The invitation is explicit; whether it is practical, friendly, or romantic is not established.",
+        "recommended_response": "I’d like that. What day were you thinking?",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "invitation-002",
+      "profile_id": "developing-colleague",
+      "message": "Can we meet on Tuesday?",
+      "locale": "en-US",
+      "channel": "text_message",
+      "risk_level": "low",
+      "tags": [
+        "invitation",
+        "clarify"
+      ],
+      "expected_intent": "invitation",
+      "actual_intent": "invitation",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Ask for detail",
+      "contextual_basis_items": 3,
+      "latency_ms": 0.039,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Samira Patel is proposing time together. The invitation is explicit; whether it is practical, friendly, or romantic is not established.",
+        "recommended_response": "I may be interested. What did you have in mind?",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "emotional-affection-001",
+      "profile_id": "supportive-friend",
+      "message": "I miss you.",
+      "locale": "en-IE",
+      "channel": "text_message",
+      "risk_level": "moderate",
+      "tags": [
+        "affection",
+        "emotional"
+      ],
+      "expected_intent": "emotional_affection",
+      "actual_intent": "emotional_affection",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Reciprocate",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.102,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee explicitly expresses affection or care. The relationship profile helps calibrate the response, but the desired outcome remains unstated.",
+        "recommended_response": "I care about you too. I’m glad you told me.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "emotional-affection-002",
+      "profile_id": "developing-colleague",
+      "message": "I care about you.",
+      "locale": "en-GB",
+      "channel": "text_message",
+      "risk_level": "moderate",
+      "tags": [
+        "affection",
+        "pace"
+      ],
+      "expected_intent": "emotional_affection",
+      "actual_intent": "emotional_affection",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Receive it warmly",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.042,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Samira Patel explicitly expresses affection or care. The relationship profile helps calibrate the response, but the desired outcome remains unstated.",
+        "recommended_response": "Thank you for telling me. That means a lot.",
+        "uncertainties": [
+          "The sender’s motive and hoped-for outcome remain unstated.",
+          "The user’s preferred response is not implied by the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "physical-affection-001",
+      "profile_id": "supportive-friend",
+      "message": "I want to hug you.",
+      "locale": "en-IE",
+      "channel": "spoken_interaction",
+      "risk_level": "moderate",
+      "tags": [
+        "affection",
+        "physical"
+      ],
+      "expected_intent": "physical_affection",
+      "actual_intent": "physical_affection",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Welcome it",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.157,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Jordan Lee explicitly states a desire for a hug. That establishes the proposed physical action—not why they want it. Friendly affection, comfort, romance, and playfulness remain alternatives. The relationship profile (closeness 4/4, trust 4/4) helps tailor your response, not diagnose their motive.",
+        "recommended_response": "I’d really like that too.",
+        "uncertainties": [
+          "The motive behind a hug is not established.",
+          "Whether you welcome physical contact is not stated in the message."
+        ]
+      }
+    },
+    {
+      "test_case_id": "physical-affection-002",
+      "profile_id": "developing-colleague",
+      "message": "Can I kiss you?",
+      "locale": "en-US",
+      "channel": "text_message",
+      "risk_level": "moderate",
+      "tags": [
+        "affection",
+        "boundary"
+      ],
+      "expected_intent": "physical_affection",
+      "actual_intent": "physical_affection",
+      "explicit_intent": true,
+      "response_options": 4,
+      "recommended_option": "Set a boundary",
+      "contextual_basis_items": 2,
+      "latency_ms": 0.056,
+      "status": "pass",
+      "failed_checks": [],
+      "checks": {
+        "input_schema": true,
+        "result_schema": true,
+        "intent_match": true,
+        "explicit_intent_match": true,
+        "response_option_count": true,
+        "required_options": true,
+        "response_diversity": true,
+        "exactly_one_recommendation": true,
+        "epistemic_separation": true,
+        "relationship_isolation": true,
+        "contextual_traceability": true,
+        "action_consistency": true,
+        "zero_cost": true
+      },
+      "input_errors": [],
+      "result_errors": [],
+      "result_preview": {
+        "interpretation": "Samira Patel explicitly states a desire for a kiss. That establishes the proposed physical action—not why they want it. Friendly affection, comfort, romance, and playfulness remain alternatives. The relationship profile (closeness 2/4, trust 2/4) helps tailor your response, not diagnose their motive.",
+        "recommended_response": "I appreciate the affection, but I’m not comfortable with a kiss.",
+        "uncertainties": [
+          "The motive behind a kiss is not established.",
+          "Whether you welcome physical contact is not stated in the message."
+        ]
+      }
+    }
+  ]
+}

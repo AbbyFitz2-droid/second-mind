@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cognisyn.local/schemas/evaluation-case.v1.json",
+  "title": "Second Mind synthetic evaluation case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "test_case_id",
+    "profile_id",
+    "metadata",
+    "interaction",
+    "expected"
+  ],
+  "properties": {
+    "test_case_id": { "type": "string", "minLength": 3 },
+    "profile_id": { "type": "string", "minLength": 3 },
+    "metadata": {
+      "type": "object",
+      "required": ["locale", "channel", "risk_level", "tags"],
+      "properties": {
+        "locale": { "type": "string" },
+        "channel": { "type": "string" },
+        "risk_level": { "enum": ["low", "moderate", "elevated"] },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "interaction": {
+      "type": "object",
+      "required": ["message", "goal", "desired_tone"],
+      "properties": {
+        "message": { "type": "string", "minLength": 2 },
+        "goal": { "type": "string" },
+        "desired_tone": { "type": "string" },
+        "selected_situation_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "required": [
+        "intent_category",
+        "explicit_intent",
+        "minimum_response_options"
+      ],
+      "properties": {
+        "intent_category": { "type": "string" },
+        "explicit_intent": { "type": "boolean" },
+        "minimum_response_options": { "type": "integer", "minimum": 3 },
+        "required_option_labels": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

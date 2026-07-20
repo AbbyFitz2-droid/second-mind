@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Team Abby development evaluation report for the Second Mind context pipeline."
+    />
+    <title>Team Abby — Second Mind evaluation</title>
+    <link rel="stylesheet" href="/evaluation.css" />
+  </head>
+  <body>
+    <main class="report-shell">
+      <header class="report-header">
+        <div>
+          <p class="eyebrow">TEAM ABBY · DEVELOPMENT EVALUATION</p>
+          <h1>Context pipeline report</h1>
+          <p>
+            Synthetic user-shaped inputs evaluated from metadata contract
+            through contextual reasoning and structured output.
+          </p>
+        </div>
+        <div class="report-actions">
+          <a href="/" class="quiet-link">Open product</a>
+          <a
+            href="/team-abby-evaluation-report.csv"
+            class="download-link"
+            download
+          >Download CSV</a>
+        </div>
+      </header>
+
+      <section class="run-strip" aria-label="Evaluation run metadata">
+        <span id="runStatus">Loading evaluation…</span>
+        <span id="generatedAt"></span>
+        <span>Local deterministic · zero paid API calls</span>
+      </section>
+
+      <section class="metric-grid" id="metricGrid" aria-label="Summary metrics">
+      </section>
+
+      <section class="coverage-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">COVERAGE</p>
+            <h2>Intent families</h2>
+          </div>
+          <p id="coverageNote"></p>
+        </div>
+        <div class="coverage-grid" id="coverageGrid"></div>
+      </section>
+
+      <section class="results-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CASE-LEVEL RESULTS</p>
+            <h2>Evaluation table</h2>
+          </div>
+          <p id="visibleCount"></p>
+        </div>
+
+        <div class="filters">
+          <label>
+            <span>Search</span>
+            <input
+              id="caseSearch"
+              type="search"
+              placeholder="Message, case, profile, or tag"
+            />
+          </label>
+          <label>
+            <span>Intent</span>
+            <select id="intentFilter">
+              <option value="">All intents</option>
+            </select>
+          </label>
+          <label>
+            <span>Status</span>
+            <select id="statusFilter">
+              <option value="">All statuses</option>
+              <option value="pass">Pass</option>
+              <option value="fail">Fail</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Case and input</th>
+                <th>Profile</th>
+                <th>Intent</th>
+                <th>Response result</th>
+                <th>Checks</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="contract-note">
+        <div>
+          <p class="eyebrow">DATA CONTRACT</p>
+          <h2>Ready for larger evaluation sets</h2>
+        </div>
+        <p>
+          Source fixtures remain synthetic and normalized. Each run materializes
+          the complete user-input contract, preserves full structured results as
+          JSONL, and emits JSON, CSV, and Markdown reports for further analysis.
+        </p>
+      </section>
+    </main>
+    <script type="module" src="/evaluation.js"></script>
+  </body>
+</html>

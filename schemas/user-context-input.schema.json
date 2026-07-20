@@ -1,0 +1,464 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cognisyn.local/schemas/user-context-input.v1.json",
+  "title": "Second Mind user context input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "input_id",
+    "metadata",
+    "interaction",
+    "case_data"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "input_id": { "type": "string", "minLength": 3, "maxLength": 160 },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "created_at",
+        "created_by",
+        "data_class",
+        "synthetic",
+        "locale",
+        "consent_scope",
+        "pii_status",
+        "tags"
+      ],
+      "properties": {
+        "created_at": { "type": "string", "format": "date-time" },
+        "created_by": { "type": "string" },
+        "data_class": {
+          "enum": ["synthetic_evaluation", "user_provided", "research_opt_in"]
+        },
+        "synthetic": { "type": "boolean" },
+        "locale": { "type": "string", "minLength": 2, "maxLength": 20 },
+        "channel": {
+          "enum": ["text_message", "spoken_interaction", "email", "note", "other"]
+        },
+        "consent_scope": {
+          "enum": ["synthetic_only", "local_session", "local_persistent", "research_opt_in"]
+        },
+        "pii_status": {
+          "enum": ["none", "pseudonymised", "user_controlled", "requires_review"]
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 80 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "interaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "message",
+        "sender_id",
+        "selected_situation_ids",
+        "goal",
+        "desired_tone"
+      ],
+      "properties": {
+        "message": { "type": "string", "minLength": 2, "maxLength": 8000 },
+        "sender_id": { "type": "string", "minLength": 1 },
+        "selected_situation_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "goal": {
+          "enum": [
+            "warm_boundary",
+            "clarify_intent",
+            "keep_distance",
+            "welcome_connection",
+            "coordinate_practical",
+            "create_record"
+          ]
+        },
+        "desired_tone": { "enum": ["warm", "neutral", "direct"] }
+      }
+    },
+    "case_data": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "people",
+        "relationshipConnections",
+        "claims",
+        "situations",
+        "selectedSituationIds"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "people": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/person" }
+        },
+        "relationshipConnections": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/relationshipConnection" }
+        },
+        "claims": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/claim" }
+        },
+        "situations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/situation" }
+        },
+        "issues": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/issue" }
+        },
+        "commitments": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/commitment" }
+        },
+        "captures": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/capture" }
+        },
+        "selectedSituationIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      }
+    }
+  },
+  "$defs": {
+    "person": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "displayName",
+        "relationshipType",
+        "closeness",
+        "trust",
+        "boundaries",
+        "relationshipGoals",
+        "currentState"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "relationshipType": { "type": "string", "maxLength": 100 },
+        "closeness": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "trust": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "boundaries": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 240 }
+        },
+        "relationshipGoals": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 240 }
+        },
+        "currentState": { "type": "string", "maxLength": 100 }
+      }
+    },
+    "relationshipConnection": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "schemaVersion",
+        "fromPersonId",
+        "toPersonId",
+        "relationshipType",
+        "dynamic",
+        "strength",
+        "confidence",
+        "source",
+        "userConfirmation",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "schemaVersion": { "const": "1.0.0" },
+        "fromPersonId": { "type": "string", "minLength": 1 },
+        "toPersonId": { "type": "string", "minLength": 1 },
+        "relationshipType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "dynamic": {
+          "enum": [
+            "supportive",
+            "close",
+            "developing",
+            "neutral",
+            "strained",
+            "distant",
+            "unknown"
+          ]
+        },
+        "strength": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "confidence": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "notes": { "type": "string", "maxLength": 400 },
+        "source": { "enum": ["user_entry", "demo_seed"] },
+        "userConfirmation": { "const": "confirmed" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "situationId",
+        "personIds",
+        "type",
+        "text",
+        "source",
+        "confidence",
+        "userConfirmation"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "situationId": { "type": "string" },
+        "personIds": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string" }
+        },
+        "type": {
+          "enum": ["confirmed_fact", "direct_observation", "user_report"]
+        },
+        "text": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "source": {
+          "type": "object",
+          "required": ["kind", "reference"],
+          "properties": {
+            "kind": { "type": "string" },
+            "reference": { "type": "string" }
+          }
+        },
+        "confidence": { "enum": ["low", "moderate", "high"] },
+        "userConfirmation": {
+          "enum": ["confirmed", "unreviewed", "rejected", "needs_context"]
+        }
+      }
+    },
+    "situation": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "title",
+        "occurredAt",
+        "personIds",
+        "eventClaimIds"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "occurredAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "datePrecision": {
+          "enum": ["exact", "approximate", "unknown"]
+        },
+        "dateSource": {
+          "enum": [
+            "visible_in_source",
+            "user_supplied",
+            "not_visible",
+            "not_provided",
+            "legacy_record"
+          ]
+        },
+        "capturedAt": { "type": "string", "format": "date-time" },
+        "sourceCaptureId": { "type": "string" },
+        "personIds": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string" }
+        },
+        "eventClaimIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "issue": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "title",
+        "personIds",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "personIds": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string" }
+        },
+        "status": { "enum": ["open", "resolved"] },
+        "priority": { "enum": ["low", "normal", "medium", "high"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "resolvedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "commitment": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "issueId",
+        "committerPersonId",
+        "description",
+        "status",
+        "promisedAt",
+        "source",
+        "statusHistory",
+        "userConfirmation",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "issueId": { "type": "string", "minLength": 1 },
+        "committerPersonId": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "status": {
+          "enum": [
+            "mentioned",
+            "promised",
+            "scheduled",
+            "confirmed",
+            "delayed",
+            "cancelled",
+            "missed",
+            "completed",
+            "disputed"
+          ]
+        },
+        "promisedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "dueAt": { "type": ["string", "null"], "format": "date-time" },
+        "dueExpression": { "type": ["string", "null"], "maxLength": 160 },
+        "completedAt": { "type": "string", "format": "date-time" },
+        "sourceSituationId": { "type": ["string", "null"] },
+        "source": {
+          "type": "object",
+          "required": ["kind", "reference"],
+          "properties": {
+            "kind": { "type": "string" },
+            "reference": { "type": "string", "minLength": 1 }
+          }
+        },
+        "statusHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["status", "changedAt", "sourceReference"],
+            "properties": {
+              "status": {
+                "enum": [
+                  "mentioned",
+                  "promised",
+                  "scheduled",
+                  "confirmed",
+                  "delayed",
+                  "cancelled",
+                  "missed",
+                  "completed",
+                  "disputed"
+                ]
+              },
+              "changedAt": {
+                "type": ["string", "null"],
+                "format": "date-time"
+              },
+              "recordedAt": { "type": "string", "format": "date-time" },
+              "sourceReference": { "type": "string" }
+            }
+          }
+        },
+        "userConfirmation": { "const": "confirmed" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "kind",
+        "fileName",
+        "mimeType",
+        "capturedAt",
+        "extractedText",
+        "datePrecision",
+        "dateSource",
+        "imageStoredLocally",
+        "imageSentToAiService",
+        "participantPersonIds",
+        "situationIds",
+        "userConfirmation"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "const": "screenshot" },
+        "fileName": { "type": "string", "minLength": 1, "maxLength": 240 },
+        "mimeType": {
+          "enum": ["image/png", "image/jpeg", "image/webp"]
+        },
+        "byteSize": { "type": "integer", "minimum": 1 },
+        "capturedAt": { "type": "string", "format": "date-time" },
+        "extractedText": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12000
+        },
+        "ocrConfidence": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "sourceDate": { "type": ["string", "null"], "format": "date-time" },
+        "datePrecision": {
+          "enum": ["exact", "approximate", "unknown"]
+        },
+        "dateSource": {
+          "enum": ["visible_in_source", "user_supplied", "not_visible"]
+        },
+        "imageStoredLocally": { "type": "boolean" },
+        "imageSentToAiService": { "const": false },
+        "participantPersonIds": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "situationIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "findingSnapshot": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "userConfirmation": { "const": "reviewed" }
+      }
+    }
+  }
+}

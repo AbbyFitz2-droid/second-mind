@@ -1,0 +1,211 @@
+{
+  "dataset_id": "team-abby-context-evaluation-v1",
+  "schema_version": "1.0.0",
+  "metadata": {
+    "created_by": "Team Abby",
+    "created_at": "2026-07-19T12:00:00.000Z",
+    "data_class": "synthetic_evaluation",
+    "synthetic": true,
+    "consent_scope": "synthetic_only",
+    "pii_status": "none",
+    "description": "Synthetic messages spanning the first supported intent taxonomy. Names and situations are fictional."
+  },
+  "cases": [
+    {
+      "test_case_id": "gratitude-001",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-IE", "channel": "text_message", "risk_level": "low", "tags": ["gratitude", "warm"] },
+      "interaction": { "message": "Thank you for being there for me.", "goal": "welcome_connection", "desired_tone": "warm" },
+      "expected": { "intent_category": "gratitude", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Receive it warmly", "Keep it simple"] }
+    },
+    {
+      "test_case_id": "gratitude-002",
+      "profile_id": "practical-neighbour",
+      "metadata": { "locale": "en-GB", "channel": "text_message", "risk_level": "low", "tags": ["gratitude", "brief"] },
+      "interaction": { "message": "Thanks, I really appreciate your help.", "goal": "warm_boundary", "desired_tone": "neutral" },
+      "expected": { "intent_category": "gratitude", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Keep it brief"] }
+    },
+    {
+      "test_case_id": "check-in-001",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-IE", "channel": "text_message", "risk_level": "low", "tags": ["check_in", "wellbeing"] },
+      "interaction": { "message": "How are you after yesterday?", "goal": "welcome_connection", "desired_tone": "warm" },
+      "expected": { "intent_category": "check_in", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Open up", "Keep it private"] }
+    },
+    {
+      "test_case_id": "check-in-002",
+      "profile_id": "developing-colleague",
+      "metadata": { "locale": "en-US", "channel": "text_message", "risk_level": "low", "tags": ["check_in", "privacy"] },
+      "interaction": { "message": "Are you okay?", "goal": "keep_distance", "desired_tone": "neutral" },
+      "expected": { "intent_category": "check_in", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Answer briefly"] }
+    },
+    {
+      "test_case_id": "support-001",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-IE", "channel": "text_message", "risk_level": "moderate", "tags": ["support", "care"] },
+      "interaction": { "message": "I’m here for you if you need to talk.", "goal": "welcome_connection", "desired_tone": "warm" },
+      "expected": { "intent_category": "support_offer", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Accept support", "Say what would help"] }
+    },
+    {
+      "test_case_id": "support-002",
+      "profile_id": "developing-colleague",
+      "metadata": { "locale": "en-GB", "channel": "text_message", "risk_level": "low", "tags": ["support", "practical"] },
+      "interaction": { "message": "Let me know if I can help.", "goal": "warm_boundary", "desired_tone": "neutral" },
+      "expected": { "intent_category": "support_offer", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Appreciate the offer", "Decline gently"] }
+    },
+    {
+      "test_case_id": "distress-001",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-IE", "channel": "text_message", "risk_level": "elevated", "tags": ["distress", "support"] },
+      "interaction": { "message": "I’m overwhelmed and don’t know what to do.", "goal": "clarify_intent", "desired_tone": "warm" },
+      "expected": { "intent_category": "distress", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Offer presence", "Ask what helps"] }
+    },
+    {
+      "test_case_id": "distress-002",
+      "profile_id": "developing-colleague",
+      "metadata": { "locale": "en-US", "channel": "text_message", "risk_level": "moderate", "tags": ["distress", "capacity"] },
+      "interaction": { "message": "I feel anxious and exhausted.", "goal": "warm_boundary", "desired_tone": "neutral" },
+      "expected": { "intent_category": "distress", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Acknowledge the difficulty", "Name your capacity"] }
+    },
+    {
+      "test_case_id": "conflict-001",
+      "profile_id": "strained-relative",
+      "metadata": { "locale": "en-IE", "channel": "spoken_interaction", "risk_level": "moderate", "tags": ["conflict", "repair"] },
+      "interaction": { "message": "I felt dismissed when you changed the plan.", "goal": "clarify_intent", "desired_tone": "neutral" },
+      "expected": { "intent_category": "conflict", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Clarify the concern", "Set a communication boundary"] }
+    },
+    {
+      "test_case_id": "conflict-002",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-GB", "channel": "text_message", "risk_level": "moderate", "tags": ["conflict", "pause"] },
+      "interaction": { "message": "I feel hurt because you ignored my question.", "goal": "warm_boundary", "desired_tone": "warm" },
+      "expected": { "intent_category": "conflict", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Engage constructively", "Pause before replying"] }
+    },
+    {
+      "test_case_id": "boundary-001",
+      "profile_id": "developing-colleague",
+      "metadata": { "locale": "en-IE", "channel": "text_message", "risk_level": "moderate", "tags": ["boundary", "work"] },
+      "interaction": { "message": "Please don’t call me after work.", "goal": "warm_boundary", "desired_tone": "neutral" },
+      "expected": { "intent_category": "boundary", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Respect the boundary", "Clarify the scope"] }
+    },
+    {
+      "test_case_id": "boundary-002",
+      "profile_id": "strained-relative",
+      "metadata": { "locale": "en-US", "channel": "text_message", "risk_level": "moderate", "tags": ["boundary", "space"] },
+      "interaction": { "message": "I need space.", "goal": "keep_distance", "desired_tone": "direct" },
+      "expected": { "intent_category": "boundary", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Acknowledge and pause", "Confirm your own limit"] }
+    },
+    {
+      "test_case_id": "celebration-001",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-IE", "channel": "text_message", "risk_level": "low", "tags": ["celebration", "achievement"] },
+      "interaction": { "message": "Good news — I got approved!", "goal": "welcome_connection", "desired_tone": "warm" },
+      "expected": { "intent_category": "celebration", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Celebrate fully", "Invite the story"] }
+    },
+    {
+      "test_case_id": "celebration-002",
+      "profile_id": "strained-relative",
+      "metadata": { "locale": "en-GB", "channel": "text_message", "risk_level": "low", "tags": ["celebration", "calibration"] },
+      "interaction": { "message": "We did it — I passed!", "goal": "welcome_connection", "desired_tone": "warm" },
+      "expected": { "intent_category": "celebration", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Congratulate", "Keep it concise"] }
+    },
+    {
+      "test_case_id": "decision-001",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-IE", "channel": "text_message", "risk_level": "moderate", "tags": ["decision", "career"] },
+      "interaction": { "message": "I’ve decided to accept the new role.", "goal": "clarify_intent", "desired_tone": "warm" },
+      "expected": { "intent_category": "decision", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Engage with it", "Ask for reasoning"] }
+    },
+    {
+      "test_case_id": "decision-002",
+      "profile_id": "developing-colleague",
+      "metadata": { "locale": "en-US", "channel": "email", "risk_level": "moderate", "tags": ["decision", "project"] },
+      "interaction": { "message": "I propose that we delay the launch.", "goal": "warm_boundary", "desired_tone": "neutral" },
+      "expected": { "intent_category": "decision", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Request time", "Disagree carefully"] }
+    },
+    {
+      "test_case_id": "update-001",
+      "profile_id": "developing-colleague",
+      "metadata": { "locale": "en-IE", "channel": "email", "risk_level": "low", "tags": ["update", "deadline"] },
+      "interaction": { "message": "Just letting you know, the deadline has moved.", "goal": "clarify_intent", "desired_tone": "neutral" },
+      "expected": { "intent_category": "update", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Acknowledge", "Confirm implications"] }
+    },
+    {
+      "test_case_id": "update-002",
+      "profile_id": "practical-neighbour",
+      "metadata": { "locale": "en-GB", "channel": "text_message", "risk_level": "low", "tags": ["update", "practical"] },
+      "interaction": { "message": "FYI, the meeting time has changed.", "goal": "warm_boundary", "desired_tone": "direct" },
+      "expected": { "intent_category": "update", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Acknowledge warmly", "State your constraint"] }
+    },
+    {
+      "test_case_id": "apology-001",
+      "profile_id": "strained-relative",
+      "metadata": { "locale": "en-IE", "channel": "text_message", "risk_level": "moderate", "tags": ["apology", "repair"] },
+      "interaction": { "message": "I’m sorry I broke your confidence.", "goal": "clarify_intent", "desired_tone": "neutral" },
+      "expected": { "intent_category": "apology", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Ask about repair", "Accept with a boundary"] }
+    },
+    {
+      "test_case_id": "apology-002",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-US", "channel": "spoken_interaction", "risk_level": "moderate", "tags": ["apology", "accountability"] },
+      "interaction": { "message": "I apologise for sharing that without asking.", "goal": "warm_boundary", "desired_tone": "warm" },
+      "expected": { "intent_category": "apology", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Receive the apology", "Take time"] }
+    },
+    {
+      "test_case_id": "request-001",
+      "profile_id": "developing-colleague",
+      "metadata": { "locale": "en-IE", "channel": "email", "risk_level": "low", "tags": ["request", "work"] },
+      "interaction": { "message": "Could you send me the notes?", "goal": "clarify_intent", "desired_tone": "neutral" },
+      "expected": { "intent_category": "request", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Agree", "Clarify the request"] }
+    },
+    {
+      "test_case_id": "request-002",
+      "profile_id": "practical-neighbour",
+      "metadata": { "locale": "en-GB", "channel": "text_message", "risk_level": "low", "tags": ["request", "capacity"] },
+      "interaction": { "message": "Can you help me move?", "goal": "keep_distance", "desired_tone": "direct" },
+      "expected": { "intent_category": "request", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Consider it", "Decline"] }
+    },
+    {
+      "test_case_id": "invitation-001",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-IE", "channel": "text_message", "risk_level": "low", "tags": ["invitation", "social"] },
+      "interaction": { "message": "Would you like to get coffee?", "goal": "welcome_connection", "desired_tone": "warm" },
+      "expected": { "intent_category": "invitation", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Accept", "Ask for detail"] }
+    },
+    {
+      "test_case_id": "invitation-002",
+      "profile_id": "developing-colleague",
+      "metadata": { "locale": "en-US", "channel": "text_message", "risk_level": "low", "tags": ["invitation", "clarify"] },
+      "interaction": { "message": "Can we meet on Tuesday?", "goal": "clarify_intent", "desired_tone": "neutral" },
+      "expected": { "intent_category": "invitation", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Stay open", "Decline warmly"] }
+    },
+    {
+      "test_case_id": "emotional-affection-001",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-IE", "channel": "text_message", "risk_level": "moderate", "tags": ["affection", "emotional"] },
+      "interaction": { "message": "I miss you.", "goal": "welcome_connection", "desired_tone": "warm" },
+      "expected": { "intent_category": "emotional_affection", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Reciprocate", "Invite context"] }
+    },
+    {
+      "test_case_id": "emotional-affection-002",
+      "profile_id": "developing-colleague",
+      "metadata": { "locale": "en-GB", "channel": "text_message", "risk_level": "moderate", "tags": ["affection", "pace"] },
+      "interaction": { "message": "I care about you.", "goal": "warm_boundary", "desired_tone": "neutral" },
+      "expected": { "intent_category": "emotional_affection", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Receive it warmly", "Slow the pace"] }
+    },
+    {
+      "test_case_id": "physical-affection-001",
+      "profile_id": "supportive-friend",
+      "metadata": { "locale": "en-IE", "channel": "spoken_interaction", "risk_level": "moderate", "tags": ["affection", "physical"] },
+      "interaction": { "message": "I want to hug you.", "goal": "welcome_connection", "desired_tone": "warm" },
+      "expected": { "intent_category": "physical_affection", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Welcome it", "Clarify the meaning"] }
+    },
+    {
+      "test_case_id": "physical-affection-002",
+      "profile_id": "developing-colleague",
+      "metadata": { "locale": "en-US", "channel": "text_message", "risk_level": "moderate", "tags": ["affection", "boundary"] },
+      "interaction": { "message": "Can I kiss you?", "goal": "keep_distance", "desired_tone": "direct" },
+      "expected": { "intent_category": "physical_affection", "explicit_intent": true, "minimum_response_options": 4, "required_option_labels": ["Acknowledge warmly", "Set a boundary"] }
+    }
+  ]
+}
