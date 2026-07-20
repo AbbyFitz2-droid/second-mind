@@ -20,7 +20,7 @@ Official category: **Apps for your life**
 - [x] README contains setup and run instructions
 - [x] README explains architecture, models, privacy, and roadmap
 - [x] Final pitch and under-three-minute demo script prepared
-- [x] Narrated 124-second demonstration video created and verified
+- [x] Narrated 85.7-second product-only demonstration created and verified
 - [x] Repository contains no `.env` or API key
 - [x] MIT licence included for public repository publication
 - [x] Final source committed locally

@@ -1,0 +1,35 @@
+Most AI assistants see one message. Real conversations have history.
+Second Mind is a cognitive companion designed to improve reasoning without
+becoming the decision-maker.
+
+The experience begins with natural capture. The user shares a conversation
+screenshot instead of maintaining a relationship database by hand. Second
+Mind reads it locally and extracts the people, messages, commitments, and
+unresolved issues.
+
+Here, Fran arranged a technician, asked for confirmation, and promised to have
+a loose tap checked. The screenshot contains a time but no calendar date, so
+the date stays unknown. Second Mind never substitutes the upload date.
+
+After one useful clarification, the conversation becomes an editable,
+evidence-linked record. Promises and completed actions remain separate.
+
+The relationship graph keeps closeness and trust independent and prevents one
+person's history from entering another person's response.
+
+The interpretation view separates direct evidence, possible interpretations,
+alternative readings, and uncertainty. AI inference never becomes trusted
+memory automatically.
+
+Finally, Second Mind compares an isolated reply with one grounded in the exact
+context selected by the user. It notices two open commitments and suggests a
+clear next step without claiming motive, deception, or personality. Every
+source remains visible and the response remains editable.
+
+I used Codex with GPT-5.6 to build and test the capture pipeline, context
+architecture, epistemic result contract, and evaluation suite. The optional
+live reasoning path uses GPT-5.6 Terra through the Responses API. This judge
+demo uses a reproducible zero-cost mode without a private key.
+
+Second Mind preserves the evidence, exposes the inference, and returns the
+decision to the person. Context before composition. Think clearly. Stay yours.
