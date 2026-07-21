@@ -58,6 +58,13 @@ Official category: **Apps for your life**
   `submission-assets/devpost-submission-record.md`. Project page:
   https://devpost.com/software/second-mind-by-cognisyn
 
+## Post-submission fixes
+
+- [x] Fixed a crash: clicking **Add person** before any workspace existed
+  (fresh visit or after clearing local data) threw an uncaught TypeError
+  and silently failed. Now lazily starts a workspace first. Commit
+  `021234d`. Re-verified from a clean clone: 54/54 tests, 28/28 evals.
+
 ## Final five-minute smoke test
 
 Completed 2026-07-20 from a clean clone (Node v24.14.0).
