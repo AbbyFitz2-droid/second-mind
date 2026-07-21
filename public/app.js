@@ -48,11 +48,17 @@ const elements = {
   reset: document.querySelector("#resetCaseButton"),
   error: document.querySelector("#errorMessage"),
   reasoningLabForm: document.querySelector("#reasoningLabForm"),
+  reasoningLab: document.querySelector("#reasoningLab"),
   reasoningLabInput: document.querySelector("#reasoningLabInput"),
   reasoningLabModes: document.querySelector("#reasoningLabModes"),
   reasoningLabSubmit: document.querySelector("#reasoningLabSubmit"),
   reasoningLabSource: document.querySelector("#reasoningLabSource"),
   reasoningLabError: document.querySelector("#reasoningLabError"),
+  reasoningLabModeNote: document.querySelector("#reasoningLabModeNote"),
+  reasoningLabFocus: document.querySelector("#reasoningLabFocus"),
+  reasoningLabFocusMode: document.querySelector("#reasoningLabFocusMode"),
+  reasoningLabFocusTitle: document.querySelector("#reasoningLabFocusTitle"),
+  reasoningLabFocusGoal: document.querySelector("#reasoningLabFocusGoal"),
   reasoningLabResult: document.querySelector("#reasoningLabResult"),
   reasoningLabObservations: document.querySelector("#reasoningLabObservations"),
   reasoningLabInferences: document.querySelector("#reasoningLabInferences"),
@@ -190,6 +196,57 @@ const elements = {
   contextInterpretation: document.querySelector("#contextInterpretation"),
   responseOptions: document.querySelector("#responseOptions"),
   contextDraft: document.querySelector("#contextDraft"),
+  communicationCoachForm: document.querySelector("#communicationCoachForm"),
+  studioModePicker: document.querySelector("#studioModePicker"),
+  studioModeButtons: [
+    ...document.querySelectorAll("button[data-studio-mode]"),
+  ],
+  studioContextInputLabel: document.querySelector("#studioContextInputLabel"),
+  studioContextInputHelp: document.querySelector("#studioContextInputHelp"),
+  studioContextField: document.querySelector("#studioContextField"),
+  studioDraftInputLabel: document.querySelector("#studioDraftInputLabel"),
+  studioDraftInputHelp: document.querySelector("#studioDraftInputHelp"),
+  studioDraftField: document.querySelector("#studioDraftField"),
+  coachInputGrid: document.querySelector(".coach-input-grid"),
+  studioSubmitLabel: document.querySelector("#studioSubmitLabel"),
+  studioResultTitle: document.querySelector("#studioResultTitle"),
+  studioRevisionLabel: document.querySelector("#studioRevisionLabel"),
+  studioComparison: document.querySelector("#studioComparison"),
+  studioAlternatives: document.querySelector("#studioAlternatives"),
+  coachContextSummary: document.querySelector("#coachContextSummary"),
+  coachReceived: document.querySelector("#coachReceivedMessage"),
+  coachDraft: document.querySelector("#coachDraftReply"),
+  loadCoachSample: document.querySelector("#loadCoachSampleButton"),
+  runCoach: document.querySelector("#runCoachButton"),
+  coachError: document.querySelector("#coachError"),
+  coachStatus: document.querySelector("#coachStatus"),
+  coachResults: document.querySelector("#coachResults"),
+  coachChecks: document.querySelector("#coachChecks"),
+  coachObservation: document.querySelector("#coachObservation"),
+  coachRelevantContext: document.querySelector("#coachRelevantContext"),
+  coachPossibleInterpretation: document.querySelector(
+    "#coachPossibleInterpretation",
+  ),
+  coachPossibleConfidence: document.querySelector("#coachPossibleConfidence"),
+  coachAlternativeInterpretation: document.querySelector(
+    "#coachAlternativeInterpretation",
+  ),
+  coachAlternativeConfidence: document.querySelector(
+    "#coachAlternativeConfidence",
+  ),
+  coachConfidence: document.querySelector("#coachConfidence"),
+  coachConfidenceRationale: document.querySelector(
+    "#coachConfidenceRationale",
+  ),
+  coachSuggestedAdjustment: document.querySelector(
+    "#coachSuggestedAdjustment",
+  ),
+  coachRevision: document.querySelector("#coachRevisedMessage"),
+  useCoachRevision: document.querySelector("#useCoachRevisionButton"),
+  copyCoachRevision: document.querySelector("#copyCoachRevisionButton"),
+  ignoreCoachSuggestion: document.querySelector(
+    "#ignoreCoachSuggestionButton",
+  ),
   perspectiveSimulation: document.querySelector("#perspectiveSimulation"),
   perspectiveTitle: document.querySelector("#perspectiveTitle"),
   perspectiveLiteral: document.querySelector("#perspectiveLiteral"),
@@ -223,6 +280,8 @@ const state = {
   workspaceKind: null,
   selectedPersonId: null,
   result: null,
+  coachResult: null,
+  studioMode: "review",
   activeView: "people",
   reviews: {},
   reviewConfirmed: false,
@@ -241,17 +300,119 @@ const state = {
 };
 
 const REASONING_LAB_MODES = [
-  { id: "think", label: "Think through" },
-  { id: "pause", label: "Pause & parse" },
-  { id: "clarity", label: "Clarity" },
-  { id: "reflect", label: "Reflect" },
-  { id: "challenge", label: "Challenge" },
+  {
+    id: "think",
+    label: "Think through",
+    description: "Map the choice, trade-offs, and next evidence without choosing for you.",
+  },
+  {
+    id: "pause",
+    label: "Pause & parse",
+    description: "Separate the event, feeling, urgency, and conclusion before acting.",
+  },
+  {
+    id: "clarity",
+    label: "Clarity",
+    description: "Find the meaning or request you want another person to understand.",
+  },
+  {
+    id: "reflect",
+    label: "Reflect",
+    description: "Reconstruct what happened before deciding what it meant.",
+  },
+  {
+    id: "challenge",
+    label: "Challenge",
+    description: "Stress-test the current frame with counterevidence and rival explanations.",
+  },
 ];
+
+const STUDIO_MODES = {
+  draft: {
+    contextLabel: "What do you want to communicate?",
+    contextHelp: "Describe the situation, purpose, or outcome in your own words",
+    draftLabel: "Key points or wording to preserve (optional)",
+    draftHelp: "Merlin will use these as ingredients, not replace your authorship",
+    contextPlaceholder: "I want to ask Maya if we can move Tuesday’s meeting…",
+    draftPlaceholder: "Include that Thursday afternoon also works for me…",
+    submitLabel: "Draft with context",
+    resultTitle: "A first draft grounded in context",
+    revisionLabel: "Generated draft",
+    contextRequired: true,
+    draftRequired: false,
+  },
+  reply: {
+    contextLabel: "Received message",
+    contextHelp: "Paste the message you want to answer",
+    draftLabel: "What should your reply communicate? (optional)",
+    draftHelp: "Add any facts, answer, boundary, or tone Merlin must preserve",
+    contextPlaceholder: "Paste the incoming message…",
+    draftPlaceholder: "I want to be warm, but I cannot commit to Friday…",
+    submitLabel: "Draft a reply",
+    resultTitle: "A reply built after checking context",
+    revisionLabel: "Generated reply",
+    contextRequired: true,
+    draftRequired: false,
+  },
+  review: {
+    contextLabel: "Received message",
+    contextHelp: "Synced with the current situation above",
+    draftLabel: "Your proposed reply",
+    draftHelp: "Merlin will not overwrite this automatically",
+    contextPlaceholder: "Paste the incoming message…",
+    draftPlaceholder: "Write the reply you would naturally send…",
+    submitLabel: "Review my draft",
+    resultTitle: "A concise check before you send",
+    revisionLabel: "Revised message",
+    contextRequired: true,
+    draftRequired: true,
+  },
+  rewrite: {
+    contextLabel: "Received message or situation (optional)",
+    contextHelp: "Context improves the rewrite but is not required",
+    draftLabel: "Message to rewrite",
+    draftHelp: "Meaning, tone, names, and commitments should be preserved",
+    contextPlaceholder: "Add the message or situation if relevant…",
+    draftPlaceholder: "Paste the message you want to make clearer…",
+    submitLabel: "Rewrite in my voice",
+    resultTitle: "A clearer version with the same intent",
+    revisionLabel: "Context-aware rewrite",
+    contextRequired: false,
+    draftRequired: true,
+  },
+  predict: {
+    contextLabel: "Received message or situation (optional)",
+    contextHelp: "Add what prompted your message when it matters",
+    draftLabel: "Message to perspective-check",
+    draftHelp: "Readings are estimates, never claims about another mind",
+    contextPlaceholder: "Add the preceding message or situation…",
+    draftPlaceholder: "Paste the message whose possible readings you want to explore…",
+    submitLabel: "Explore possible readings",
+    resultTitle: "How this message could be interpreted",
+    revisionLabel: "Optional lower-risk revision",
+    contextRequired: false,
+    draftRequired: true,
+  },
+  compare: {
+    contextLabel: "Received message or situation (optional)",
+    contextHelp: "Add the context that should shape each version",
+    draftLabel: "Your message or core intent",
+    draftHelp: "Merlin will compare warmer, more direct, and more concise versions",
+    contextPlaceholder: "Add the preceding message or situation…",
+    draftPlaceholder: "Paste your draft or describe the message you want to send…",
+    submitLabel: "Compare versions",
+    resultTitle: "Different tones, one underlying intent",
+    revisionLabel: "Selected version",
+    contextRequired: false,
+    draftRequired: true,
+  },
+};
 
 initialize();
 
 function initialize() {
   bindEvents();
+  renderStudioMode();
   updateWelcomeAction();
   initReasoningLab();
 }
@@ -279,6 +440,10 @@ function bindEvents() {
   elements.tone.addEventListener("change", () => {
     state.caseData.desiredTone = elements.tone.value;
     persistWorkspace();
+    invalidateCommunicationCoach(
+      "Tone changed. Run the Studio tool again to use the new preference.",
+    );
+    renderCoachContextSummary();
     scheduleContextUpdate("Tone changed. The response updated in place.");
   });
   elements.goals.forEach((input) => {
@@ -286,11 +451,16 @@ function bindEvents() {
       if (!input.checked) return;
       state.caseData.currentGoal = input.value;
       persistWorkspace();
+      invalidateCommunicationCoach(
+        "Goal changed. Run the Studio tool again to use the new goal.",
+      );
+      renderCoachContextSummary();
       scheduleContextUpdate("Goal changed. The response updated in place.");
     });
   });
   elements.incoming.addEventListener("input", () => {
     state.caseData.incoming.text = elements.incoming.value;
+    elements.coachReceived.value = elements.incoming.value;
     persistWorkspace();
   });
   elements.timeline.addEventListener("change", selectTimelineContext);
@@ -374,6 +544,27 @@ function bindEvents() {
   elements.confirmReview.addEventListener("click", confirmReview);
   elements.responseOptions.addEventListener("click", chooseResponseOption);
   elements.copyDraft.addEventListener("click", copyDraft);
+  elements.communicationCoachForm.addEventListener(
+    "submit",
+    runCommunicationCoach,
+  );
+  elements.studioModePicker.addEventListener("click", selectStudioMode);
+  elements.studioAlternatives.addEventListener(
+    "click",
+    selectStudioAlternative,
+  );
+  elements.coachReceived.addEventListener("input", updateCoachReceivedMessage);
+  elements.coachDraft.addEventListener("input", updateCoachDraft);
+  elements.loadCoachSample.addEventListener("click", loadCommunicationCoachSample);
+  elements.useCoachRevision.addEventListener("click", useCommunicationCoachRevision);
+  elements.copyCoachRevision.addEventListener(
+    "click",
+    copyCommunicationCoachRevision,
+  );
+  elements.ignoreCoachSuggestion.addEventListener(
+    "click",
+    ignoreCommunicationCoachSuggestion,
+  );
   elements.privacy.addEventListener("click", () =>
     elements.privacyDialog.showModal(),
   );
@@ -458,12 +649,15 @@ function enterWorkspace(caseData, kind) {
   state.selectedPersonId =
     state.caseData.incoming.senderPersonId || relationshipPeople()[0]?.id || null;
   state.result = null;
+  state.coachResult = null;
+  state.studioMode = state.caseData.communicationCoach?.mode || "review";
   state.reviews = {};
   state.reviewConfirmed = false;
   state.deleteArmed = false;
   state.editingConnectionId = null;
   state.editingCommitmentId = null;
   elements.welcome.hidden = true;
+  elements.reasoningLab.hidden = true;
   elements.product.hidden = false;
   hydrateWorkspace();
   const hasPeople = relationshipPeople().length > 0;
@@ -480,6 +674,7 @@ function showWelcome() {
   clearTimeout(state.updateTimer);
   elements.product.hidden = true;
   elements.welcome.hidden = false;
+  elements.reasoningLab.hidden = false;
   elements.sessionLabel.textContent = "Local-first · zero cost";
   elements.error.textContent = "";
   updateWelcomeAction();
@@ -488,6 +683,13 @@ function showWelcome() {
 function hydrateWorkspace() {
   renderSenderOptions();
   elements.incoming.value = state.caseData.incoming.text || "";
+  elements.coachReceived.value = state.caseData.incoming.text || "";
+  elements.coachDraft.value =
+    state.caseData.communicationCoach?.senderId ===
+    state.caseData.incoming.senderPersonId
+      ? state.caseData.communicationCoach.draftReply || ""
+      : "";
+  renderStudioMode();
   elements.tone.value = state.caseData.desiredTone || "warm";
   elements.goals.forEach((input) => {
     input.checked = input.value === state.caseData.currentGoal;
@@ -519,12 +721,17 @@ function renderWorkspace() {
   renderPeopleDirectory();
   renderConnectionList();
   renderSelectedProfile();
+  renderCoachContextSummary();
   updateReviewState();
   elements.analyse.disabled = relationshipPeople().length === 0;
 }
 
 function showPanel(view) {
-  if (!["situation", "people", "interpretation", "action"].includes(view)) {
+  if (
+    !["situation", "people", "interpretation", "action", "coach"].includes(
+      view,
+    )
+  ) {
     return;
   }
   const scrollPosition = window.scrollY;
@@ -537,6 +744,10 @@ function showPanel(view) {
   elements.panels.forEach((panel) => {
     panel.hidden = panel.dataset.panel !== view;
   });
+  if (view === "coach") {
+    elements.coachReceived.value = state.caseData?.incoming?.text || "";
+    renderCoachContextSummary();
+  }
   requestAnimationFrame(() => {
     const maximum = Math.max(
       0,
@@ -575,6 +786,22 @@ function normalizeCaseData(caseData) {
     typeof normalized.patternEvidenceAdjustments === "object"
       ? normalized.patternEvidenceAdjustments
       : {};
+  normalized.communicationCoach =
+    normalized.communicationCoach &&
+    typeof normalized.communicationCoach === "object"
+      ? normalized.communicationCoach
+      : {
+          senderId: normalized.incoming?.senderPersonId || "",
+          draftReply: "",
+          mode: "review",
+        };
+  if (
+    !["draft", "reply", "review", "rewrite", "predict", "compare"].includes(
+      normalized.communicationCoach.mode,
+    )
+  ) {
+    normalized.communicationCoach.mode = "review";
+  }
   normalized.people.forEach((person) => {
     person.communicationNotes = Array.isArray(person.communicationNotes)
       ? person.communicationNotes
@@ -1607,6 +1834,15 @@ function changeSender() {
   const senderId = elements.sender.value;
   state.caseData.incoming.senderPersonId = senderId;
   state.selectedPersonId = senderId;
+  const existingCoach = state.caseData.communicationCoach || {};
+  state.caseData.communicationCoach = {
+    senderId,
+    draftReply:
+      existingCoach.senderId === senderId ? existingCoach.draftReply || "" : "",
+    mode: state.studioMode,
+  };
+  elements.coachDraft.value = state.caseData.communicationCoach.draftReply;
+  elements.coachReceived.value = state.caseData.incoming.text || "";
   state.caseData.selectedSituationIds = state.caseData.situations
     .filter(
       (situation) =>
@@ -1619,6 +1855,9 @@ function changeSender() {
   cancelSituationEdit();
   closeCommitmentForm();
   renderWorkspace();
+  invalidateCommunicationCoach(
+    "Relationship changed. The previous Studio result was cleared.",
+  );
   persistWorkspace();
   scheduleContextUpdate(
     "Sender changed. Context from other relationships was excluded.",
@@ -2187,6 +2426,10 @@ function selectTimelineContext(event) {
   state.caseData.selectedSituationIds = [...selected];
   state.reviewConfirmed = false;
   renderTimeline();
+  renderCoachContextSummary();
+  invalidateCommunicationCoach(
+    "Timeline context changed. Run the Studio tool again to use the new evidence.",
+  );
   persistWorkspace();
   updateReviewState();
   scheduleContextUpdate(
@@ -2895,6 +3138,10 @@ function updateProfile() {
   state.reviewConfirmed = false;
   updateReviewState();
   if (person.id === elements.sender.value) {
+    renderCoachContextSummary();
+    invalidateCommunicationCoach(
+      "Relationship profile changed. Run the Studio tool again to use it.",
+    );
     scheduleContextUpdate(
       "Relationship context changed. Closeness and trust stayed independent.",
     );
@@ -3296,6 +3543,344 @@ function chooseResponseOption(event) {
   showToast(`${option.label} selected. The response is still yours to edit.`);
 }
 
+function selectStudioMode(event) {
+  const button = event.target.closest("button[data-studio-mode]");
+  if (!button || !STUDIO_MODES[button.dataset.studioMode]) return;
+  state.studioMode = button.dataset.studioMode;
+  if (state.caseData) {
+    state.caseData.communicationCoach = {
+      senderId: elements.sender.value,
+      draftReply: elements.coachDraft.value,
+      mode: state.studioMode,
+    };
+    persistWorkspace();
+  }
+  invalidateCommunicationCoach(
+    "Studio tool changed. Your inputs were kept; run Merlin when ready.",
+  );
+  renderStudioMode();
+}
+
+function renderStudioMode() {
+  const config = STUDIO_MODES[state.studioMode] || STUDIO_MODES.review;
+  const showContextField = ["draft", "reply", "review"].includes(
+    state.studioMode,
+  );
+  elements.studioModeButtons.forEach((button) => {
+    const active = button.dataset.studioMode === state.studioMode;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  elements.studioContextInputLabel.textContent = config.contextLabel;
+  elements.studioContextInputHelp.textContent = config.contextHelp;
+  elements.studioDraftInputLabel.textContent = config.draftLabel;
+  elements.studioDraftInputHelp.textContent = config.draftHelp;
+  elements.coachReceived.placeholder = config.contextPlaceholder;
+  elements.coachDraft.placeholder = config.draftPlaceholder;
+  elements.coachReceived.required = config.contextRequired;
+  elements.coachDraft.required = config.draftRequired;
+  elements.studioContextField.hidden = !showContextField;
+  elements.coachInputGrid.classList.toggle(
+    "studio-single-input",
+    !showContextField,
+  );
+  elements.loadCoachSample.hidden = state.studioMode !== "review";
+  elements.studioSubmitLabel.textContent = config.submitLabel;
+  elements.studioResultTitle.textContent = config.resultTitle;
+  elements.studioRevisionLabel.textContent = config.revisionLabel;
+}
+
+function selectStudioAlternative(event) {
+  const button = event.target.closest("button[data-studio-alternative]");
+  if (!button || !state.coachResult?.alternatives) return;
+  const alternative = state.coachResult.alternatives.find(
+    (item) => item.id === button.dataset.studioAlternative,
+  );
+  if (!alternative) return;
+  elements.coachRevision.value = alternative.text;
+  elements.studioAlternatives
+    .querySelectorAll("button[data-studio-alternative]")
+    .forEach((item) => item.classList.toggle("active", item === button));
+  elements.coachStatus.textContent =
+    `${alternative.label} version selected. Your original draft is unchanged.`;
+}
+
+function renderCoachContextSummary() {
+  if (!elements.coachContextSummary || !state.caseData) return;
+  const senderId = elements.sender.value || state.caseData.incoming.senderPersonId;
+  const person = state.caseData.people.find((item) => item.id === senderId);
+  const selectedSituationCount = state.caseData.situations.filter(
+    (situation) =>
+      state.caseData.selectedSituationIds.includes(situation.id) &&
+      situation.personIds.includes("person-you") &&
+      situation.personIds.includes(senderId),
+  ).length;
+  const selectedGoalInput = elements.goals.find((input) => input.checked);
+  const selectedGoalLabel =
+    selectedGoalInput?.closest("label")?.querySelector("span")?.textContent?.trim() ||
+    "Goal not set";
+  const items = [
+    ["Relationship", person?.displayName || "Select a person"],
+    ["Goal", selectedGoalLabel],
+    ["Tone", elements.tone.value || "warm"],
+    [
+      "Timeline",
+      `${selectedSituationCount} selected ${selectedSituationCount === 1 ? "event" : "events"}`,
+    ],
+    [
+      "Boundary",
+      person?.boundaries?.filter(Boolean).length ? "Profile boundary available" : "None recorded",
+    ],
+  ];
+  elements.coachContextSummary.innerHTML = items
+    .map(
+      ([label, value]) =>
+        `<span class="coach-context-item"><strong>${escapeHtml(label)}</strong>${escapeHtml(value)}</span>`,
+    )
+    .join("");
+}
+
+function updateCoachReceivedMessage() {
+  const value = elements.coachReceived.value;
+  state.caseData.incoming.text = value;
+  elements.incoming.value = value;
+  invalidateCommunicationCoach(
+    "Received message changed. Run the Studio tool again when your draft is ready.",
+  );
+  persistWorkspace();
+}
+
+function updateCoachDraft() {
+  state.caseData.communicationCoach = {
+    senderId: elements.sender.value,
+    draftReply: elements.coachDraft.value,
+    mode: state.studioMode,
+  };
+  invalidateCommunicationCoach(
+    "Draft changed. Run the Studio tool again to review this version.",
+  );
+  persistWorkspace();
+}
+
+async function loadCommunicationCoachSample() {
+  setLoading(true);
+  elements.coachError.textContent = "";
+  try {
+    const response = await fetch("/api/communication-studio-sample");
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(payload.error || "The sample could not be loaded.");
+    }
+    elements.coachReceived.value = payload.sample.receivedMessage;
+    elements.incoming.value = payload.sample.receivedMessage;
+    elements.coachDraft.value = payload.sample.draftReply;
+    state.caseData.incoming.text = payload.sample.receivedMessage;
+    state.caseData.communicationCoach = {
+      senderId: elements.sender.value,
+      draftReply: payload.sample.draftReply,
+      mode: "review",
+    };
+    state.studioMode = "review";
+    renderStudioMode();
+    invalidateCommunicationCoach("");
+    elements.coachStatus.textContent =
+      "Fictional test case loaded. Your relationship profile and selected timeline remain in context.";
+    persistWorkspace();
+    elements.coachDraft.focus({ preventScroll: true });
+  } catch (error) {
+    elements.coachError.textContent =
+      error.message || "The sample could not be loaded.";
+  } finally {
+    setLoading(false);
+  }
+}
+
+async function runCommunicationCoach(event) {
+  event.preventDefault();
+  const senderId = elements.sender.value;
+  const mode = STUDIO_MODES[state.studioMode]
+    ? state.studioMode
+    : "review";
+  const modeConfig = STUDIO_MODES[mode];
+  const receivedMessage = ["draft", "reply", "review"].includes(mode)
+    ? elements.coachReceived.value.trim()
+    : "";
+  const draftReply = elements.coachDraft.value.trim();
+  elements.coachError.textContent = "";
+  elements.coachStatus.textContent = "";
+
+  if (!senderId) {
+    elements.coachError.textContent =
+      "Select or add a relationship before using Communication Studio.";
+    showPanel("people");
+    return;
+  }
+  if (modeConfig.contextRequired && receivedMessage.length < 2) {
+    elements.coachError.textContent =
+      mode === "draft"
+        ? "Describe what you want to communicate."
+        : "Add the message you received.";
+    elements.coachReceived.focus();
+    return;
+  }
+  if (modeConfig.draftRequired && draftReply.length < 2) {
+    elements.coachError.textContent =
+      mode === "review"
+        ? "Add the reply you are considering."
+        : "Add the message you want Merlin to work with.";
+    elements.coachDraft.focus();
+    return;
+  }
+
+  const requestVersion = ++state.requestVersion;
+  setLoading(true);
+  elements.runCoach.disabled = true;
+  try {
+    const response = await fetch("/api/communication-studio", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        case_data: state.caseData,
+        sender_id: senderId,
+        received_message: receivedMessage,
+        draft_reply: draftReply,
+        selected_situation_ids: state.caseData.selectedSituationIds,
+        goal: selectedGoal(),
+        desired_tone: elements.tone.value,
+        mode,
+      }),
+    });
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(payload.error || "Merlin could not process this message.");
+    }
+    if (requestVersion !== state.requestVersion) return;
+    state.coachResult = payload.result;
+    state.caseData.communicationCoach = {
+      senderId,
+      draftReply,
+      mode: state.studioMode,
+    };
+    renderCommunicationCoachResult();
+    persistWorkspace();
+    requestAnimationFrame(() => {
+      elements.coachResults.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  } catch (error) {
+    if (requestVersion !== state.requestVersion) return;
+    elements.coachError.textContent =
+      error.message || "Merlin could not process this message.";
+  } finally {
+    if (requestVersion === state.requestVersion) {
+      elements.runCoach.disabled = false;
+      setLoading(false);
+    }
+  }
+}
+
+function renderCommunicationCoachResult() {
+  const result = state.coachResult;
+  if (!result) {
+    elements.coachResults.hidden = true;
+    return;
+  }
+  elements.coachResults.hidden = false;
+  elements.coachChecks.innerHTML = result.checks.length
+    ? result.checks
+        .map(
+          (check) => `<div class="coach-check">
+            <strong>${escapeHtml(check.label)}</strong>
+            <small>${escapeHtml(check.detail)} · ${escapeHtml(check.confidence)} confidence</small>
+          </div>`,
+        )
+        .join("")
+    : `<div class="coach-checks-empty">No high-confidence omission or mismatch found in this local check.</div>`;
+  elements.coachObservation.textContent = result.observation;
+  elements.coachRelevantContext.innerHTML = result.relevantContext
+    .map(
+      (item) => `<li>
+        ${escapeHtml(item.text)}
+        <span>${escapeHtml(item.source)} · ${escapeHtml(item.kind)}</span>
+      </li>`,
+    )
+    .join("");
+  elements.coachPossibleInterpretation.textContent =
+    result.possibleInterpretation.text;
+  elements.coachPossibleConfidence.textContent =
+    `${result.possibleInterpretation.confidence} confidence`;
+  elements.coachAlternativeInterpretation.textContent =
+    result.alternativeInterpretation.text;
+  elements.coachAlternativeConfidence.textContent =
+    `${result.alternativeInterpretation.confidence} confidence`;
+  elements.coachConfidence.textContent = result.confidence.label;
+  elements.coachConfidenceRationale.textContent = result.confidence.rationale;
+  elements.coachSuggestedAdjustment.textContent = result.suggestedAdjustment;
+  elements.coachRevision.value = result.revisedMessage;
+  const alternatives = Array.isArray(result.alternatives)
+    ? result.alternatives
+    : [];
+  elements.studioComparison.hidden = alternatives.length === 0;
+  elements.studioAlternatives.innerHTML = alternatives
+    .map(
+      (alternative, index) => `<button
+        class="studio-alternative${index === 0 ? " active" : ""}"
+        type="button"
+        data-studio-alternative="${escapeHtml(alternative.id)}"
+      >
+        <strong>${escapeHtml(alternative.label)}</strong>
+        <p>${escapeHtml(alternative.text)}</p>
+        <small>${escapeHtml(alternative.note)}</small>
+      </button>`,
+    )
+    .join("");
+  elements.coachStatus.textContent =
+    "Review complete. Your original draft has not been changed.";
+}
+
+function useCommunicationCoachRevision() {
+  const revision = elements.coachRevision.value.trim();
+  if (!revision) return;
+  elements.coachDraft.value = revision;
+  state.caseData.communicationCoach = {
+    senderId: elements.sender.value,
+    draftReply: revision,
+    mode: state.studioMode,
+  };
+  persistWorkspace();
+  elements.coachStatus.textContent =
+    "Revision placed in your draft. It is still editable and has not been sent.";
+  showToast("Revision accepted into your draft. Nothing was sent.");
+}
+
+async function copyCommunicationCoachRevision() {
+  try {
+    await navigator.clipboard.writeText(elements.coachRevision.value);
+    elements.copyCoachRevision.textContent = "Copied";
+    setTimeout(() => {
+      elements.copyCoachRevision.textContent = "Copy revision";
+    }, 1400);
+  } catch {
+    elements.copyCoachRevision.textContent = "Select and copy";
+    elements.coachRevision.focus();
+    elements.coachRevision.select();
+  }
+}
+
+function ignoreCommunicationCoachSuggestion() {
+  state.coachResult = null;
+  elements.coachResults.hidden = true;
+  elements.coachStatus.textContent =
+    "Suggestion ignored. Your proposed reply was left exactly as written.";
+  elements.coachDraft.focus({ preventScroll: true });
+}
+
+function invalidateCommunicationCoach(message = "") {
+  if (!state.coachResult) return;
+  state.coachResult = null;
+  elements.coachResults.hidden = true;
+  if (message) elements.coachStatus.textContent = message;
+}
+
 function renderInterpretation(claim) {
   const review = state.reviews[claim.id] || "unreviewed";
   return `<div class="claim-row" data-claim-id="${escapeHtml(claim.id)}" data-review="${escapeHtml(review)}">
@@ -3506,6 +4091,8 @@ function initReasoningLab() {
       }">${escapeHtml(mode.label)}</button>`,
   ).join("");
 
+  updateReasoningLabModeNote();
+
   elements.reasoningLabModes.addEventListener("click", (event) => {
     const button = event.target.closest(".reasoning-lab-mode");
     if (!button) return;
@@ -3515,9 +4102,25 @@ function initReasoningLab() {
       child.classList.toggle("active", active);
       child.setAttribute("aria-checked", String(active));
     });
+    updateReasoningLabModeNote();
+    elements.reasoningLabSource.hidden = true;
+    elements.reasoningLabFocus.hidden = true;
+    elements.reasoningLabResult.hidden = true;
+    elements.reasoningLabFollowup.hidden = true;
   });
 
   elements.reasoningLabForm.addEventListener("submit", submitReasoningLab);
+}
+
+function updateReasoningLabModeNote() {
+  const selected =
+    REASONING_LAB_MODES.find((mode) => mode.id === state.reasoningLabMode) ||
+    REASONING_LAB_MODES[0];
+  elements.reasoningLabModeNote.textContent = selected.description;
+  const submitLabel = elements.reasoningLabSubmit.querySelector("span");
+  if (submitLabel && !elements.reasoningLabSubmit.disabled) {
+    submitLabel.textContent = `Generate ${selected.label} card`;
+  }
 }
 
 async function submitReasoningLab(event) {
@@ -3570,6 +4173,14 @@ function renderReasoningLabResult(result, meta) {
   elements.reasoningLabSource.textContent =
     sourceLabels[meta?.source] || "Local deterministic demo";
   elements.reasoningLabSource.hidden = false;
+
+  const selectedMode =
+    REASONING_LAB_MODES.find((mode) => mode.id === state.reasoningLabMode) ||
+    REASONING_LAB_MODES[0];
+  elements.reasoningLabFocusMode.textContent = `${selectedMode.label} lens`;
+  elements.reasoningLabFocusTitle.textContent = result.title;
+  elements.reasoningLabFocusGoal.textContent = result.understood_goal;
+  elements.reasoningLabFocus.hidden = false;
 
   elements.reasoningLabObservations.innerHTML =
     result.observations

@@ -82,6 +82,10 @@ The product’s central rule is:
 
 > An AI-generated interpretation must never automatically become trusted memory.
 
+Its reasoning-lens rule is:
+
+> Changing the cognitive operation must not silently change the reported facts.
+
 Its capture principle is:
 
 > Capture naturally. Structure invisibly. Ask only when the answer matters.
@@ -96,6 +100,12 @@ declared scenario can supply transparent priors and likelihoods; personal
 workspaces use a conservative local rule set only after the user maps a
 connection and records at least two multi-person events. The generic path never
 introduces a romantic hypothesis without an explicit scenario model.
+
+The Live Reasoning panel makes this architecture directly testable. Across
+Think through, Pause & parse, Clarity, Reflect, and Challenge, the observation
+layer stays fixed while the lens goal, competing readings, unknowns, and next
+question change. Communication Studio then applies the selected context to six
+authorship-preserving tools: Draft, Reply, Review, Rewrite, Predict, and Compare.
 
 ## Privacy and cost
 

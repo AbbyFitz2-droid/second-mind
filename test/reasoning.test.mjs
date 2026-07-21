@@ -59,6 +59,29 @@ test("local demo responds to the user's actual language", () => {
   assert.notDeepEqual(decision.inferences, friendship.inferences);
 });
 
+test("five lenses hold evidence constant while changing the cognitive operation", () => {
+  const input =
+    "My manager said we can revisit this later. I think they are dismissing me, and I am wondering whether I should raise it again.";
+  const results = ["think", "pause", "clarity", "reflect", "challenge"].map(
+    (mode) => demoResponse(mode, input),
+  );
+
+  for (const result of results.slice(1)) {
+    assert.deepEqual(result.observations, results[0].observations);
+  }
+
+  assert.equal(new Set(results.map((result) => result.title)).size, 5);
+  assert.equal(new Set(results.map((result) => result.understood_goal)).size, 5);
+  assert.equal(
+    new Set(results.map((result) => JSON.stringify(result.alternatives))).size,
+    5,
+  );
+  assert.equal(
+    new Set(results.map((result) => result.reflection_question)).size,
+    5,
+  );
+});
+
 test("claim parser separates event, interpretation, and decision", () => {
   const claims = parseClaims(
     "My manager said we can revisit this later. I think they are dismissing me, and I am wondering whether I should quit.",

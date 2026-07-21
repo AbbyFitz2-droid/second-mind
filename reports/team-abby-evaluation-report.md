@@ -1,6 +1,6 @@
 # Team Abby — Second Mind evaluation report
 
-Generated: 2026-07-20T19:52:10.061Z
+Generated: 2026-07-21T20:33:57.950Z
 
 ## Summary
 
@@ -15,8 +15,8 @@ Generated: 2026-07-20T19:52:10.061Z
 | Relationship isolation | 100% |
 | Response diversity | 100% |
 | Zero-cost compliance | 100% |
-| Median latency | 0.139 ms |
-| P95 latency | 0.926 ms |
+| Median latency | 0.369 ms |
+| P95 latency | 6.159 ms |
 
 ## Intent coverage
 

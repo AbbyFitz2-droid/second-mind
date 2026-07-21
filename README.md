@@ -50,11 +50,23 @@ by the user.
   closeness and trust remain independent dimensions.
 - **Epistemic separation:** observations, interpretations, alternatives,
   confidence, and possible actions are distinct.
+- **Invariant evidence across lenses:** Think through, Pause & parse, Clarity,
+  Reflect, and Challenge keep the reported facts fixed while changing the
+  cognitive operation applied to them. A regression test enforces the
+  distinction instead of relying on prompt wording alone.
 - **Context comparison:** an isolated response appears beside a response using
   the exact relationship and situation context selected by the user.
 - **Perspective Simulation:** rehearses literal meaning, a possible emotional
   interpretation, and misunderstanding risk while labelling the result as an
   estimate rather than access to another person's mind.
+- **Communication Studio:** six context-aware tools—Draft, Reply, Review,
+  Rewrite, Predict, and Compare—analyse communication before optionally
+  generating editable wording. The supplied draft is never overwritten or
+  sent automatically.
+- **Local writing mechanics:** Rewrite and Review identify high-confidence
+  spelling, repeated-word, spacing, punctuation, and selected clarity issues.
+  Browser spellcheck remains enabled for words outside the deterministic local
+  correction set.
 - **Merlin pattern view:** competing explanations, event-linked illustrative
   Bayesian updates, and editable evidence weighting remain visible and
   challengeable.
@@ -74,7 +86,7 @@ add distinct situations manually. Personal structured data is stored in the
 current browser. Source screenshots may be retained separately in local
 IndexedDB and can be removed with their import or from the privacy panel.
 
-The core interface has four connected areas:
+The core interface has five connected areas:
 
 - **Situation:** a screenshot inbox, evidence-linked event timeline, and
   commitment workspace. Promises, confirmations, delays, and completed outcomes
@@ -87,6 +99,11 @@ The core interface has four connected areas:
 - **Action:** an honest comparison between an isolated response and one based
   on the selected context, followed by an optional Perspective Simulation of
   how the chosen response might be read.
+- **Studio:** original composition, incoming-message replies, draft review,
+  voice-preserving rewrites, uncertain recipient-perspective rehearsal, and
+  tone comparison. Every suggestion shows the observation, relevant context,
+  plausible and alternative interpretations, confidence, adjustment, and
+  editable result.
 
 This is intentionally not a general-purpose chatbot, personality profiler,
 emotion detector, relationship judge, or decision-making agent.
@@ -141,6 +158,38 @@ enabled, are made by the local server.
 npm test
 ```
 
+### Test Communication Studio
+
+1. Open a fictional demonstration or a personal relationship workspace.
+2. Select **Studio** in the five-part workspace navigation.
+3. Choose **Review**, then click **Load medical example**.
+4. Click **Review my draft**. Merlin should flag the medical disclosure and
+   abrupt topic change, distinguish two possible readings from fact, cite the
+   selected relationship context, and preserve the app news in its revision.
+5. Edit the revision, copy it, ignore it, or explicitly choose **Use this
+   revision**. No action sends a message.
+6. Try **Draft**, **Reply**, **Rewrite**, **Predict**, and **Compare**. Compare
+   exposes warmer, more direct, and more concise alternatives without changing
+   the user's original text.
+7. In **Rewrite**, enter `I am prepareed and ready tp take on the
+   responsibility.` Merlin should identify both likely typos, preserve the
+   original draft, and offer `I am prepared and ready to take on the
+   responsibility.` The optional reasoning trail remains under **Why Merlin
+   suggested this**.
+
+Implementation files for this slice:
+
+- `lib/communication-studio.mjs` — shared deterministic Studio analysis and
+  generation engine.
+- `lib/writing-mechanics.mjs` — local, testable mechanics and optional clarity
+  checks used before contextual interpretation.
+- `server.mjs` — local Studio and fictional-sample API routes.
+- `public/index.html`, `public/app.js`, and `public/context.css` — Studio UI,
+  interactions, and responsive styling.
+- `test/communication-studio.test.mjs` and `test/writing-mechanics.test.mjs` —
+  medical example, Rewrite regression, epistemic safeguards, mode behavior,
+  and agency-control coverage.
+
 ## Team Abby evaluation pipeline
 
 Run the complete synthetic input → context retrieval → structured reasoning →
@@ -171,13 +220,15 @@ Browser
   ├─ source-linked commitments and issues
   ├─ explicit multi-person events
   ├─ explicit context and goal selection
-  └─ POST /api/context-reason
+  ├─ POST /api/context-reason
+  └─ POST /api/communication-studio
         ↓
 Local Node server
   ├─ exact person/situation ID retrieval
   ├─ cross-relationship isolation
   ├─ reusable declared or conservative inferred pattern model
   ├─ transparent evidence weighting
+  ├─ six-mode Communication Studio pipeline
   ├─ deterministic zero-cost comparison
   └─ epistemically separated result
 ```
@@ -255,6 +306,12 @@ schema, and the result badge switches from "Local deterministic demo" to
 "Live · gpt-5.6-terra" — same interface, same schema, genuinely live model
 output. This is the most direct way to see GPT-5.6 reason inside the running
 product rather than read about it.
+
+The five lenses deliberately do **not** rewrite the reported evidence. Their
+titles, goals, alternative readings, unresolved questions, and reflection
+questions change while the observation layer remains invariant. The interface
+makes that contract visible as “Evidence held constant,” so a change of lens
+cannot quietly change the facts it is reasoning from.
 
 See the current official documentation:
 

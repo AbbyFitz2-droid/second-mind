@@ -17,6 +17,10 @@ import {
   createDemoCase,
   createPatternDemoCase,
 } from "./lib/context.mjs";
+import {
+  analyzeCommunicationDraft,
+  createCommunicationCoachSample,
+} from "./lib/communication-studio.mjs";
 
 const ROOT = fileURLToPath(new URL(".", import.meta.url));
 const PUBLIC_DIR = join(ROOT, "public");
@@ -126,8 +130,29 @@ const server = createServer(async (request, response) => {
       });
     }
 
+    if (
+      request.method === "GET" &&
+      request.url === "/api/communication-studio-sample"
+    ) {
+      return json(response, 200, {
+        sample: createCommunicationCoachSample(),
+        meta: {
+          fictional: true,
+          ephemeral: true,
+          paid_api_enabled: false,
+        },
+      });
+    }
+
     if (request.method === "POST" && request.url === "/api/context-reason") {
       return await handleContextReason(request, response);
+    }
+
+    if (
+      request.method === "POST" &&
+      request.url === "/api/communication-studio"
+    ) {
+      return await handleCommunicationCoach(request, response);
     }
 
     if (request.method === "POST" && request.url === "/api/reason") {
@@ -333,6 +358,82 @@ async function handleContextReason(request, response) {
       selectedSituationIds,
       goal,
       desiredTone,
+    }),
+  });
+}
+
+async function handleCommunicationCoach(request, response) {
+  const body = await readJson(request, MAX_JSON_BYTES * 2);
+  const caseData =
+    body.case_data && typeof body.case_data === "object"
+      ? body.case_data
+      : createDemoCase();
+  const receivedMessage =
+    typeof body.received_message === "string"
+      ? body.received_message.trim().slice(0, 4_000)
+      : "";
+  const draftReply =
+    typeof body.draft_reply === "string"
+      ? body.draft_reply.trim().slice(0, 4_000)
+      : "";
+  const senderId =
+    typeof body.sender_id === "string"
+      ? body.sender_id.slice(0, 128)
+      : caseData.incoming?.senderPersonId;
+  const selectedSituationIds = Array.isArray(body.selected_situation_ids)
+    ? body.selected_situation_ids
+        .filter((item) => typeof item === "string")
+        .slice(0, 24)
+    : [];
+  const goal = typeof body.goal === "string" ? body.goal : "warm_boundary";
+  const desiredTone =
+    typeof body.desired_tone === "string" ? body.desired_tone : "warm";
+  const allowedModes = new Set([
+    "draft",
+    "reply",
+    "review",
+    "rewrite",
+    "predict",
+    "compare",
+  ]);
+  const mode = allowedModes.has(body.mode) ? body.mode : "review";
+
+  if (["draft", "reply", "review"].includes(mode) && receivedMessage.length < 2) {
+    return json(response, 400, {
+      error:
+        mode === "draft"
+          ? "Describe what you want to communicate."
+          : "Add the received message before continuing.",
+    });
+  }
+  if (["review", "rewrite", "predict", "compare"].includes(mode) && draftReply.length < 2) {
+    return json(response, 400, {
+      error: "Add your proposed reply before asking Merlin to coach it.",
+    });
+  }
+  if (
+    !Array.isArray(caseData.people) ||
+    !Array.isArray(caseData.situations) ||
+    !Array.isArray(caseData.claims)
+  ) {
+    return json(response, 400, { error: "The relationship context is incomplete." });
+  }
+  if (!caseData.people.some((person) => person.id === senderId)) {
+    return json(response, 400, {
+      error: "Select a relationship before coaching the reply.",
+    });
+  }
+
+  return json(response, 200, {
+    result: analyzeCommunicationDraft({
+      caseData,
+      senderId,
+      receivedMessage,
+      draftReply,
+      selectedSituationIds,
+      goal,
+      desiredTone,
+      mode,
     }),
   });
 }

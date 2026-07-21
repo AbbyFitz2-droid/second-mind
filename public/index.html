@@ -110,6 +110,8 @@
             aria-label="Reasoning mode"
           ></div>
 
+          <p class="reasoning-lab-mode-note" id="reasoningLabModeNote"></p>
+
           <div class="reasoning-lab-actions">
             <button class="reason-button" id="reasoningLabSubmit" type="submit">
               <span>Generate reasoning card</span>
@@ -119,6 +121,26 @@
           </div>
           <p class="error-message" id="reasoningLabError" role="alert"></p>
         </form>
+
+        <section
+          class="reasoning-lab-focus"
+          id="reasoningLabFocus"
+          aria-live="polite"
+          hidden
+        >
+          <div class="reasoning-lab-focus-heading">
+            <div>
+              <p class="eyebrow" id="reasoningLabFocusMode"></p>
+              <h3 id="reasoningLabFocusTitle"></h3>
+            </div>
+            <span class="reasoning-invariant-badge">Evidence held constant</span>
+          </div>
+          <p id="reasoningLabFocusGoal"></p>
+          <small>
+            The reported facts stay fixed across lenses. The cognitive operation,
+            competing readings, unknowns, and next question change.
+          </small>
+        </section>
 
         <div
           class="interpretation-grid reasoning-lab-result"
@@ -289,6 +311,16 @@
             <span>04</span>
             <strong>Action</strong>
             <small>Compare responses</small>
+          </button>
+          <button
+            class="context-tab"
+            data-view="coach"
+            type="button"
+            aria-selected="false"
+          >
+            <span>05</span>
+            <strong>Studio</strong>
+            <small>Communicate with context</small>
           </button>
         </nav>
 
@@ -1066,6 +1098,173 @@
             fit, but it cannot establish an unspoken motive. The response remains
             yours to edit, use, or ignore.
           </p>
+        </div>
+
+        <div class="context-panel" data-panel="coach" hidden>
+          <div class="panel-title-row coach-title-row">
+            <div>
+              <p class="panel-kicker">COMMUNICATION STUDIO</p>
+              <h2>Context first. Your words remain yours.</h2>
+              <p class="coach-intro">
+                Draft, reply, review, rewrite, predict, or compare. Merlin uses
+                the selected relationship, goal, boundaries, and timeline before
+                suggesting language.
+              </p>
+            </div>
+            <span class="source-badge">Local · zero cost</span>
+          </div>
+
+          <div class="coach-context-strip" id="coachContextSummary"></div>
+
+          <div class="studio-mode-picker" id="studioModePicker" role="tablist" aria-label="Communication Studio tools">
+            <button type="button" data-studio-mode="draft" role="tab" aria-selected="false">
+              <strong>Draft</strong><small>Start a message</small>
+            </button>
+            <button type="button" data-studio-mode="reply" role="tab" aria-selected="false">
+              <strong>Reply</strong><small>Answer a message</small>
+            </button>
+            <button class="active" type="button" data-studio-mode="review" role="tab" aria-selected="true">
+              <strong>Review</strong><small>Check your draft</small>
+            </button>
+            <button type="button" data-studio-mode="rewrite" role="tab" aria-selected="false">
+              <strong>Rewrite</strong><small>Clarify in your voice</small>
+            </button>
+            <button type="button" data-studio-mode="predict" role="tab" aria-selected="false">
+              <strong>Predict</strong><small>Explore readings</small>
+            </button>
+            <button type="button" data-studio-mode="compare" role="tab" aria-selected="false">
+              <strong>Compare</strong><small>Test different tones</small>
+            </button>
+          </div>
+
+          <form class="coach-compose" id="communicationCoachForm">
+            <div class="coach-input-grid">
+              <label class="coach-message-field" id="studioContextField" for="coachReceivedMessage">
+                <span id="studioContextInputLabel">Received message</span>
+                <small id="studioContextInputHelp">Synced with the current situation above</small>
+                <textarea
+                  id="coachReceivedMessage"
+                  rows="8"
+                  maxlength="4000"
+                  spellcheck="true"
+                  autocapitalize="sentences"
+                  required
+                ></textarea>
+              </label>
+              <label class="coach-message-field" id="studioDraftField" for="coachDraftReply">
+                <span id="studioDraftInputLabel">Your proposed reply</span>
+                <small id="studioDraftInputHelp">Merlin will not overwrite this automatically</small>
+                <textarea
+                  id="coachDraftReply"
+                  rows="8"
+                  maxlength="4000"
+                  placeholder="Write the reply you would naturally send…"
+                  spellcheck="true"
+                  autocapitalize="sentences"
+                  required
+                ></textarea>
+              </label>
+            </div>
+            <div class="coach-actions">
+              <button class="text-button" id="loadCoachSampleButton" type="button">
+                Load medical example
+              </button>
+              <button class="reason-button" id="runCoachButton" type="submit">
+                <span id="studioSubmitLabel">Review my draft</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+            <p class="error-message" id="coachError" role="alert"></p>
+            <p class="coach-status" id="coachStatus" role="status"></p>
+          </form>
+
+          <section class="coach-results" id="coachResults" hidden>
+            <div class="coach-result-heading">
+              <div>
+                <p class="panel-kicker">MERLIN’S REVIEW</p>
+                <h3 id="studioResultTitle">A concise check before you send</h3>
+              </div>
+              <span class="source-badge">Interpretations · not facts</span>
+            </div>
+
+            <div class="coach-checks" id="coachChecks"></div>
+
+            <div class="studio-primary-analysis">
+              <article class="coach-analysis-card coach-observation-card">
+                <span>Observation</span>
+                <p id="coachObservation"></p>
+              </article>
+              <article class="coach-analysis-card">
+                <span>Suggested adjustment</span>
+                <p id="coachSuggestedAdjustment"></p>
+              </article>
+            </div>
+
+            <details class="studio-reasoning-details">
+              <summary>
+                <span>Why Merlin suggested this</span>
+                <small>Context, possible readings, alternatives, and confidence</small>
+              </summary>
+              <div class="coach-analysis-grid">
+                <article class="coach-analysis-card coach-context-card">
+                  <span>Relevant context</span>
+                  <ul id="coachRelevantContext"></ul>
+                </article>
+                <article class="coach-analysis-card">
+                  <span>Possible interpretation</span>
+                  <p id="coachPossibleInterpretation"></p>
+                  <small id="coachPossibleConfidence"></small>
+                </article>
+                <article class="coach-analysis-card">
+                  <span>Alternative interpretation</span>
+                  <p id="coachAlternativeInterpretation"></p>
+                  <small id="coachAlternativeConfidence"></small>
+                </article>
+                <article class="coach-analysis-card">
+                  <span>Confidence</span>
+                  <strong id="coachConfidence"></strong>
+                  <p id="coachConfidenceRationale"></p>
+                </article>
+              </div>
+            </details>
+
+            <section class="studio-comparison" id="studioComparison" hidden>
+              <div>
+                <span>Compare alternatives</span>
+                <small>Choose one to place it in the editable revision box</small>
+              </div>
+              <div class="studio-alternatives" id="studioAlternatives"></div>
+            </section>
+
+            <div class="coach-revision">
+              <div class="coach-revision-heading">
+                <div>
+                  <span id="studioRevisionLabel">Revised message</span>
+                  <small>Edit it here before choosing whether to use it</small>
+                </div>
+                <span class="agency-pill">Your draft stays unchanged</span>
+              </div>
+              <textarea id="coachRevisedMessage" rows="7" spellcheck="true" autocapitalize="sentences"></textarea>
+              <div class="coach-revision-actions">
+                <button class="reason-button" id="useCoachRevisionButton" type="button">
+                  <span>Use this revision</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                <button class="copy-button" id="copyCoachRevisionButton" type="button">
+                  Copy revision
+                </button>
+                <button class="text-button" id="ignoreCoachSuggestionButton" type="button">
+                  Ignore suggestion
+                </button>
+              </div>
+            </div>
+
+            <p class="agency-note coach-agency-note">
+              Merlin is checking language against user-selected evidence. It does
+              not know the recipient’s thoughts or feelings, and it never sends a
+              message for you.
+            </p>
+          </section>
         </div>
       </section>
 

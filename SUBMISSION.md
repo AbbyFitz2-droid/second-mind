@@ -132,6 +132,18 @@ Second Mind is therefore not “ChatGPT for relationships.” It is a
 privacy-conscious context and reasoning layer intended to make any later model
 interaction more grounded, legible, and subordinate to human judgment.
 
+Its five reasoning lenses also enforce a property that ordinary chat prompting
+does not: **reported evidence remains invariant when the reasoning operation
+changes**. Think through, Pause & parse, Clarity, Reflect, and Challenge can
+produce different goals, competing readings, unknowns, and next questions, but
+they cannot silently rewrite the facts. The interface exposes that contract and
+the automated suite tests it.
+
+Communication Studio carries the same discipline into action. Draft, Reply,
+Review, Rewrite, Predict, and Compare first inspect selected relationship
+context and communication risks, then offer editable language without replacing
+the user's original or claiming to know the recipient's mind.
+
 ## Technical summary
 
 ```text
@@ -148,7 +160,7 @@ Screenshot
 - Node.js server and responsive vanilla web client
 - Browser localStorage plus IndexedDB source evidence
 - Versioned JSON schemas and synthetic fixtures
-- 54 automated tests
+- 68 automated tests
 - 28/28 full-pipeline synthetic evaluations passing
 - Paid API and transcription disabled by default
 

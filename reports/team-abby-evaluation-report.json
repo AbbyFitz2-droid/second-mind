@@ -1,7 +1,7 @@
 {
   "report_id": "team-abby-context-evaluation-report-v1",
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-20T19:52:10.061Z",
+  "generated_at": "2026-07-21T20:33:57.950Z",
   "generated_by": "Team Abby",
   "execution": {
     "mode": "local_deterministic",
@@ -21,8 +21,8 @@
     "relationship_isolation": 100,
     "response_diversity": 100,
     "zero_cost_compliance": 100,
-    "median_latency_ms": 0.139,
-    "p95_latency_ms": 0.926
+    "median_latency_ms": 0.369,
+    "p95_latency_ms": 6.159
   },
   "intent_coverage": {
     "gratitude": {
@@ -114,7 +114,7 @@
       "response_options": 4,
       "recommended_option": "Receive it warmly",
       "contextual_basis_items": 3,
-      "latency_ms": 2.141,
+      "latency_ms": 6.159,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -160,7 +160,7 @@
       "response_options": 4,
       "recommended_option": "Keep it simple",
       "contextual_basis_items": 2,
-      "latency_ms": 0.563,
+      "latency_ms": 1.79,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -206,7 +206,7 @@
       "response_options": 4,
       "recommended_option": "Open up",
       "contextual_basis_items": 2,
-      "latency_ms": 0.187,
+      "latency_ms": 8.999,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -252,7 +252,7 @@
       "response_options": 4,
       "recommended_option": "Keep it private",
       "contextual_basis_items": 2,
-      "latency_ms": 0.098,
+      "latency_ms": 0.424,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -298,7 +298,7 @@
       "response_options": 4,
       "recommended_option": "Accept support",
       "contextual_basis_items": 3,
-      "latency_ms": 0.926,
+      "latency_ms": 2.156,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -344,7 +344,7 @@
       "response_options": 4,
       "recommended_option": "Appreciate the offer",
       "contextual_basis_items": 2,
-      "latency_ms": 0.171,
+      "latency_ms": 0.7,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -390,7 +390,7 @@
       "response_options": 4,
       "recommended_option": "Ask what helps",
       "contextual_basis_items": 3,
-      "latency_ms": 0.285,
+      "latency_ms": 0.697,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -436,7 +436,7 @@
       "response_options": 4,
       "recommended_option": "Acknowledge the difficulty",
       "contextual_basis_items": 2,
-      "latency_ms": 0.498,
+      "latency_ms": 2,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -482,7 +482,7 @@
       "response_options": 4,
       "recommended_option": "Clarify the concern",
       "contextual_basis_items": 2,
-      "latency_ms": 0.238,
+      "latency_ms": 0.583,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -528,7 +528,7 @@
       "response_options": 4,
       "recommended_option": "Pause before replying",
       "contextual_basis_items": 2,
-      "latency_ms": 0.137,
+      "latency_ms": 2.629,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -574,7 +574,7 @@
       "response_options": 4,
       "recommended_option": "Acknowledge and pause",
       "contextual_basis_items": 3,
-      "latency_ms": 0.398,
+      "latency_ms": 0.809,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -620,7 +620,7 @@
       "response_options": 4,
       "recommended_option": "Confirm your own limit",
       "contextual_basis_items": 2,
-      "latency_ms": 0.068,
+      "latency_ms": 0.247,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -666,7 +666,7 @@
       "response_options": 4,
       "recommended_option": "Celebrate fully",
       "contextual_basis_items": 3,
-      "latency_ms": 0.307,
+      "latency_ms": 0.978,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -712,7 +712,7 @@
       "response_options": 4,
       "recommended_option": "Celebrate fully",
       "contextual_basis_items": 2,
-      "latency_ms": 0.092,
+      "latency_ms": 0.351,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -758,7 +758,7 @@
       "response_options": 4,
       "recommended_option": "Ask for reasoning",
       "contextual_basis_items": 2,
-      "latency_ms": 0.156,
+      "latency_ms": 0.386,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -804,7 +804,7 @@
       "response_options": 4,
       "recommended_option": "Request time",
       "contextual_basis_items": 3,
-      "latency_ms": 0.149,
+      "latency_ms": 0.337,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -850,7 +850,7 @@
       "response_options": 4,
       "recommended_option": "Confirm implications",
       "contextual_basis_items": 4,
-      "latency_ms": 0.216,
+      "latency_ms": 0.468,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -896,7 +896,7 @@
       "response_options": 4,
       "recommended_option": "State your constraint",
       "contextual_basis_items": 4,
-      "latency_ms": 0.103,
+      "latency_ms": 0.258,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -942,7 +942,7 @@
       "response_options": 4,
       "recommended_option": "Ask about repair",
       "contextual_basis_items": 2,
-      "latency_ms": 0.096,
+      "latency_ms": 0.215,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -988,7 +988,7 @@
       "response_options": 4,
       "recommended_option": "Take time",
       "contextual_basis_items": 2,
-      "latency_ms": 0.034,
+      "latency_ms": 0.086,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -1034,7 +1034,7 @@
       "response_options": 4,
       "recommended_option": "Clarify the request",
       "contextual_basis_items": 4,
-      "latency_ms": 0.107,
+      "latency_ms": 0.306,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -1080,7 +1080,7 @@
       "response_options": 4,
       "recommended_option": "Decline",
       "contextual_basis_items": 3,
-      "latency_ms": 0.079,
+      "latency_ms": 0.21,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -1126,7 +1126,7 @@
       "response_options": 4,
       "recommended_option": "Accept",
       "contextual_basis_items": 3,
-      "latency_ms": 0.139,
+      "latency_ms": 0.293,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -1172,7 +1172,7 @@
       "response_options": 4,
       "recommended_option": "Ask for detail",
       "contextual_basis_items": 3,
-      "latency_ms": 0.039,
+      "latency_ms": 0.089,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -1218,7 +1218,7 @@
       "response_options": 4,
       "recommended_option": "Reciprocate",
       "contextual_basis_items": 2,
-      "latency_ms": 0.102,
+      "latency_ms": 0.195,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -1264,7 +1264,7 @@
       "response_options": 4,
       "recommended_option": "Receive it warmly",
       "contextual_basis_items": 2,
-      "latency_ms": 0.042,
+      "latency_ms": 0.07,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -1310,7 +1310,7 @@
       "response_options": 4,
       "recommended_option": "Welcome it",
       "contextual_basis_items": 2,
-      "latency_ms": 0.157,
+      "latency_ms": 0.369,
       "status": "pass",
       "failed_checks": [],
       "checks": {
@@ -1356,7 +1356,7 @@
       "response_options": 4,
       "recommended_option": "Set a boundary",
       "contextual_basis_items": 2,
-      "latency_ms": 0.056,
+      "latency_ms": 0.108,
       "status": "pass",
       "failed_checks": [],
       "checks": {

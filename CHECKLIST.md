@@ -15,7 +15,7 @@ Official category: **Apps for your life**
 - [x] Missing dates remain unknown
 - [x] Evidence provenance remains visible
 - [x] Personal test data can be cleared
-- [x] Automated test suite passes: 54/54
+- [x] Automated test suite passes: 68/68
 - [x] Team Abby full-pipeline evaluation passes: 28/28
 - [x] README contains setup and run instructions
 - [x] README explains architecture, models, privacy, and roadmap
@@ -78,6 +78,16 @@ Official category: **Apps for your life**
 - [x] One-click judge path (commit `80aea8c`): Codespaces link + Node 20
   devcontainer (auto install, port 3000 forwarded). Standard
   codespaces.new pattern; not live-tested (token lacks codespace scope).
+- [x] Added Communication Studio with Draft, Reply, Review, Rewrite, Predict,
+  and Compare while preserving the user's original wording and selected
+  relationship context.
+- [x] Made the five-lens reasoning contract visible: reported evidence is held
+  constant while the cognitive operation changes. Added a regression test and
+  removed the reasoning lab from the relationship workspace to avoid stacking
+  two product surfaces.
+- [x] Updated the one-page judge brief with clickable links, the broader capture
+  model, Communication Studio, the invariant-evidence advantage, and 68/68
+  current tests.
 
 ## Final five-minute smoke test
 
@@ -93,7 +103,7 @@ Completed 2026-07-20 from a clean clone (Node v24.14.0).
 - [x] File the capture
 - [x] Open **View source**
 - [x] Open **Action** and confirm both response panels render
-- [x] Run `npm test` — 54/54 passed
+- [x] Run `npm test` — 68/68 passed (2026-07-21 current working tree)
 - [x] Run `npm run eval` — 28/28 passed (100% intent, schema, isolation)
 
 ## Do not add before submission
