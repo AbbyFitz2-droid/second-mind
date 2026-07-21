@@ -64,6 +64,14 @@ Official category: **Apps for your life**
   (fresh visit or after clearing local data) threw an uncaught TypeError
   and silently failed. Now lazily starts a workspace first. Commit
   `021234d`. Re-verified from a clean clone: 54/54 tests, 28/28 evals.
+- [x] Added **Live Reasoning**: the `/api/reason` endpoint (real GPT-5.6
+  Responses API call, JSON schema, demo fallback) was fully implemented
+  and tested but had no UI entry point — setting a live API key changed
+  nothing visible. Added a standalone panel (5 lenses, freeform input,
+  structured card output, live/demo source badge) so the live path is
+  now directly demonstrable, not just documented. Commit `e6ed219`.
+  Re-verified from a clean clone: 54/54 tests, 28/28 evals, direct
+  `/api/reason` call confirmed working on the cloned server.
 
 ## Final five-minute smoke test
 
