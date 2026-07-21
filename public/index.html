@@ -76,6 +76,84 @@
         </small>
       </section>
 
+      <section class="reasoning-lab" id="reasoningLab">
+        <div class="reasoning-lab-heading">
+          <p class="eyebrow">Live reasoning</p>
+          <h2>Same five lenses. Your choice of engine.</h2>
+          <p>
+            Paste a short situation or message, choose a lens, and generate a
+            structured reasoning card. With no API key configured this runs on
+            the deterministic local engine below, zero cost. Set
+            <code>PAID_API_ENABLED=true</code> and an OpenAI key in
+            <code>.env</code> and the identical request routes to live
+            GPT-5.6 instead, same schema, same interface. Nothing here is
+            stored or sent anywhere until you press Generate.
+          </p>
+        </div>
+
+        <form id="reasoningLabForm" class="reasoning-lab-form">
+          <label for="reasoningLabInput">Situation or message</label>
+          <textarea
+            id="reasoningLabInput"
+            rows="4"
+            maxlength="8000"
+            placeholder="Example: My manager said we can revisit this later. I think they are dismissing me, and I am wondering whether I should raise it again."
+          ></textarea>
+
+          <div
+            class="reasoning-lab-modes"
+            id="reasoningLabModes"
+            role="radiogroup"
+            aria-label="Reasoning mode"
+          ></div>
+
+          <div class="reasoning-lab-actions">
+            <button class="reason-button" id="reasoningLabSubmit" type="submit">
+              <span>Generate reasoning card</span>
+              <span aria-hidden="true">→</span>
+            </button>
+            <span class="source-badge" id="reasoningLabSource" hidden></span>
+          </div>
+          <p class="error-message" id="reasoningLabError" role="alert"></p>
+        </form>
+
+        <div
+          class="interpretation-grid reasoning-lab-result"
+          id="reasoningLabResult"
+          hidden
+        >
+          <article class="review-card fact-review">
+            <span class="review-number">01</span>
+            <h3>Known or directly reported</h3>
+            <div id="reasoningLabObservations"></div>
+          </article>
+          <article class="review-card inference-review">
+            <span class="review-number">02</span>
+            <h3>AI interpretations</h3>
+            <div id="reasoningLabInferences"></div>
+          </article>
+          <article class="review-card alternative-review">
+            <span class="review-number">03</span>
+            <h3>Alternative readings</h3>
+            <div id="reasoningLabAlternatives"></div>
+          </article>
+          <article class="review-card unknown-review">
+            <span class="review-number">04</span>
+            <h3>Still uncertain</h3>
+            <div id="reasoningLabUnknowns"></div>
+          </article>
+        </div>
+        <div class="reasoning-lab-followup" id="reasoningLabFollowup" hidden>
+          <strong>Reflection question</strong>
+          <p id="reasoningLabQuestion"></p>
+          <div id="reasoningLabWordingWrap" hidden>
+            <strong>Possible wording</strong>
+            <p id="reasoningLabWording"></p>
+          </div>
+          <small id="reasoningLabAgency"></small>
+        </div>
+      </section>
+
       <div id="productContent" hidden>
       <section class="context-hero">
         <div>

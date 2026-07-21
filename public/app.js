@@ -47,6 +47,22 @@ const elements = {
   analyse: document.querySelector("#analyseButton"),
   reset: document.querySelector("#resetCaseButton"),
   error: document.querySelector("#errorMessage"),
+  reasoningLabForm: document.querySelector("#reasoningLabForm"),
+  reasoningLabInput: document.querySelector("#reasoningLabInput"),
+  reasoningLabModes: document.querySelector("#reasoningLabModes"),
+  reasoningLabSubmit: document.querySelector("#reasoningLabSubmit"),
+  reasoningLabSource: document.querySelector("#reasoningLabSource"),
+  reasoningLabError: document.querySelector("#reasoningLabError"),
+  reasoningLabResult: document.querySelector("#reasoningLabResult"),
+  reasoningLabObservations: document.querySelector("#reasoningLabObservations"),
+  reasoningLabInferences: document.querySelector("#reasoningLabInferences"),
+  reasoningLabAlternatives: document.querySelector("#reasoningLabAlternatives"),
+  reasoningLabUnknowns: document.querySelector("#reasoningLabUnknowns"),
+  reasoningLabFollowup: document.querySelector("#reasoningLabFollowup"),
+  reasoningLabQuestion: document.querySelector("#reasoningLabQuestion"),
+  reasoningLabWordingWrap: document.querySelector("#reasoningLabWordingWrap"),
+  reasoningLabWording: document.querySelector("#reasoningLabWording"),
+  reasoningLabAgency: document.querySelector("#reasoningLabAgency"),
   tabs: [...document.querySelectorAll(".context-tab")],
   panels: [...document.querySelectorAll(".context-panel")],
   timeline: document.querySelector("#situationTimeline"),
@@ -224,11 +240,20 @@ const state = {
   captureRemovalArmed: null,
 };
 
+const REASONING_LAB_MODES = [
+  { id: "think", label: "Think through" },
+  { id: "pause", label: "Pause & parse" },
+  { id: "clarity", label: "Clarity" },
+  { id: "reflect", label: "Reflect" },
+  { id: "challenge", label: "Challenge" },
+];
+
 initialize();
 
 function initialize() {
   bindEvents();
   updateWelcomeAction();
+  initReasoningLab();
 }
 
 function bindEvents() {
@@ -3463,4 +3488,130 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function initReasoningLab() {
+  if (!elements.reasoningLabForm) return;
+  state.reasoningLabMode = REASONING_LAB_MODES[0].id;
+  state.reasoningLabSessionId = crypto.randomUUID();
+
+  elements.reasoningLabModes.innerHTML = REASONING_LAB_MODES.map(
+    (mode) =>
+      `<button type="button" class="reasoning-lab-mode${
+        mode.id === state.reasoningLabMode ? " active" : ""
+      }" data-mode="${escapeHtml(mode.id)}" role="radio" aria-checked="${
+        mode.id === state.reasoningLabMode
+      }">${escapeHtml(mode.label)}</button>`,
+  ).join("");
+
+  elements.reasoningLabModes.addEventListener("click", (event) => {
+    const button = event.target.closest(".reasoning-lab-mode");
+    if (!button) return;
+    state.reasoningLabMode = button.dataset.mode;
+    [...elements.reasoningLabModes.children].forEach((child) => {
+      const active = child === button;
+      child.classList.toggle("active", active);
+      child.setAttribute("aria-checked", String(active));
+    });
+  });
+
+  elements.reasoningLabForm.addEventListener("submit", submitReasoningLab);
+}
+
+async function submitReasoningLab(event) {
+  event.preventDefault();
+  const input = elements.reasoningLabInput.value.trim();
+  elements.reasoningLabError.textContent = "";
+  if (input.length < 8) {
+    elements.reasoningLabError.textContent =
+      "Add a little more detail so the reasoning card has evidence to use.";
+    elements.reasoningLabInput.focus();
+    return;
+  }
+
+  const submitLabel = elements.reasoningLabSubmit.querySelector("span");
+  const originalLabel = submitLabel.textContent;
+  elements.reasoningLabSubmit.disabled = true;
+  submitLabel.textContent = "Generating…";
+  elements.reasoningLabSource.hidden = true;
+
+  try {
+    const response = await fetch("/api/reason", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode: state.reasoningLabMode,
+        input,
+        session_id: state.reasoningLabSessionId,
+      }),
+    });
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(payload.error || "The reasoning card could not be built.");
+    }
+    renderReasoningLabResult(payload.result, payload.meta);
+  } catch (error) {
+    elements.reasoningLabError.textContent =
+      error.message || "Second Mind could not generate this reasoning card.";
+  } finally {
+    elements.reasoningLabSubmit.disabled = false;
+    submitLabel.textContent = originalLabel;
+  }
+}
+
+function renderReasoningLabResult(result, meta) {
+  const sourceLabels = {
+    live: `Live · ${meta?.model || "GPT-5.6"}`,
+    demo: "Local deterministic demo",
+    "demo-fallback": "Local demo (live request failed)",
+  };
+  elements.reasoningLabSource.textContent =
+    sourceLabels[meta?.source] || "Local deterministic demo";
+  elements.reasoningLabSource.hidden = false;
+
+  elements.reasoningLabObservations.innerHTML =
+    result.observations
+      .map(
+        (item) =>
+          `<p><strong>${escapeHtml(item.text)}</strong><br /><small>${escapeHtml(
+            item.evidence,
+          )}</small></p>`,
+      )
+      .join("") || "<p>Nothing yet.</p>";
+
+  elements.reasoningLabInferences.innerHTML =
+    result.inferences
+      .map(
+        (item) =>
+          `<p><strong>${escapeHtml(item.text)}</strong><br /><small>${escapeHtml(
+            item.confidence,
+          )} confidence · ${escapeHtml(item.basis)}</small></p>`,
+      )
+      .join("") || "<p>Nothing yet.</p>";
+
+  elements.reasoningLabAlternatives.innerHTML =
+    result.alternatives
+      .map(
+        (item) =>
+          `<p><strong>${escapeHtml(item.text)}</strong><br /><small>Would fit if ${escapeHtml(
+            item.would_fit_if,
+          )}</small></p>`,
+      )
+      .join("") || "<p>Nothing yet.</p>";
+
+  elements.reasoningLabUnknowns.innerHTML =
+    result.unknowns.map((item) => `<p>${escapeHtml(item)}</p>`).join("") ||
+    "<p>Nothing unresolved.</p>";
+
+  elements.reasoningLabQuestion.textContent = result.reflection_question;
+  if (result.possible_wording) {
+    elements.reasoningLabWording.textContent = result.possible_wording;
+    elements.reasoningLabWordingWrap.hidden = false;
+  } else {
+    elements.reasoningLabWordingWrap.hidden = true;
+  }
+  elements.reasoningLabAgency.textContent = result.agency_note;
+
+  elements.reasoningLabResult.hidden = false;
+  elements.reasoningLabFollowup.hidden = false;
 }

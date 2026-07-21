@@ -234,10 +234,23 @@ testable for reviewers who provide a key.
 
 ## Optional OpenAI implementation
 
-The earlier structured Reasoning Card endpoint remains available for
-experimentation, but the relationship-context demonstration is deliberately
-deterministic and makes no API calls. This keeps the proof testable without
-cost and makes the effect of each selected context item inspectable.
+The relationship-context demonstration (the Action panel's context-aware
+response) is deliberately deterministic and makes no API calls. This keeps
+the primary judge path testable without cost and makes the effect of each
+selected context item directly inspectable.
+
+A second, independent feature — **Live Reasoning** — sits above the welcome
+screen and is wired to the same code path as the demo mode: choose one of
+five reasoning lenses (Think through, Pause & parse, Clarity, Reflect,
+Challenge), describe a situation, and generate a structured reasoning card.
+With no key configured it runs on the identical deterministic engine used
+everywhere else in this prototype, at zero cost. Set `PAID_API_ENABLED=true`
+and a real `OPENAI_API_KEY` in `.env`, and the exact same request instead
+calls **GPT-5.6 through the OpenAI Responses API** with a strict JSON
+schema, and the result badge switches from "Local deterministic demo" to
+"Live · gpt-5.6-terra" — same interface, same schema, genuinely live model
+output. This is the most direct way to see GPT-5.6 reason inside the running
+product rather than read about it.
 
 See the current official documentation:
 

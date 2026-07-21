@@ -72,6 +72,130 @@
   color: #805248;
 }
 
+.reasoning-lab {
+  max-width: 900px;
+  margin: 0 auto 46px;
+  padding: 32px 36px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: rgba(251, 249, 243, 0.78);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.reasoning-lab-heading h2 {
+  margin: 8px 0 12px;
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  font-weight: 400;
+}
+
+.reasoning-lab-heading > p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.reasoning-lab-heading code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: rgba(24, 33, 31, 0.07);
+  font-size: 0.85em;
+}
+
+.reasoning-lab-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.reasoning-lab-form label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.reasoning-lab-form textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.6);
+  font: inherit;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.reasoning-lab-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reasoning-lab-mode {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.reasoning-lab-mode.active {
+  border-color: transparent;
+  background: var(--ink);
+  color: #fbf9f3;
+}
+
+.reasoning-lab-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.reasoning-lab-result {
+  margin-top: 26px;
+}
+
+.reasoning-lab-result[hidden],
+.reasoning-lab-followup[hidden] {
+  display: none;
+}
+
+.reasoning-lab-followup {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.reasoning-lab-followup strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+}
+
+.reasoning-lab-followup p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.reasoning-lab-followup small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+#reasoningLabWordingWrap[hidden] {
+  display: none;
+}
+
 .context-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
