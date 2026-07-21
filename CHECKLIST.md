@@ -72,6 +72,12 @@ Official category: **Apps for your life**
   now directly demonstrable, not just documented. Commit `e6ed219`.
   Re-verified from a clean clone: 54/54 tests, 28/28 evals, direct
   `/api/reason` call confirmed working on the cloned server.
+- [x] UX polish (commit `bd268c0`): obvious primary action on the
+  homepage; empty 0/0/0/0/0 commitment pipeline hidden until real
+  commitments exist; clipped placeholder fixed.
+- [x] One-click judge path (commit `80aea8c`): Codespaces link + Node 20
+  devcontainer (auto install, port 3000 forwarded). Standard
+  codespaces.new pattern; not live-tested (token lacks codespace scope).
 
 ## Final five-minute smoke test
 
