@@ -309,7 +309,13 @@ function bindEvents() {
     "click",
     copyOutstandingReport,
   );
-  elements.addPerson.addEventListener("click", openPersonDialog);
+  elements.addPerson.addEventListener("click", () => {
+    if (!state.caseData) {
+      startPersonalWorkspace();
+      return;
+    }
+    openPersonDialog();
+  });
   elements.personDialogClose.addEventListener("click", closePersonDialog);
   elements.personDialog.addEventListener("click", (event) => {
     if (event.target === elements.personDialog) closePersonDialog();
