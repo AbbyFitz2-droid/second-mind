@@ -90,6 +90,23 @@ Official category: **Apps for your life**
   model, Communication Studio, the invariant-evidence advantage, and 68/68
   current tests.
 
+## Final pre-deadline Devpost sync (2026-07-22, before 02:00 CEST)
+
+- [x] Applied the revised thesis copy to Devpost: new 200-char tagline
+  (problem → inspectable context → judgment stays human), reworked
+  "What it does" opening (human hook + "inspectable contextual reasoning
+  system" thesis), the two lead feature bullets (invariant lenses,
+  Communication Studio), 68/68 + 28/28 counts on every surface, and the
+  dossier link.
+- [x] The earlier Devpost update (54/54 checkpoint) is immutable; posted the
+  reconciling update with current 68/68 + 28/28 numbers per
+  `submission-assets/devpost-final-edits.md`.
+- [x] Attached `output/pdf/second-mind-submission-dossier.pdf` in Additional
+  Info ("Current File" confirmed on fresh page load); all sibling form
+  fields verified intact after upload.
+- [x] Signed-out verification: 8/8 content checks pass on the public page;
+  video, repo, and dossier links verified live.
+
 ## Final five-minute smoke test
 
 Completed 2026-07-20 from a clean clone (Node v24.14.0).
