@@ -2,21 +2,27 @@
 
 > **Context before composition. Think clearly. Stay yours.**
 
-Second Mind is a Build Week prototype of a private, user-controlled cognitive
-companion. It connects naturally captured messages, notes, events, and
-screenshots in an evidence-linked relationship model, then helps the user
-interpret and respond without turning AI inference into fact or replacing
-human judgment.
+Second Mind is an **inspectable contextual reasoning system**. Before generating
+advice, it separates evidence and observation from interpretation, confidence,
+and alternative explanations. User-selected relationship and situation context
+remains editable, and no suggestion becomes a decision.
+
+The Build Week prototype connects naturally captured messages, notes, events,
+and screenshots in an evidence-linked model, then helps the user interpret and
+respond without turning AI inference into fact or replacing human judgment.
 
 **Category:** Apps for your life
 
+**Product contract:** Context before composition. Evidence over assumption.
+Transparent reasoning. User agency.
+
 ## Elevator pitch
 
-Add a message, note, event, or conversation screenshot. Second Mind files the
-information into a revisable relationship graph and timeline, shows how that
-context changes a possible response, and rehearses how the recipient might
-interpret it. The user can inspect the evidence, correct every inference, and
-decide what to say.
+Add a message, note, event, or conversation screenshot. Second Mind files it
+into a revisable relationship graph and timeline. Before suggesting language,
+it shows the source-linked evidence, separates observation from interpretation,
+exposes confidence and alternatives, and lets the user correct every inference
+and decide what to say.
 
 ## Problem
 
@@ -262,16 +268,18 @@ selected context changes the output without depending on a private key.
 
 ## How Codex and GPT-5.6 were used
 
-Codex with GPT-5.6 was used throughout Build Week to turn the product thesis
-into a working system: inspect the evolving repository, implement the
-capture-to-context pipeline, reconcile schemas, build the epistemic result
-contract, generate synthetic evaluation cases, test relationship isolation,
-and repeatedly repair failures found in the browser.
+Codex with GPT-5.6 formed the continuous build-and-verification loop, not a
+one-off code-generation step. It was used to inspect the evolving repository;
+turn product corrections into bounded implementations; and then test, observe,
+and repair the result in the browser. Concrete outputs include the
+schema-versioned capture-to-context pipeline, exact-ID relationship isolation,
+the invariant-evidence reasoning contract, Communication Studio, synthetic
+evaluation cases, and regression tests for failures found during use.
 
-The product also includes an optional GPT-5.6 Terra runtime path for structured
-reasoning. The submitted judge path remains fully usable without paid API
-access, while the environment flag makes the model-backed path explicit and
-testable for reviewers who provide a key.
+GPT-5.6 also powers the optional live reasoning path through the Responses API
+with a strict structured-output schema. The submitted judge path preserves the
+same epistemic contract in a deterministic local engine, so reviewers can
+inspect the context-to-result behavior without a private key or paid call.
 
 ## Recommended demonstration
 

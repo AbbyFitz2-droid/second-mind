@@ -6,6 +6,9 @@
 **Category:** Apps for your life  
 **Tagline:** Context before composition. Think clearly. Stay yours.
 
+**Product contract:** Context before composition. Evidence over assumption.
+Transparent reasoning. User agency.
+
 ## Links
 
 **Demo video:** https://youtu.be/n53Rs-6uDO4
@@ -21,11 +24,10 @@ Use this identifier in the Devpost `/feedback Codex Session ID` field.
 
 ## Short description
 
-Second Mind is a user-controlled cognitive companion that connects people,
-messages, events, notes, and screenshots in an evidence-linked relationship
-graph and timeline. It separates observation from interpretation, exposes
-uncertainty, tests competing explanations, and rehearses how a response might
-be interpreted—without deciding intent or replacing human judgment.
+Second Mind is an inspectable contextual reasoning system that separates
+evidence, observation, interpretation, confidence, and alternatives before
+generating advice. It uses editable relationship and situation context without
+deciding intent or replacing human judgment.
 
 ## Final differentiation paragraph
 

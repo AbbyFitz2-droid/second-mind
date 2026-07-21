@@ -4,11 +4,14 @@
 
 **Tagline:** Context before composition. Think clearly. Stay yours.
 
+**Product contract:** Context before composition. Evidence over assumption.
+Transparent reasoning. User agency.
+
 ### One-sentence description
 
-Second Mind turns naturally captured conversations into a user-controlled,
-evidence-linked relationship record, then helps people interpret and respond
-without turning AI inference into fact or replacing human judgment.
+Second Mind is an inspectable contextual reasoning system that separates
+evidence, observation, interpretation, confidence, and alternatives before
+generating advice from editable relationship and situation context.
 
 ## The problem
 
@@ -55,7 +58,7 @@ interest or tension, non-romantic friction, and ordinary social preference,
 links every update to an event, and presents the result as a question to
 clarify rather than a social verdict.
 
-The interface has four connected areas:
+The interface has five connected areas:
 
 1. **Situation** — a timeline of distinct prior events. The user chooses which
    events are relevant and can add a separate session event. A capture inbox
@@ -68,6 +71,9 @@ The interface has four connected areas:
    accept, qualify, reject, downweight, or exclude model inputs.
 4. **Action** — an isolated response beside a context-aware response, with the
    exact relationship and situation context used to produce the difference.
+5. **Studio** — Draft, Reply, Review, Rewrite, Predict, and Compare inspect the
+   selected context before offering editable language. The user's original is
+   never overwritten or sent automatically.
 
 Changing the sender, goal, tone, trust, closeness, boundary, or selected timeline
 events updates the comparison in place. The application never scrolls the user

@@ -42,8 +42,8 @@ Official category: **Apps for your life**
 - [x] (N/A — public repository route selected, not private.)
 - [x] Push this exact final source state to the submitted repository.
 - [x] Run the repository setup once from a clean clone or clean folder.
-  (Verified 2026-07-20: fresh `git clone`, install, 54/54 tests, 28/28 eval,
-  full browser flow — see smoke test below.)
+  (Verified 2026-07-20: fresh `git clone`, install, then-current 54/54 tests,
+  28/28 evals, and full browser flow. The final suite is 68/68 — see below.)
 - [x] Get the `/feedback` Codex session ID for the task containing most of the
   core build.
 - [x] Enter the recorded session ID in the submission form:
@@ -63,15 +63,16 @@ Official category: **Apps for your life**
 - [x] Fixed a crash: clicking **Add person** before any workspace existed
   (fresh visit or after clearing local data) threw an uncaught TypeError
   and silently failed. Now lazily starts a workspace first. Commit
-  `021234d`. Re-verified from a clean clone: 54/54 tests, 28/28 evals.
+  `021234d`. At that checkpoint: 54/54 tests and 28/28 evals; the final suite
+  is 68/68.
 - [x] Added **Live Reasoning**: the `/api/reason` endpoint (real GPT-5.6
   Responses API call, JSON schema, demo fallback) was fully implemented
   and tested but had no UI entry point — setting a live API key changed
   nothing visible. Added a standalone panel (5 lenses, freeform input,
   structured card output, live/demo source badge) so the live path is
   now directly demonstrable, not just documented. Commit `e6ed219`.
-  Re-verified from a clean clone: 54/54 tests, 28/28 evals, direct
-  `/api/reason` call confirmed working on the cloned server.
+  At that checkpoint: 54/54 tests and 28/28 evals; direct `/api/reason` call
+  confirmed working on the cloned server. The final suite is 68/68.
 - [x] UX polish (commit `bd268c0`): obvious primary action on the
   homepage; empty 0/0/0/0/0 commitment pipeline hidden until real
   commitments exist; clipped placeholder fixed.

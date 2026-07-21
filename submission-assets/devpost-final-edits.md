@@ -5,20 +5,19 @@ video or add more product scope.
 
 ## 1. Replace the short tagline/description
 
-> Context before composition: an evidence-linked cognitive companion that
-> organises messages, notes, events, and screenshots into revisable context,
-> then helps people reason and communicate while keeping judgment human.
+> Second Mind is an inspectable contextual reasoning system that separates
+> evidence, observation, interpretation, confidence, and alternatives before
+> generating advice from editable relationship and situation context.
 
 ## 2. Replace the first paragraph under “What it does”
 
-> An ambiguous message never arrives in isolation, but most AI assistants treat
-> it as if it does. Second Mind is a user-controlled cognitive companion that
-> organises messages, notes, events, and screenshots into an evidence-linked,
-> revisable relationship graph and timeline. It separates observation from
-> interpretation, exposes uncertainty, and uses only the context the user
-> selects. It does not decide what another person intended or tell the user what
-> to do. It helps people reason and communicate with better context while
-> keeping judgment and agency human.
+> Second Mind is an inspectable contextual reasoning system that separates
+> evidence, observation, interpretation, confidence, and alternatives before
+> generating advice. It organises messages, notes, events, and screenshots into
+> an evidence-linked, revisable relationship graph and timeline and uses only
+> the context the user selects. It does not decide what another person intended
+> or tell the user what to do. It helps people reason and communicate with
+> better context while keeping judgment and agency human.
 
 ## 3. Add these two feature bullets near the top of “What it does”
 
@@ -40,6 +39,10 @@ Replace:
 with:
 
 > 68 automated tests; 28/28 full-pipeline evaluations
+
+The public story is current, but the older Devpost update still records 54/54
+tests from its earlier checkpoint. If editing that update is available, replace
+the count with 68/68 so a scanning judge does not see two unexplained totals.
 
 ## 5. Upload or link the final submission dossier
 

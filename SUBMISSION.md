@@ -4,16 +4,18 @@
 **Category:** Apps for your life  
 **Tagline:** Context before composition. Think clearly. Stay yours.
 
+**Product contract:** Context before composition. Evidence over assumption.
+Transparent reasoning. User agency.
+
 ## 30-second pitch
 
-An ambiguous message never arrives in isolation, but most AI assistants treat
-it as if it does. Second Mind is a user-controlled cognitive companion that
-connects people, messages, events, notes, and screenshots in an evidence-linked
-relationship graph and timeline. It separates observation from interpretation,
-shows its uncertainty, compares competing explanations, and rehearses how a
-chosen response might be interpreted. It does not decide what another person
-intended or tell the user what to do. It helps people think with better context
-while keeping judgment and agency human.
+Second Mind is an inspectable contextual reasoning system that separates
+evidence, observation, interpretation, confidence, and alternatives before
+generating advice. It connects people, messages, events, notes, and screenshots
+in an editable relationship graph and timeline, then uses only the context the
+user selects. It does not decide what another person intended or tell the user
+what to do. It helps people reason and communicate with better context while
+keeping judgment and agency human.
 
 ## 2-minute demo script
 
@@ -82,7 +84,7 @@ Change one commitment status and show the response update.
 ## Innovation summary
 
 Second Mind’s innovation is not a more personable chat interface. It is a
-reasoning architecture with four connected layers:
+reasoning architecture with five connected layers:
 
 1. **Natural capture** converts existing conversation artifacts into structured
    records with provenance and uncertainty.
@@ -143,6 +145,21 @@ Communication Studio carries the same discipline into action. Draft, Reply,
 Review, Rewrite, Predict, and Compare first inspect selected relationship
 context and communication risks, then offer editable language without replacing
 the user's original or claiming to know the recipient's mind.
+
+## Why Codex and GPT-5.6 were essential
+
+Codex with GPT-5.6 was the project’s continuous implementation and verification
+loop. It translated product corrections into bounded code changes, inspected
+the running browser experience, repaired failures, and converted recurring
+mistakes into regression tests. That loop produced the schema-versioned context
+model, capture pipeline, exact-ID relationship isolation, invariant-evidence
+reasoning lenses, Communication Studio, and the 68-test/28-evaluation suite.
+
+GPT-5.6 also powers the optional live reasoning path through the OpenAI
+Responses API with a strict structured-output schema. The deterministic judge
+path implements the same epistemic contract so the reasoning architecture can
+be reproduced without a private key; the live path demonstrates that the same
+interface can use GPT-5.6 rather than changing the product around the model.
 
 ## Technical summary
 
