@@ -37,11 +37,13 @@ uses that selected context across Draft, Reply, Review, Rewrite, Predict, and
 Compare without overwriting the user's original. This makes epistemic discipline
 a testable product behavior rather than a promise hidden in a system prompt.
 
-## Optional judge attachment
+## Additional-information attachment
 
-Attach or link [`output/pdf/second-mind-judge-brief.pdf`](./output/pdf/second-mind-judge-brief.pdf).
-It contains clickable demo, Codespaces, and repository links plus the current
-68/68 automated test count.
+Upload [`output/pdf/second-mind-submission-dossier.pdf`](./output/pdf/second-mind-submission-dossier.pdf).
+This is the single recommended attachment: a current two-page judge brief and
+founder thesis with clickable demo, Codespaces, and repository links. It is
+well below the 35 MB limit. Do not also upload the older one-page judge brief;
+the dossier already contains that page.
 
 ## Built with
 

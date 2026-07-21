@@ -41,10 +41,15 @@ with:
 
 > 68 automated tests; 28/28 full-pipeline evaluations
 
-## 5. Add this final judge link
+## 5. Upload or link the final submission dossier
 
-> **One-page judge brief:**
-> https://github.com/AbbyFitz2-droid/second-mind/blob/main/output/pdf/second-mind-judge-brief.pdf
+> **Two-page submission dossier:**
+> https://github.com/AbbyFitz2-droid/second-mind/blob/main/output/pdf/second-mind-submission-dossier.pdf
+
+If Devpost accepts a file upload, use
+`output/pdf/second-mind-submission-dossier.pdf`. It includes the current judge
+brief followed by a concise founder thesis and thank-you. Do not upload the
+older one-page brief as a second attachment.
 
 ## Optional “Update” post instead of editing the full story
 
