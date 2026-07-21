@@ -30,8 +30,8 @@ Official category: **Apps for your life**
 
 ## Required manual submission steps
 
-- [ ] Join/register for the challenge on Devpost.
-- [ ] Choose **Apps for your life** as the category.
+- [x] Join/register for the challenge on Devpost.
+- [x] Choose **Apps for your life** as the category.
 - [x] Record the demo using the 2-minute script in `SUBMISSION.md`.
 - [x] Explicitly say how Codex **and GPT-5.6** were used.
 - [x] Upload the demo as a **public YouTube video under three minutes**:
@@ -39,21 +39,24 @@ Official category: **Apps for your life**
 - [x] Create or select the code repository URL for judging:
   `https://github.com/AbbyFitz2-droid/second-mind` (public).
 - [x] If public, choose and add an appropriate open-source licence.
-- [ ] If private, share repository access with:
-  `testing@devpost.com` and `build-week-event@openai.com`.
+- [x] (N/A — public repository route selected, not private.)
 - [x] Push this exact final source state to the submitted repository.
 - [x] Run the repository setup once from a clean clone or clean folder.
   (Verified 2026-07-20: fresh `git clone`, install, 54/54 tests, 28/28 eval,
   full browser flow — see smoke test below.)
 - [x] Get the `/feedback` Codex session ID for the task containing most of the
   core build.
-- [ ] Enter the recorded session ID in the submission form.
-- [ ] Paste the project description and supporting copy from `SUBMISSION.md`.
+- [x] Enter the recorded session ID in the submission form:
+  `019f5bd7-32bc-77f0-8836-651fd258b040`.
+- [x] Paste the project description and supporting copy from `SUBMISSION.md`.
 - [x] Add the public YouTube URL and repository URL to the prepared submission
   details.
-- [ ] Add a cover image or product screenshot if the form requests one.
-- [ ] Preview every submitted link while signed out.
-- [ ] Submit before the deadline and save the confirmation page or email.
+- [x] Add a cover image or product screenshot: `submission-assets/frames-v5/01-home.png`.
+- [x] Preview every submitted link while signed out.
+- [x] Submit before the deadline and save the confirmation page or email.
+  **Submitted 2026-07-21 ~03:55 CEST** — see
+  `submission-assets/devpost-submission-record.md`. Project page:
+  https://devpost.com/software/second-mind-by-cognisyn
 
 ## Final five-minute smoke test
 
