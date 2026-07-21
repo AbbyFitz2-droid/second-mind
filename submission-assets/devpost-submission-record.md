@@ -8,7 +8,7 @@
 - **Category:** Apps for Your Life · Submitter: Individual · Residence: Ireland
 - **Demo video:** https://youtu.be/n53Rs-6uDO4 (public, 2:28, human-written captions)
 - **Code repository:** https://github.com/AbbyFitz2-droid/second-mind (public, MIT,
-  HEAD e6b0972 "Ship perspective simulation and verified demo")
+  current submission-period HEAD 0ea7353 "Ship Communication Studio and invariant reasoning lenses")
 - **Codex session ID submitted:** 019f5bd7-32bc-77f0-8836-651fd258b040
 
 Signed-out verification at submission time: YouTube oEmbed returned the public
