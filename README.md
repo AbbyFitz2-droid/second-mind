@@ -102,7 +102,11 @@ contextual response update. See
 
 ## Run locally
 
-Requires Node.js 20 or newer.
+**One-click, no install:** [Open in GitHub Codespaces](https://codespaces.new/AbbyFitz2-droid/second-mind?quickstart=1)
+— dependencies install automatically; then run `npm start` in the terminal and
+open the forwarded port 3000.
+
+Or locally — requires Node.js 20 or newer.
 
 ```bash
 npm install
