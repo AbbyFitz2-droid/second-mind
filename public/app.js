@@ -174,6 +174,13 @@ const elements = {
   contextInterpretation: document.querySelector("#contextInterpretation"),
   responseOptions: document.querySelector("#responseOptions"),
   contextDraft: document.querySelector("#contextDraft"),
+  perspectiveSimulation: document.querySelector("#perspectiveSimulation"),
+  perspectiveTitle: document.querySelector("#perspectiveTitle"),
+  perspectiveLiteral: document.querySelector("#perspectiveLiteral"),
+  perspectiveEmotional: document.querySelector("#perspectiveEmotional"),
+  perspectiveRisk: document.querySelector("#perspectiveRisk"),
+  perspectiveConfidence: document.querySelector("#perspectiveConfidence"),
+  perspectiveEvidence: document.querySelector("#perspectiveEvidence"),
   contextExplanation: document.querySelector("#contextExplanation"),
   contextBasisList: document.querySelector("#contextBasisList"),
   copyDraft: document.querySelector("#copyDraftButton"),
@@ -2953,6 +2960,83 @@ function renderResult() {
         )
         .join("")
     : `<li>No relationship or situation context was used.</li>`;
+  renderPerspectiveSimulation(
+    (contextual.responseOptions || []).find((option) => option.recommended) ||
+      contextual.responseOptions?.[0],
+  );
+}
+
+function renderPerspectiveSimulation(option) {
+  if (!option || !elements.perspectiveSimulation) {
+    if (elements.perspectiveSimulation) elements.perspectiveSimulation.hidden = true;
+    return;
+  }
+
+  const sender = relationshipPeople().find(
+    (person) => person.id === state.caseData?.incoming?.senderPersonId,
+  );
+  const senderName = sender?.displayName || "the other person";
+  const readings = {
+    "ask-directly": {
+      literal:
+        "The user is willing to respond to the request, but wants a concrete explanation before drawing a conclusion.",
+      emotional: `${senderName} may feel invited to explain, scrutinised, or challenged. The available evidence cannot establish which reaction applies.`,
+      risk:
+        "Referring to something “unresolved” could sound as though the user has already formed a theory about the people involved.",
+    },
+    "avoid-triangle": {
+      literal:
+        "The user is setting a boundary: they will listen, but will not manage a conflict or relationship on someone else’s behalf.",
+      emotional: `${senderName} may experience the boundary as fair, distancing, or insufficiently supportive. Those are alternatives, not detected feelings.`,
+      risk:
+        "A request to speak directly could be heard as withdrawal even when the intended meaning is healthy role clarity.",
+    },
+    "preserve-agency": {
+      literal:
+        "The user will make the decision independently while remaining open to specific information that could matter.",
+      emotional: `${senderName} may hear confidence and openness, or may experience the response as resistance. The wording alone cannot decide between them.`,
+      risk:
+        "Emphasising personal control could sound dismissive if the sender believes they are raising a serious concern.",
+    },
+    "comply-once": {
+      literal:
+        "The user agrees to the request for this occasion without agreeing to an unstated reason or permanent rule.",
+      emotional: `${senderName} may feel heard or relieved, but the short reply may also leave the underlying issue untouched.`,
+      risk:
+        "Brief compliance could be mistaken for agreement with the sender’s unstated interpretation or expectations.",
+    },
+    pause: {
+      literal:
+        "The user acknowledges the message and postpones a decision until they have had time to think.",
+      emotional: `${senderName} may read the pause as care, uncertainty, or distance. More context would be needed to distinguish them.`,
+      risk:
+        "A pause can reduce impulsivity, but without a time frame it may be mistaken for avoidance.",
+    },
+  };
+  const reading = readings[option.id] || {
+    literal: `The response communicates: “${truncateText(option.text, 180)}”`,
+    emotional:
+      "The same wording could feel supportive, neutral, or distancing depending on expectations that are not represented in the current evidence.",
+    risk:
+      "Tone and relationship history may change how the message lands. The simulation cannot observe the recipient’s internal state.",
+  };
+  const selectedSituations = state.caseData?.selectedSituationIds?.length || 0;
+  const contextualItems = state.result?.contextual?.basis?.length || 0;
+
+  elements.perspectiveSimulation.hidden = false;
+  elements.perspectiveTitle.textContent = `How might ${senderName} read this?`;
+  elements.perspectiveLiteral.textContent = reading.literal;
+  elements.perspectiveEmotional.textContent = reading.emotional;
+  elements.perspectiveRisk.textContent = reading.risk;
+  elements.perspectiveConfidence.textContent =
+    "Literal reading · moderate confidence; emotional reading · low confidence";
+  elements.perspectiveEvidence.innerHTML = [
+    `Selected response direction: ${option.label}`,
+    `${selectedSituations} selected timeline ${selectedSituations === 1 ? "event" : "events"}`,
+    `${contextualItems} context ${contextualItems === 1 ? "item" : "items"} linked to the generated response`,
+  ]
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("");
 }
 
 function renderMerlinInsight(insight) {
@@ -3152,6 +3236,7 @@ function renderEmptyReasoning() {
     "The context-aware reading will remain empty until you ask for it.";
   elements.responseOptions.innerHTML =
     `<div class="empty-response-options">Personalised response directions will appear here.</div>`;
+  elements.perspectiveSimulation.hidden = true;
   elements.contextDraft.value = "";
   elements.contextExplanation.textContent =
     "Second Mind will list exactly which relationship and situation items changed the result.";
@@ -3174,6 +3259,7 @@ function chooseResponseOption(event) {
       item.classList.toggle("active", active);
       item.setAttribute("aria-pressed", String(active));
     });
+  renderPerspectiveSimulation(option);
   showToast(`${option.label} selected. The response is still yours to edit.`);
 }
 

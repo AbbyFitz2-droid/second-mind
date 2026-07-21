@@ -1,0 +1,120 @@
+1
+00:00:00,000 --> 00:00:04,400
+Most AI begins composing from one prompt.
+
+2
+00:00:04,400 --> 00:00:08,900
+But difficult decisions rarely live in one message.
+
+3
+00:00:08,900 --> 00:00:13,700
+They live in history: who is involved, what happened before,
+what changed, and what remains uncertain.
+
+4
+00:00:13,700 --> 00:00:20,800
+Second Mind, by Cognisyn, is an evidence-linked cognitive companion
+built around one principle: context before composition.
+
+5
+00:00:20,800 --> 00:00:26,300
+Context can enter naturally—as a message, note, event, or screenshot.
+
+6
+00:00:26,300 --> 00:00:31,900
+The current prototype files it into an editable relationship graph
+and a chronological situation timeline.
+
+7
+00:00:31,900 --> 00:00:37,200
+In this fictional case, Vargus records five events
+involving Benedict and Gertrude.
+
+8
+00:00:37,200 --> 00:00:42,300
+The graph keeps relationships separate,
+while the timeline preserves sequence and source.
+
+9
+00:00:42,300 --> 00:00:46,000
+Merlin does not declare a motive.
+It tests competing explanations.
+
+10
+00:00:46,000 --> 00:00:53,800
+Here, romantic tension reaches an illustrative forty-nine percent,
+while non-romantic friction remains close at forty-three percent.
+
+11
+00:00:53,800 --> 00:01:01,900
+Every update links to evidence, discloses its assumptions,
+and lets the user downweight, reject, or correct an inference.
+
+12
+00:01:01,900 --> 00:01:06,300
+The difference appears at the moment of action.
+
+13
+00:01:06,300 --> 00:01:11,000
+An isolated model responds to Benedict's request literally.
+
+14
+00:01:11,000 --> 00:01:17,200
+Second Mind offers several context-aware paths without presenting
+romance, conflict, or personality as fact. The user chooses.
+
+15
+00:01:17,200 --> 00:01:23,200
+Before sending, Perspective Simulation rehearses how Benedict
+might read the selected response: its literal meaning,
+
+16
+00:01:23,200 --> 00:01:28,300
+a possible emotional interpretation, and misunderstanding risk.
+
+17
+00:01:28,300 --> 00:01:31,700
+It models perspectives without claiming access
+to someone else's mind.
+
+18
+00:01:31,700 --> 00:01:41,800
+We also tested the wider premise—that fuller context can improve
+forecasting—on 4,188 ConvoKit conversations,
+
+19
+00:01:41,800 --> 00:01:49,000
+with 840 held out and zero paid API calls.
+The results are a research baseline, never a tool for judging people.
+
+20
+00:01:49,000 --> 00:01:57,000
+I used Codex with GPT-5.6 to design, implement, and test
+the capture pipeline, relationship graph,
+
+21
+00:01:57,000 --> 00:02:01,000
+epistemic result contract, and evaluation suite.
+
+22
+00:02:01,000 --> 00:02:07,600
+The optional live reasoning path uses GPT-5.6 through the OpenAI
+Responses API; this judge demo remains reproducible without a private key.
+
+23
+00:02:07,600 --> 00:02:15,800
+Next, the same architecture can support voice capture, Push to Think,
+Reflection Mode, and private earbud delivery on existing hardware.
+
+24
+00:02:15,800 --> 00:02:19,900
+Second Mind does not become the decision-maker.
+
+25
+00:02:19,900 --> 00:02:24,800
+It preserves the evidence, exposes the inference,
+and returns the judgment to the person.
+
+26
+00:02:24,800 --> 00:02:27,800
+Context before composition. Think clearly. Stay yours.

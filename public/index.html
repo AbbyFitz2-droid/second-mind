@@ -47,13 +47,13 @@
         <p class="eyebrow">Build your own Second Mind</p>
         <h1>Your relationships have context.<br /><em>Your AI should too.</em></h1>
         <p>
-          Share a screenshot and Second Mind turns it into an editable,
-          evidence-linked relationship record. You only answer when something
-          consequential is genuinely unclear.
+          Add people, messages, events, notes, or screenshots. Second Mind
+          connects them in an editable, evidence-linked model and asks only
+          when something consequential is genuinely unclear.
         </p>
         <div class="welcome-actions">
           <button class="reason-button" id="startCaptureButton" type="button">
-            <span>Share a screenshot</span>
+            <span>Capture a screenshot</span>
             <span aria-hidden="true">→</span>
           </button>
           <button class="quiet-button" id="startPersonalButton" type="button">
@@ -935,6 +935,39 @@
               </button>
             </article>
           </div>
+
+          <section class="perspective-simulation" id="perspectiveSimulation" hidden>
+            <div class="perspective-heading">
+              <div>
+                <p class="panel-kicker">PERSPECTIVE SIMULATION</p>
+                <h3 id="perspectiveTitle">How might this response be read?</h3>
+              </div>
+              <span class="source-badge">Estimate · not a fact</span>
+            </div>
+            <div class="perspective-grid">
+              <article>
+                <span>Literal interpretation</span>
+                <p id="perspectiveLiteral"></p>
+              </article>
+              <article>
+                <span>Possible emotional interpretation</span>
+                <p id="perspectiveEmotional"></p>
+              </article>
+              <article>
+                <span>Misunderstanding risk</span>
+                <p id="perspectiveRisk"></p>
+              </article>
+              <article>
+                <span>Confidence & evidence</span>
+                <strong id="perspectiveConfidence"></strong>
+                <ul id="perspectiveEvidence"></ul>
+              </article>
+            </div>
+            <p class="perspective-calibration">
+              This rehearses plausible readings of the selected response. It
+              does not reveal another person’s thoughts, feelings, or intent.
+            </p>
+          </section>
 
           <div class="context-basis">
             <div>

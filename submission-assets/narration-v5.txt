@@ -1,0 +1,48 @@
+Most AI begins composing from one prompt. But difficult decisions rarely live
+in one message. They live in history: who is involved, what happened before,
+what changed, and what remains uncertain.
+
+Second Mind, by Cognisyn, is an evidence-linked cognitive companion built
+around one principle: context before composition.
+
+Context can enter naturally—as a message, note, event, or screenshot. The
+current prototype files it into an editable relationship graph and a
+chronological situation timeline.
+
+In this fictional case, Vargus records five events involving Benedict and
+Gertrude. The graph keeps relationships separate, while the timeline preserves
+sequence and source.
+
+Merlin does not declare a motive. It tests competing explanations. Here,
+romantic tension reaches an illustrative forty-nine percent, while
+non-romantic friction remains close at forty-three percent. Every update links
+to evidence, discloses its assumptions, and allows the user to downweight,
+reject, or correct an inference.
+
+The difference appears at the moment of action. An isolated model responds to
+Benedict's request literally. Second Mind offers several context-aware paths
+without presenting romance, conflict, or personality as fact. The user
+chooses.
+
+Before sending, Perspective Simulation rehearses how Benedict might read the
+selected response: its literal meaning, a possible emotional interpretation,
+and misunderstanding risk. It models perspectives without claiming access to
+someone else’s mind.
+
+We also tested the wider premise—that fuller context can improve
+forecasting—on four thousand, one hundred and eighty-eight ConvoKit
+conversations, with eight hundred and forty held out and zero paid API calls.
+The results are a research baseline, never a tool for judging people.
+
+I used Codex with GPT-5.6 to design, implement, and test the capture pipeline,
+relationship graph, epistemic result contract, and evaluation suite. The
+optional live reasoning path uses GPT-5.6 through the OpenAI Responses API;
+this judge demo remains reproducible without a private key.
+
+Next, the same architecture can support voice capture, Push to Think,
+Reflection Mode, and private earbud delivery on existing hardware.
+
+Second Mind does not become the decision-maker. It preserves the evidence,
+exposes the inference, and returns the judgment to the person.
+
+Context before composition. Think clearly. Stay yours.

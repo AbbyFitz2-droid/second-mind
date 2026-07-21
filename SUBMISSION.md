@@ -8,12 +8,12 @@
 
 An ambiguous message never arrives in isolation, but most AI assistants treat
 it as if it does. Second Mind is a user-controlled cognitive companion that
-turns naturally shared conversation screenshots into an evidence-linked,
-revisable relationship timeline. It separates observation from interpretation,
-shows its uncertainty, and compares an isolated reply with one based on the
-context the user selected. It does not decide what another person intended or
-tell the user what to do. It helps people think with better context while
-keeping judgment and agency human.
+connects people, messages, events, notes, and screenshots in an evidence-linked
+relationship graph and timeline. It separates observation from interpretation,
+shows its uncertainty, compares competing explanations, and rehearses how a
+chosen response might be interpreted. It does not decide what another person
+intended or tell the user what to do. It helps people think with better context
+while keeping judgment and agency human.
 
 ## 2-minute demo script
 
@@ -92,6 +92,8 @@ reasoning architecture with four connected layers:
    trusted memory automatically.
 4. **Agency-preserving composition** shows the effect of context without
    deciding intent, character, diagnosis, or action for the user.
+5. **Perspective Simulation** models possible readings of a draft while
+   explicitly distinguishing an estimate from knowledge of another mind.
 
 Closeness and trust remain separate. Missing information remains missing.
 Context retrieval uses exact person and situation IDs to prevent histories from

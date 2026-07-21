@@ -8,9 +8,9 @@
 
 ## Links
 
-**Demo video:** https://youtu.be/2V-b4F51elE
-(Public; 85.7 seconds; 1920×1080 product-only crop; normal-speed interaction;
-video and narration verified.)
+**Demo video:** https://youtu.be/n53Rs-6uDO4
+(Public; 148.6 seconds; 1920×1080 product-focused presentation; normal-speed
+interaction; human-written English captions and narration verified.)
 **Code repository:** https://github.com/AbbyFitz2-droid/second-mind
 
 ## Codex session
@@ -21,11 +21,11 @@ Use this identifier in the Devpost `/feedback Codex Session ID` field.
 
 ## Short description
 
-Second Mind is a user-controlled cognitive companion that turns naturally
-shared conversation screenshots into an evidence-linked, revisable
-relationship timeline. It separates observation from interpretation, exposes
-uncertainty, and compares an isolated reply with one grounded in the context
-the user selected—without deciding intent or replacing human judgment.
+Second Mind is a user-controlled cognitive companion that connects people,
+messages, events, notes, and screenshots in an evidence-linked relationship
+graph and timeline. It separates observation from interpretation, exposes
+uncertainty, tests competing explanations, and rehearses how a response might
+be interpreted—without deciding intent or replacing human judgment.
 
 ## Built with
 

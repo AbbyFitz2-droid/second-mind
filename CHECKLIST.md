@@ -20,7 +20,8 @@ Official category: **Apps for your life**
 - [x] README contains setup and run instructions
 - [x] README explains architecture, models, privacy, and roadmap
 - [x] Final pitch and under-three-minute demo script prepared
-- [x] Narrated 85.7-second product-only demonstration created and verified
+- [x] Narrated 148.6-second product-focused demonstration created and verified
+- [x] Human-written English captions published and spelling verified
 - [x] Repository contains no `.env` or API key
 - [x] MIT licence included for public repository publication
 - [x] Final source committed locally
@@ -34,7 +35,7 @@ Official category: **Apps for your life**
 - [x] Record the demo using the 2-minute script in `SUBMISSION.md`.
 - [x] Explicitly say how Codex **and GPT-5.6** were used.
 - [x] Upload the demo as a **public YouTube video under three minutes**:
-  https://youtu.be/2V-b4F51elE
+  https://youtu.be/n53Rs-6uDO4
 - [x] Create or select the code repository URL for judging:
   `https://github.com/AbbyFitz2-droid/second-mind` (public).
 - [x] If public, choose and add an appropriate open-source licence.

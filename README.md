@@ -3,18 +3,19 @@
 > **Context before composition. Think clearly. Stay yours.**
 
 Second Mind is a Build Week prototype of a private, user-controlled cognitive
-companion. It turns naturally captured conversations into an evidence-linked
-relationship record, then helps the user interpret and respond without turning
-AI inference into fact or replacing human judgment.
+companion. It connects naturally captured messages, notes, events, and
+screenshots in an evidence-linked relationship model, then helps the user
+interpret and respond without turning AI inference into fact or replacing
+human judgment.
 
 **Category:** Apps for your life
 
 ## Elevator pitch
 
-Share a conversation screenshot. Second Mind locally extracts the people,
-messages, promises, unresolved issues, and available dates, files them into a
-revisable relationship timeline, and shows how that context changes a possible
-response. The user can inspect the evidence, correct the interpretation, and
+Add a message, note, event, or conversation screenshot. Second Mind files the
+information into a revisable relationship graph and timeline, shows how that
+context changes a possible response, and rehearses how the recipient might
+interpret it. The user can inspect the evidence, correct every inference, and
 decide what to say.
 
 ## Problem
@@ -51,6 +52,9 @@ by the user.
   confidence, and possible actions are distinct.
 - **Context comparison:** an isolated response appears beside a response using
   the exact relationship and situation context selected by the user.
+- **Perspective Simulation:** rehearses literal meaning, a possible emotional
+  interpretation, and misunderstanding risk while labelling the result as an
+  estimate rather than access to another person's mind.
 - **Merlin pattern view:** competing explanations, event-linked illustrative
   Bayesian updates, and editable evidence weighting remain visible and
   challengeable.
@@ -81,7 +85,8 @@ The core interface has four connected areas:
   Merlin adds competing hypotheses, an event-linked probability trail, and
   editable evidence weight.
 - **Action:** an honest comparison between an isolated response and one based
-  on the selected context.
+  on the selected context, followed by an optional Perspective Simulation of
+  how the chosen response might be read.
 
 This is intentionally not a general-purpose chatbot, personality profiler,
 emotion detector, relationship judge, or decision-making agent.

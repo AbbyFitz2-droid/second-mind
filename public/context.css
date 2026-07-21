@@ -2830,6 +2830,118 @@ article.capture-finding {
   background: rgba(255, 255, 255, 0.44);
 }
 
+.perspective-simulation {
+  margin-top: 1.25rem;
+  padding: clamp(1.25rem, 2.4vw, 2rem);
+  border: 1px solid rgba(73, 92, 79, 0.26);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(142, 166, 146, 0.18), transparent 34%),
+    rgba(247, 246, 240, 0.92);
+}
+
+.perspective-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.perspective-heading h3 {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3vw, 2.65rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.perspective-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid rgba(73, 92, 79, 0.18);
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.perspective-grid article {
+  min-height: 180px;
+  padding: 1.25rem;
+  border-right: 1px solid rgba(73, 92, 79, 0.14);
+  border-bottom: 1px solid rgba(73, 92, 79, 0.14);
+}
+
+.perspective-grid article:nth-child(2n) {
+  border-right: 0;
+}
+
+.perspective-grid article:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.perspective-grid article > span {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: var(--ink-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.perspective-grid p,
+.perspective-grid strong,
+.perspective-grid li {
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+.perspective-grid p {
+  margin: 0;
+}
+
+.perspective-grid strong {
+  display: block;
+  margin-bottom: 0.7rem;
+}
+
+.perspective-grid ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--ink-muted);
+}
+
+.perspective-calibration {
+  margin: 1rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 760px) {
+  .perspective-heading,
+  .perspective-grid {
+    display: block;
+  }
+
+  .perspective-heading .source-badge {
+    display: inline-flex;
+    margin-top: 0.75rem;
+  }
+
+  .perspective-grid article,
+  .perspective-grid article:nth-child(2n) {
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(73, 92, 79, 0.14);
+  }
+
+  .perspective-grid article:last-child {
+    border-bottom: 0;
+  }
+}
+
 .context-basis p {
   margin: 4px 0 0;
   color: var(--muted);
