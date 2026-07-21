@@ -60,6 +60,19 @@
   margin-top: 30px;
 }
 
+.welcome-secondary-label {
+  margin: 26px 0 12px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.welcome-actions-secondary {
+  margin-top: 0;
+}
+
 .pattern-demo-button {
   border-color: rgba(95, 122, 104, 0.5);
   background: rgba(167, 184, 160, 0.16);
@@ -1057,6 +1070,10 @@ article.capture-finding {
   border: 1px solid var(--line);
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.48);
+}
+
+.commitment-pipeline[hidden] {
+  display: none;
 }
 
 .commitment-stage {

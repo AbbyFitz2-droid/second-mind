@@ -1685,6 +1685,8 @@ function renderCommitmentPersonOptions() {
 }
 
 function renderCommitmentPipeline(commitments) {
+  elements.commitmentPipeline.hidden = commitments.length === 0;
+  if (commitments.length === 0) return;
   const stages = [
     {
       id: "promised",
