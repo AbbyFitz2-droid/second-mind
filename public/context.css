@@ -4094,3 +4094,65 @@ article.capture-finding {
     transition: none;
   }
 }
+
+/* Archive import (Phase A: LLM chat-archive import) */
+
+.archive-import {
+  margin-top: 26px;
+}
+
+.import-status {
+  margin: 16px 0 0;
+  color: var(--sage-deep);
+  font-size: 0.78rem;
+}
+
+.import-error {
+  margin: 16px 0 0;
+  color: #9d4939;
+  font-size: 0.78rem;
+}
+
+.import-epistemic-note {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 12px 12px 0;
+  background: rgba(201, 166, 91, 0.12);
+  color: var(--ink);
+  font-size: 0.74rem;
+  line-height: 1.55;
+}
+
+.import-empty {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.import-event p {
+  margin: 8px 0 0;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.provenance-badge {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+}
+
+.provenance-user {
+  background: rgba(167, 184, 160, 0.28);
+  color: var(--sage-deep);
+}
+
+.provenance-ai {
+  background: rgba(215, 141, 114, 0.22);
+  color: #8a4a33;
+}

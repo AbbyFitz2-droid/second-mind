@@ -13,3 +13,4 @@ submission-assets/audio/
 submission-assets/frames/
 submission-assets/*.mov
 submission-assets/*.mp4
+.claude/

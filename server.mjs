@@ -21,6 +21,10 @@ import {
   analyzeCommunicationDraft,
   createCommunicationCoachSample,
 } from "./lib/communication-studio.mjs";
+import {
+  buildImportProposal,
+  createDemoArchive,
+} from "./lib/import-archive.mjs";
 
 const ROOT = fileURLToPath(new URL(".", import.meta.url));
 const PUBLIC_DIR = join(ROOT, "public");
@@ -56,6 +60,7 @@ const PAID_API_ENABLED = process.env.PAID_API_ENABLED === "true";
 const LIVE_API_AVAILABLE = Boolean(OPENAI_API_KEY && PAID_API_ENABLED);
 const MAX_JSON_BYTES = 64 * 1024;
 const MAX_AUDIO_BYTES = 10 * 1024 * 1024;
+const MAX_IMPORT_BYTES = 16 * 1024 * 1024;
 
 const MIME_TYPES = {
   ".css": "text/css; charset=utf-8",
@@ -142,6 +147,21 @@ const server = createServer(async (request, response) => {
           paid_api_enabled: false,
         },
       });
+    }
+
+    if (request.method === "GET" && request.url === "/api/import-demo-archive") {
+      return json(response, 200, {
+        archive: createDemoArchive(),
+        meta: {
+          fictional: true,
+          ephemeral: true,
+          paid_api_enabled: false,
+        },
+      });
+    }
+
+    if (request.method === "POST" && request.url === "/api/import/archive") {
+      return await handleImportArchive(request, response);
     }
 
     if (request.method === "POST" && request.url === "/api/context-reason") {
@@ -313,6 +333,32 @@ async function handleReason(request, response, requestId) {
       response_id: payload.id,
     },
   });
+}
+
+async function handleImportArchive(request, response) {
+  const body = await readJson(request, MAX_IMPORT_BYTES);
+  const archive = Array.isArray(body) ? body : body?.archive;
+  if (!Array.isArray(archive)) {
+    return json(response, 400, {
+      error:
+        "Send the parsed conversations from a ChatGPT or Claude export as JSON.",
+    });
+  }
+  try {
+    return json(response, 200, {
+      proposal: buildImportProposal(archive),
+      meta: {
+        processed_locally: true,
+        stored: false,
+        paid_api_enabled: false,
+      },
+    });
+  } catch (error) {
+    if (error?.code === "unrecognised_archive") {
+      return json(response, 422, { error: error.message });
+    }
+    throw error;
+  }
 }
 
 async function handleContextReason(request, response) {

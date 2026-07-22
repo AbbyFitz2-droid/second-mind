@@ -340,6 +340,27 @@ See the current official documentation:
 - The UI warns that prototype storage is not encrypted and should not hold
   highly sensitive information.
 
+## Archive import (post-competition, `post-buildweek` branch)
+
+Second Mind can now start from a user's existing AI conversation history
+instead of an empty workspace. Import a ChatGPT or Claude data export
+(`conversations.json`) from the Situation panel, or press "Try a fictional
+archive" for a seeded demonstration.
+
+- The archive is parsed by the local server on this device. Nothing is sent
+  to any AI service, and nothing is stored server-side.
+- Second Mind proposes people and events as **provisional**. Only what the
+  user approves in the review screen is filed.
+- Every extracted claim keeps its provenance. Text the user wrote files as
+  `user_report`; text an assistant wrote files as `ai_inference`, visibly
+  prefixed "AI interpretation, unconfirmed". Assistant speculation never
+  silently becomes fact.
+- Event dates come from conversation timestamps and are labelled
+  `archive_timestamp`, with an unresolved question recording that the date
+  belongs to the conversation, not necessarily the events it describes.
+- See `ROADMAP.md` for the full post-competition plan. The Build Week
+  submission itself is frozen at the `buildweek-submission` tag.
+
 ## Future roadmap
 
 1. Validate the capture-and-correction loop with consented testers.

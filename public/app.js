@@ -107,6 +107,21 @@ const elements = {
   captureQuestionList: document.querySelector("#captureQuestionList"),
   captureKeepSource: document.querySelector("#captureKeepSource"),
   cancelCapture: document.querySelector("#cancelCaptureButton"),
+  importFile: document.querySelector("#importFile"),
+  chooseImport: document.querySelector("#chooseImportButton"),
+  tryImportDemo: document.querySelector("#tryImportDemoButton"),
+  importDropzone: document.querySelector("#importDropzone"),
+  importStatus: document.querySelector("#importStatus"),
+  importError: document.querySelector("#importError"),
+  importReviewForm: document.querySelector("#importReviewForm"),
+  importSummary: document.querySelector("#importSummary"),
+  importFormatLabel: document.querySelector("#importFormatLabel"),
+  importEpistemicNote: document.querySelector("#importEpistemicNote"),
+  importPeopleCount: document.querySelector("#importPeopleCount"),
+  importPeopleList: document.querySelector("#importPeopleList"),
+  importEventCount: document.querySelector("#importEventCount"),
+  importEventList: document.querySelector("#importEventList"),
+  cancelImport: document.querySelector("#cancelImportButton"),
   captureSourceDialog: document.querySelector("#captureSourceDialog"),
   captureSourceDialogClose: document.querySelector("#captureSourceDialogClose"),
   captureSourceTitle: document.querySelector("#captureSourceTitle"),
@@ -294,6 +309,7 @@ const state = {
   editingConnectionId: null,
   editingCommitmentId: null,
   pendingCapture: null,
+  pendingImport: null,
   capturePreviewUrl: null,
   captureSourceUrl: null,
   captureRemovalArmed: null,
@@ -484,6 +500,21 @@ function bindEvents() {
     "change",
     updateCaptureFindingSelection,
   );
+  elements.chooseImport.addEventListener("click", () =>
+    elements.importFile.click(),
+  );
+  elements.tryImportDemo.addEventListener("click", loadImportDemo);
+  elements.importFile.addEventListener("change", selectImportFile);
+  elements.importDropzone.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    elements.importDropzone.classList.add("is-dragging");
+  });
+  elements.importDropzone.addEventListener("dragleave", () =>
+    elements.importDropzone.classList.remove("is-dragging"),
+  );
+  elements.importDropzone.addEventListener("drop", handleImportDrop);
+  elements.importReviewForm.addEventListener("submit", fileImportProposal);
+  elements.cancelImport.addEventListener("click", resetImportReview);
   elements.captureSourceDialogClose.addEventListener("click", closeCaptureSource);
   elements.captureSourceDialog.addEventListener("click", (event) => {
     if (event.target === elements.captureSourceDialog) closeCaptureSource();
@@ -1521,6 +1552,365 @@ function resetCaptureReview({ preserveProgress = false } = {}) {
   if (!preserveProgress) {
     elements.captureProgress.hidden = true;
     updateCaptureProgress(0, "Preparing local text recognition…");
+  }
+}
+
+function handleImportDrop(event) {
+  event.preventDefault();
+  elements.importDropzone.classList.remove("is-dragging");
+  const file = event.dataTransfer?.files?.[0];
+  if (file) beginArchiveImport(file);
+}
+
+function selectImportFile() {
+  const file = elements.importFile.files?.[0];
+  if (file) beginArchiveImport(file);
+  elements.importFile.value = "";
+}
+
+async function beginArchiveImport(file) {
+  if (!state.caseData) startPersonalWorkspace();
+  resetImportReview({ keepStatus: true });
+  if (file.size > 16 * 1024 * 1024) {
+    return showImportError("Keep archive files under 16 MB for this prototype.");
+  }
+  setImportStatus(`Reading ${file.name} on this device…`);
+  let archive;
+  try {
+    archive = JSON.parse(await file.text());
+  } catch {
+    return showImportError(
+      "That file is not valid JSON. Export conversations.json from ChatGPT or Claude and try again.",
+    );
+  }
+  await requestImportProposal(archive, file.name);
+}
+
+async function loadImportDemo() {
+  if (!state.caseData) startPersonalWorkspace();
+  resetImportReview({ keepStatus: true });
+  setImportStatus("Loading the fictional sample archive…");
+  try {
+    const response = await fetch("/api/import-demo-archive");
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.error || "Demo unavailable.");
+    await requestImportProposal(payload.archive, "Fictional sample archive");
+  } catch (error) {
+    showImportError(error.message || "The fictional archive could not load.");
+  }
+}
+
+async function requestImportProposal(archive, sourceName) {
+  setImportStatus("Scanning conversations locally…");
+  try {
+    const response = await fetch("/api/import/archive", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ archive }),
+    });
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(payload.error || "The archive could not be scanned.");
+    }
+    state.pendingImport = {
+      proposal: payload.proposal,
+      sourceName,
+      approvedPeople: new Set(
+        payload.proposal.people.map((person) => person.id),
+      ),
+      approvedEvents: new Set(payload.proposal.events.map((event) => event.id)),
+    };
+    elements.importStatus.hidden = true;
+    renderImportReview();
+  } catch (error) {
+    showImportError(error.message || "The archive could not be scanned.");
+  }
+}
+
+function renderImportReview() {
+  const pending = state.pendingImport;
+  if (!pending) return;
+  const { proposal } = pending;
+  elements.importReviewForm.hidden = false;
+  elements.importError.hidden = true;
+  elements.importFormatLabel.textContent =
+    proposal.format === "chatgpt" ? "ChatGPT export" : "Claude export";
+  elements.importSummary.textContent =
+    `Found ${proposal.people.length} people and ${proposal.events.length} candidate events across ` +
+    `${proposal.stats.conversations} conversations (${proposal.stats.userMessages} of your messages, ` +
+    `${proposal.stats.assistantMessages} assistant replies).`;
+  elements.importEpistemicNote.textContent = proposal.epistemicNote;
+  elements.importPeopleCount.textContent = `${proposal.people.length} people`;
+  elements.importEventCount.textContent = `${proposal.events.length} events`;
+
+  const existingNames = new Set(
+    relationshipPeople().map((person) => person.displayName.toLowerCase()),
+  );
+  elements.importPeopleList.innerHTML = proposal.people.length
+    ? proposal.people
+        .map((person) => {
+          const merges = existingNames.has(person.name.toLowerCase());
+          return `<label class="capture-finding">
+            <input
+              type="checkbox"
+              data-import-person="${escapeHtml(person.id)}"
+              ${pending.approvedPeople.has(person.id) ? "checked" : ""}
+            />
+            <span>
+              <strong>${escapeHtml(person.name)}</strong>
+              <p>${escapeHtml(person.sampleQuote || "No quote captured.")}</p>
+              <small>
+                ${person.mentionCount} mention${person.mentionCount === 1 ? "" : "s"} ·
+                ${person.conversationCount} conversation${person.conversationCount === 1 ? "" : "s"}
+                ${person.possibleAliasOf ? ` · possibly the same person as ${escapeHtml(person.possibleAliasOf)}` : ""}
+                ${merges ? " · merges into the existing profile" : ""}
+              </small>
+            </span>
+          </label>`;
+        })
+        .join("")
+    : `<p class="import-empty">No people were mentioned often enough to propose. Nothing will be invented.</p>`;
+
+  elements.importEventList.innerHTML = proposal.events.length
+    ? proposal.events
+        .map((event) => {
+          const userClaims = event.userStatedClaims
+            .map(
+              (claim) =>
+                `<p><span class="provenance-badge provenance-user">You wrote</span> ${escapeHtml(claim.text)}</p>`,
+            )
+            .join("");
+          const aiClaims = event.aiInferredClaims
+            .map(
+              (claim) =>
+                `<p><span class="provenance-badge provenance-ai">AI inferred · unconfirmed</span> ${escapeHtml(claim.text)}</p>`,
+            )
+            .join("");
+          const dateLabel = event.occurredAt
+            ? `${new Date(event.occurredAt).toLocaleDateString()} · conversation timestamp, not the event date`
+            : "Date unknown · the archive had no timestamp";
+          return `<label class="capture-finding import-event">
+            <input
+              type="checkbox"
+              data-import-event="${escapeHtml(event.id)}"
+              ${pending.approvedEvents.has(event.id) ? "checked" : ""}
+            />
+            <span>
+              <strong>${escapeHtml(event.title)}</strong>
+              <small>${escapeHtml(dateLabel)} · involves ${escapeHtml(event.personNames.join(", "))}</small>
+              ${userClaims}
+              ${aiClaims}
+            </span>
+          </label>`;
+        })
+        .join("")
+    : `<p class="import-empty">No events referenced the proposed people.</p>`;
+
+  elements.importPeopleList
+    .querySelectorAll("input[data-import-person]")
+    .forEach((input) =>
+      input.addEventListener("change", () => {
+        if (input.checked) pending.approvedPeople.add(input.dataset.importPerson);
+        else pending.approvedPeople.delete(input.dataset.importPerson);
+      }),
+    );
+  elements.importEventList
+    .querySelectorAll("input[data-import-event]")
+    .forEach((input) =>
+      input.addEventListener("change", () => {
+        if (input.checked) pending.approvedEvents.add(input.dataset.importEvent);
+        else pending.approvedEvents.delete(input.dataset.importEvent);
+      }),
+    );
+
+  elements.importReviewForm.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest",
+  });
+}
+
+function fileImportProposal(event) {
+  event.preventDefault();
+  const pending = state.pendingImport;
+  if (!pending || !state.caseData) return;
+  const { proposal, sourceName } = pending;
+  const now = new Date().toISOString();
+  const captureId = `capture-${crypto.randomUUID()}`;
+
+  const approvedPeople = proposal.people.filter((person) =>
+    pending.approvedPeople.has(person.id),
+  );
+  const personIdByName = new Map();
+  for (const person of approvedPeople) {
+    const record = ensureImportedPerson(person, now);
+    personIdByName.set(person.name.toLowerCase(), record.id);
+  }
+
+  let filedEvents = 0;
+  let filedClaims = 0;
+  let skippedEvents = 0;
+  const situationIds = [];
+  for (const eventProposal of proposal.events) {
+    if (!pending.approvedEvents.has(eventProposal.id)) continue;
+    const personIds = [
+      ...new Set(
+        eventProposal.personNames
+          .map((name) => personIdByName.get(name.toLowerCase()))
+          .filter(Boolean),
+      ),
+    ];
+    if (!personIds.length) {
+      skippedEvents += 1;
+      continue;
+    }
+    const allPersonIds = ["person-you", ...personIds];
+    const sourceReference = `${sourceName} · ${eventProposal.sourceConversationTitle}`;
+    const claimIds = [];
+    for (const claim of eventProposal.userStatedClaims) {
+      const claimId = `claim-${crypto.randomUUID()}`;
+      state.caseData.claims.push({
+        id: claimId,
+        situationId: null,
+        personIds: allPersonIds,
+        type: "user_report",
+        text: `You wrote at the time: ${claim.text}`,
+        source: { kind: "llm_archive", reference: sourceReference, captureId },
+        confidence: "moderate",
+        status: "current",
+        userConfirmation: "reviewed",
+        createdAt: now,
+      });
+      claimIds.push(claimId);
+    }
+    for (const claim of eventProposal.aiInferredClaims) {
+      const claimId = `claim-${crypto.randomUUID()}`;
+      state.caseData.claims.push({
+        id: claimId,
+        situationId: null,
+        personIds: allPersonIds,
+        type: "ai_inference",
+        text: `AI interpretation, unconfirmed: ${claim.text}`,
+        source: { kind: "llm_archive", reference: sourceReference, captureId },
+        confidence: "low",
+        status: "current",
+        userConfirmation: "unreviewed",
+        createdAt: now,
+      });
+      claimIds.push(claimId);
+    }
+    const situationId = `situation-${crypto.randomUUID()}`;
+    for (const claimId of claimIds) {
+      const claim = state.caseData.claims.find((item) => item.id === claimId);
+      if (claim) claim.situationId = situationId;
+    }
+    state.caseData.situations.push({
+      id: situationId,
+      title: `Imported: ${eventProposal.title}`,
+      occurredAt: eventProposal.occurredAt,
+      datePrecision: eventProposal.datePrecision,
+      dateSource: eventProposal.dateSource,
+      capturedAt: now,
+      recordSequence: state.caseData.situations.length,
+      location: "Imported AI conversation",
+      personIds: allPersonIds,
+      sourceRefs: [sourceReference],
+      sourceCaptureId: captureId,
+      eventClaimIds: claimIds,
+      actionTaken: "",
+      unresolvedQuestions: [...eventProposal.unresolvedQuestions],
+      relatedSituationIds: [],
+    });
+    situationIds.push(situationId);
+    filedEvents += 1;
+    filedClaims += claimIds.length;
+  }
+
+  state.caseData.captures.push({
+    id: captureId,
+    kind: "llm_archive",
+    fileName: sourceName,
+    mimeType: "application/json",
+    byteSize: 0,
+    capturedAt: now,
+    extractedText:
+      `Imported ${proposal.format === "chatgpt" ? "ChatGPT" : "Claude"} archive: ` +
+      `${proposal.stats.conversations} conversations scanned, ${approvedPeople.length} people approved, ` +
+      `${filedEvents} events filed. AI-written statements stay labelled as unconfirmed interpretations.`,
+    ocrConfidence: null,
+    sourceDate: null,
+    datePrecision: "unknown",
+    dateSource: "archive_timestamp",
+    imageStoredLocally: false,
+    imageSentToAiService: false,
+    participantPersonIds: ["person-you", ...personIdByName.values()],
+    situationIds,
+    findingSnapshot: approvedPeople.map((person) => ({
+      kind: "person",
+      label: person.name,
+      status: "imported",
+      confidence: "provisional",
+      evidence: person.sampleQuote,
+    })),
+    priorInteraction: null,
+    userConfirmation: "reviewed",
+  });
+
+  resetImportReview();
+  hydrateWorkspace();
+  showPanel("situation");
+  persistWorkspace();
+  const skippedNote = skippedEvents
+    ? ` ${skippedEvents} event${skippedEvents === 1 ? "" : "s"} skipped because no approved person was involved.`
+    : "";
+  showToast(
+    `Imported ${approvedPeople.length} people, ${filedEvents} events, and ${filedClaims} labelled claims.${skippedNote}`,
+  );
+}
+
+function ensureImportedPerson(personProposal, recordedAt) {
+  const existing = relationshipPeople().find(
+    (person) =>
+      person.displayName.toLowerCase() === personProposal.name.toLowerCase(),
+  );
+  if (existing) return existing;
+  const person = {
+    id: `person-${crypto.randomUUID()}`,
+    displayName: personProposal.name,
+    relationshipType: "Relationship not yet specified",
+    closeness: 1,
+    trust: 1,
+    metThrough: "Imported from an AI conversation archive",
+    communicationNotes: [],
+    boundaries: [],
+    relationshipGoals: [],
+    currentState: "Provisional record",
+    source: "llm_archive_import",
+    updatedAt: recordedAt,
+  };
+  state.caseData.people.push(person);
+  return person;
+}
+
+function setImportStatus(message) {
+  elements.importStatus.textContent = message;
+  elements.importStatus.hidden = false;
+  elements.importError.hidden = true;
+}
+
+function showImportError(message) {
+  elements.importError.textContent = message;
+  elements.importError.hidden = false;
+  elements.importStatus.hidden = true;
+}
+
+function resetImportReview({ keepStatus = false } = {}) {
+  state.pendingImport = null;
+  elements.importReviewForm.hidden = true;
+  elements.importPeopleList.innerHTML = "";
+  elements.importEventList.innerHTML = "";
+  if (!keepStatus) {
+    elements.importStatus.hidden = true;
+    elements.importError.hidden = true;
   }
 }
 

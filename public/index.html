@@ -483,6 +483,112 @@
           </section>
 
           <section
+            class="capture-inbox archive-import"
+            id="archiveImport"
+            aria-labelledby="archiveImportTitle"
+          >
+            <div class="capture-heading">
+              <div>
+                <p class="panel-kicker">ARCHIVE IMPORT</p>
+                <h3 id="archiveImportTitle">
+                  Start from your existing AI conversations.
+                </h3>
+                <p>
+                  Import a ChatGPT or Claude export. Second Mind proposes
+                  people and events as provisional, and only what you approve
+                  is filed.
+                </p>
+              </div>
+              <span class="capture-privacy">
+                Parsed by your local server · nothing leaves this device
+              </span>
+            </div>
+
+            <div class="capture-dropzone" id="importDropzone">
+              <input
+                id="importFile"
+                type="file"
+                accept="application/json,.json"
+                hidden
+              />
+              <div class="capture-dropzone-copy">
+                <strong>Drop a conversations.json export here</strong>
+                <span>ChatGPT or Claude data export · up to 16 MB</span>
+              </div>
+              <div class="capture-dropzone-actions">
+                <button
+                  class="secondary-button"
+                  id="chooseImportButton"
+                  type="button"
+                >
+                  Choose export file
+                </button>
+                <button class="text-button" id="tryImportDemoButton" type="button">
+                  Try a fictional archive
+                </button>
+              </div>
+            </div>
+
+            <p
+              class="import-status"
+              id="importStatus"
+              role="status"
+              aria-live="polite"
+              hidden
+            ></p>
+            <p class="import-error" id="importError" role="alert" hidden></p>
+
+            <form class="capture-review" id="importReviewForm" hidden>
+              <div class="capture-review-heading">
+                <div>
+                  <span>PROVISIONAL PROPOSAL</span>
+                  <h4 id="importSummary">Review before anything is filed.</h4>
+                </div>
+                <span class="capture-confidence" id="importFormatLabel">
+                  Format pending
+                </span>
+              </div>
+
+              <p class="import-epistemic-note" id="importEpistemicNote"></p>
+
+              <div class="capture-findings">
+                <div class="capture-findings-heading">
+                  <div>
+                    <span>PEOPLE FOUND</span>
+                    <h4>Profiles are created only for people you approve.</h4>
+                  </div>
+                  <span id="importPeopleCount">0 people</span>
+                </div>
+                <div id="importPeopleList"></div>
+              </div>
+
+              <div class="capture-findings">
+                <div class="capture-findings-heading">
+                  <div>
+                    <span>EVENTS FOUND</span>
+                    <h4>
+                      Dates come from conversation timestamps and stay
+                      labelled that way.
+                    </h4>
+                  </div>
+                  <span id="importEventCount">0 events</span>
+                </div>
+                <div id="importEventList"></div>
+              </div>
+
+              <div class="capture-review-actions">
+                <button class="reason-button" id="fileImportButton" type="submit">
+                  <span>File approved items</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                <button class="text-button" id="cancelImportButton" type="button">
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <section
             class="commitment-workspace"
             id="commitmentWorkspace"
             aria-labelledby="commitmentWorkspaceTitle"
