@@ -4357,3 +4357,12 @@ article.capture-finding {
   color: var(--muted);
   font-size: 0.68rem;
 }
+
+/* Profile quick actions */
+
+.profile-quick-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}

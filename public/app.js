@@ -141,6 +141,9 @@ const elements = {
   importConnectionList: document.querySelector("#importConnectionList"),
   recordMessage: document.querySelector("#recordMessageButton"),
   studioEngineBadge: document.querySelector("#studioEngineBadge"),
+  profileQuickActions: document.querySelector("#profileQuickActions"),
+  profileRecordMessage: document.querySelector("#profileRecordMessageButton"),
+  profileAddScreenshot: document.querySelector("#profileAddScreenshotButton"),
   cancelImport: document.querySelector("#cancelImportButton"),
   captureSourceDialog: document.querySelector("#captureSourceDialog"),
   captureSourceDialogClose: document.querySelector("#captureSourceDialogClose"),
@@ -333,6 +336,7 @@ const state = {
   tourStep: -1,
   commitmentSuggestion: null,
   lastRecordedKey: null,
+  captureSuggestedPersonName: "",
   capturePreviewUrl: null,
   captureSourceUrl: null,
   captureRemovalArmed: null,
@@ -548,6 +552,30 @@ function bindEvents() {
   });
   elements.recordMessage.addEventListener("click", recordIncomingMessage);
   elements.mapConnections.addEventListener("click", selectPersonFromMap);
+  elements.profileRecordMessage.addEventListener("click", () => {
+    const person = selectedPerson();
+    if (!person) return;
+    elements.sender.value = person.id;
+    elements.sender.dispatchEvent(new Event("change"));
+    elements.incoming.scrollIntoView({ behavior: "smooth", block: "center" });
+    elements.incoming.focus();
+    showToast(
+      `Type or paste ${person.displayName}'s message, then press “Record only” or “Build with context”.`,
+    );
+  });
+  elements.profileAddScreenshot.addEventListener("click", () => {
+    const person = selectedPerson();
+    if (!person) return;
+    state.captureSuggestedPersonName = person.displayName;
+    showPanel("situation");
+    elements.captureDropzone.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+    showToast(
+      `Drop or choose the screenshot. ${person.displayName} will be suggested as the person.`,
+    );
+  });
   elements.mapConnections.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") selectPersonFromMap(event);
   });
@@ -1181,7 +1209,7 @@ function renderCaptureReview({ preserveClarifications = false } = {}) {
   elements.capturePersonName.value =
     preserveClarifications && existingName
       ? existingName
-      : parsed.primaryPersonName || "";
+      : parsed.primaryPersonName || state.captureSuggestedPersonName || "";
   elements.captureRelationship.value = preserveClarifications
     ? existingRelationship
     : "";
@@ -1605,6 +1633,7 @@ function resetCaptureReview({ preserveProgress = false } = {}) {
     state.capturePreviewUrl = null;
   }
   state.pendingCapture = null;
+  state.captureSuggestedPersonName = "";
   elements.captureReviewForm.reset();
   elements.captureReviewForm.hidden = true;
   elements.capturePreview.removeAttribute("src");
@@ -3603,7 +3632,8 @@ function renderConnectionList() {
   const people = relationshipPeople();
   const peopleById = new Map(people.map((person) => [person.id, person]));
   const connections = relationshipConnections();
-  elements.addConnection.disabled = people.length < 2;
+  // Keep the button clickable even with one person, so it can explain itself.
+  elements.addConnection.disabled = false;
   if (!connections.length) {
     elements.connectionList.innerHTML = `<p class="empty-connections">${
       people.length < 2
@@ -3639,7 +3669,10 @@ function renderConnectionList() {
 function openNewConnectionForm() {
   const people = relationshipPeople();
   if (people.length < 2) {
-    showToast("Add at least two people before mapping their relationship.");
+    showToast(
+      "Relationships link two people besides you. Add the second person first — opening that now.",
+    );
+    openPersonDialog();
     return;
   }
   state.editingConnectionId = null;
@@ -3827,6 +3860,9 @@ function selectedPerson() {
 function renderSelectedProfile() {
   const person = selectedPerson();
   elements.profileForm.classList.toggle("empty", !person);
+  if (elements.profileQuickActions) {
+    elements.profileQuickActions.hidden = !person;
+  }
   [
     elements.usePerson,
     elements.personName,
