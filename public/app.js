@@ -331,6 +331,7 @@ const state = {
   pendingImport: null,
   tourStep: -1,
   commitmentSuggestion: null,
+  lastRecordedKey: null,
   capturePreviewUrl: null,
   captureSourceUrl: null,
   captureRemovalArmed: null,
@@ -545,6 +546,10 @@ function bindEvents() {
     elements.commitmentSuggestion.hidden = true;
   });
   elements.recordMessage.addEventListener("click", recordIncomingMessage);
+  elements.mapConnections.addEventListener("click", selectPersonFromMap);
+  elements.mapConnections.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") selectPersonFromMap(event);
+  });
   elements.importDropzone.addEventListener("dragover", (event) => {
     event.preventDefault();
     elements.importDropzone.classList.add("is-dragging");
@@ -987,6 +992,15 @@ async function runContext({ switchTo = null } = {}) {
     if (requestVersion !== state.requestVersion) return;
     state.result = payload.result;
     renderResult();
+    const person = state.caseData.people.find((item) => item.id === senderId);
+    if (person && fileIncomingRecord(person, message)) {
+      showToast(
+        `Recorded for ${person.displayName} and built the response with context.`,
+      );
+      renderTimeline();
+      renderCommitments();
+      persistWorkspace();
+    }
     detectCommitmentSuggestion(message, senderId);
     if (switchTo) showPanel(switchTo);
   } catch (error) {
@@ -1683,6 +1697,19 @@ function recordIncomingMessage() {
     return;
   }
   elements.error.textContent = "";
+  fileIncomingRecord(person, message);
+  detectCommitmentSuggestion(message, senderId);
+  hydrateWorkspace();
+  persistWorkspace();
+  showPanel("situation");
+  showToast(
+    `Recorded for ${person.displayName}. Nothing was drafted, and the record stays editable.`,
+  );
+}
+
+function fileIncomingRecord(person, message) {
+  const recordKey = `${person.id}::${message}`;
+  if (state.lastRecordedKey === recordKey) return false;
   const now = new Date().toISOString();
   const claimId = `claim-${crypto.randomUUID()}`;
   const situationId = `situation-${crypto.randomUUID()}`;
@@ -1719,13 +1746,8 @@ function recordIncomingMessage() {
   state.caseData.selectedSituationIds.push(situationId);
   state.caseData.incoming.senderPersonId = person.id;
   state.caseData.incoming.text = message;
-  detectCommitmentSuggestion(message, senderId);
-  hydrateWorkspace();
-  persistWorkspace();
-  showPanel("situation");
-  showToast(
-    `Recorded for ${person.displayName}. Nothing was drafted, and the record stays editable.`,
-  );
+  state.lastRecordedKey = recordKey;
+  return true;
 }
 
 function detectCommitmentSuggestion(message, senderId) {
@@ -1832,10 +1854,11 @@ function renderImportReview() {
     ? proposal.people
         .map((person) => {
           const merges = existingNames.has(person.name.toLowerCase());
-          return `<label class="capture-finding">
+          return `<div class="capture-finding import-person-row">
             <input
               type="checkbox"
               data-import-person="${escapeHtml(person.id)}"
+              aria-label="Import ${escapeHtml(person.name)}"
               ${pending.approvedPeople.has(person.id) ? "checked" : ""}
             />
             <span>
@@ -1847,8 +1870,15 @@ function renderImportReview() {
                 ${person.possibleAliasOf ? ` · possibly the same person as ${escapeHtml(person.possibleAliasOf)}` : ""}
                 ${merges ? " · merges into the existing profile" : ""}
               </small>
+              <input
+                type="text"
+                class="import-relationship-input"
+                data-import-relationship="${escapeHtml(person.id)}"
+                maxlength="100"
+                placeholder="Relationship, if you know it (friend, colleague…)"
+              />
             </span>
-          </label>`;
+          </div>`;
         })
         .join("")
     : `<p class="import-empty">No people were mentioned often enough to propose. Nothing will be invented.</p>`;
@@ -1954,9 +1984,24 @@ function fileImportProposal(event) {
   const approvedPeople = proposal.people.filter((person) =>
     pending.approvedPeople.has(person.id),
   );
+  const relationshipByProposalId = new Map();
+  elements.importPeopleList
+    .querySelectorAll("input[data-import-relationship]")
+    .forEach((input) => {
+      if (input.value.trim()) {
+        relationshipByProposalId.set(
+          input.dataset.importRelationship,
+          input.value.trim(),
+        );
+      }
+    });
   const personIdByName = new Map();
   for (const person of approvedPeople) {
-    const record = ensureImportedPerson(person, now);
+    const record = ensureImportedPerson(
+      person,
+      now,
+      relationshipByProposalId.get(person.id) || "",
+    );
     personIdByName.set(person.name.toLowerCase(), record.id);
   }
 
@@ -2110,16 +2155,26 @@ function fileImportProposal(event) {
   );
 }
 
-function ensureImportedPerson(personProposal, recordedAt) {
+function ensureImportedPerson(personProposal, recordedAt, relationship = "") {
   const existing = relationshipPeople().find(
     (person) =>
       person.displayName.toLowerCase() === personProposal.name.toLowerCase(),
   );
-  if (existing) return existing;
+  if (existing) {
+    if (
+      relationship &&
+      (!existing.relationshipType ||
+        existing.relationshipType === "Relationship not yet specified")
+    ) {
+      existing.relationshipType = relationship;
+      existing.updatedAt = recordedAt;
+    }
+    return existing;
+  }
   const person = {
     id: `person-${crypto.randomUUID()}`,
     displayName: personProposal.name,
-    relationshipType: "Relationship not yet specified",
+    relationshipType: relationship || "Relationship not yet specified",
     closeness: 1,
     trust: 1,
     metThrough: "Imported from an AI conversation archive",
@@ -3428,7 +3483,10 @@ function renderRelationshipMap() {
     </g>`);
     nodeParts.push(`<g
       class="svg-person-node ${person.id === state.selectedPersonId ? "active" : ""}"
-      aria-hidden="true"
+      data-person-id="${escapeHtml(person.id)}"
+      role="button"
+      tabindex="0"
+      aria-label="Open ${escapeHtml(person.displayName)}"
     >
       <circle cx="${position.x}" cy="${position.y}" r="45"></circle>
       <text class="svg-node-name" x="${position.x}" y="${position.y - 3}">${escapeHtml(firstName(person.displayName))}</text>
@@ -3515,6 +3573,19 @@ function graphCurve(from, to, index) {
     labelX: (from.x + 2 * controlX + to.x) / 4,
     labelY: (from.y + 2 * controlY + to.y) / 4 - 7,
   };
+}
+
+function selectPersonFromMap(event) {
+  const node = event.target.closest?.("[data-person-id]");
+  if (!node) return;
+  event.preventDefault();
+  state.selectedPersonId = node.dataset.personId;
+  renderRelationshipMap();
+  renderPeopleDirectory();
+  renderSelectedProfile();
+  elements.profileForm.scrollIntoView({ behavior: "smooth", block: "start" });
+  const person = selectedPerson();
+  if (person) showToast(`Opened ${person.displayName}'s profile below the map.`);
 }
 
 function selectPersonFromControl(event) {
@@ -4626,7 +4697,7 @@ function confirmReview() {
   state.reviewConfirmed = true;
   updateReviewState();
   showToast(
-    `${reviewed} interpretation ${reviewed === 1 ? "review" : "reviews"} confirmed for this session only.`,
+    `${reviewed} ${reviewed === 1 ? "review" : "reviews"} saved as your assessment. The AI's original wording stays visible, and this session's reasoning now uses your corrections.`,
   );
 }
 
