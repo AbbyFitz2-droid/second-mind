@@ -47,20 +47,46 @@
         <p class="eyebrow">Inspectable contextual reasoning</p>
         <h1>Your relationships have context.<br /><em>Your AI should too.</em></h1>
         <p>
-          Second Mind separates evidence and observation from interpretation,
-          confidence, and alternatives before generating advice. Relationship
-          and situation context stays visible, editable, and under your control.
+          Most AI answers one message at a time. Second Mind connects the
+          people, messages, events, and evidence behind your conversations,
+          then helps you understand and reply. The judgment stays yours.
         </p>
+        <ol class="how-it-works" aria-label="How Second Mind works">
+          <li>
+            <span class="how-step" aria-hidden="true">1</span>
+            <div>
+              <strong>Share a screenshot or message.</strong>
+              <p>Or import your existing AI conversations in one file.</p>
+            </div>
+          </li>
+          <li>
+            <span class="how-step" aria-hidden="true">2</span>
+            <div>
+              <strong>Second Mind files who said what.</strong>
+              <p>People, events, and promises stay linked to their evidence.</p>
+            </div>
+          </li>
+          <li>
+            <span class="how-step" aria-hidden="true">3</span>
+            <div>
+              <strong>It helps you understand and reply.</strong>
+              <p>Interpretations stay labelled. Nothing is decided for you.</p>
+            </div>
+          </li>
+        </ol>
         <div class="welcome-actions">
-          <button class="reason-button" id="startCaptureButton" type="button">
-            <span>Capture a screenshot</span>
+          <button class="reason-button" id="startTourButton" type="button">
+            <span>See it work in 60 seconds</span>
             <span aria-hidden="true">→</span>
+          </button>
+          <button class="quiet-button" id="startCaptureButton" type="button">
+            <span>Capture a screenshot</span>
           </button>
           <button class="quiet-button" id="startPersonalButton" type="button">
             <span>Start my relationship map</span>
           </button>
         </div>
-        <p class="welcome-secondary-label">Or see it working first, no setup</p>
+        <p class="welcome-secondary-label">More ways to explore, no setup</p>
         <div class="welcome-actions welcome-actions-secondary">
           <button class="quiet-button" id="exploreDemoButton" type="button">
             Explore message context
@@ -1496,6 +1522,21 @@
     </div>
 
     <div class="context-toast" id="contextToast" role="status" aria-live="polite"></div>
+
+    <aside class="tour-card" id="tourCard" role="dialog" aria-live="polite" hidden>
+      <p class="tour-progress" id="tourProgress">Step 1 of 5</p>
+      <h4 id="tourTitle"></h4>
+      <p id="tourText"></p>
+      <div class="tour-actions">
+        <button class="reason-button" id="tourNextButton" type="button">
+          <span id="tourNextLabel">Next</span>
+          <span aria-hidden="true">→</span>
+        </button>
+        <button class="text-button" id="tourEndButton" type="button">
+          End tour
+        </button>
+      </div>
+    </aside>
 
     <script src="/vendor/tesseract/tesseract.min.js"></script>
     <script type="module" src="/app.js"></script>

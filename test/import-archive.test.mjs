@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import {
   buildImportProposal,
   createDemoArchive,
+  createStressArchive,
   detectArchiveFormat,
   parseArchive,
 } from "../lib/import-archive.mjs";
@@ -181,5 +182,27 @@ describe("import proposal", () => {
     const archive = createDemoArchive();
     const proposal = buildImportProposal(archive, { maxEvents: 1 });
     assert.equal(proposal.events.length, 1);
+  });
+});
+
+describe("scale behaviour", () => {
+  it("handles a months-long archive with a full cast", () => {
+    const archive = createStressArchive({ conversations: 40 });
+    const started = performance.now();
+    const proposal = buildImportProposal(archive);
+    const elapsed = performance.now() - started;
+    assert.equal(proposal.stats.conversations, 40);
+    assert.ok(proposal.stats.peopleProposed >= 10);
+    assert.equal(proposal.stats.eventsProposed, 40);
+    assert.ok(elapsed < 2000, `proposal took ${Math.round(elapsed)}ms`);
+    for (const event of proposal.events) {
+      assert.ok(event.userStatedClaims.length >= 1);
+    }
+  });
+
+  it("stays deterministic across runs", () => {
+    const first = JSON.stringify(createStressArchive({ conversations: 5 }));
+    const second = JSON.stringify(createStressArchive({ conversations: 5 }));
+    assert.equal(first, second);
   });
 });

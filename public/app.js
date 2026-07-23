@@ -29,6 +29,14 @@ const CLOSED_COMMITMENT_STATUSES = new Set(["completed", "cancelled"]);
 const elements = {
   welcome: document.querySelector("#welcomePanel"),
   product: document.querySelector("#productContent"),
+  startTour: document.querySelector("#startTourButton"),
+  tourCard: document.querySelector("#tourCard"),
+  tourProgress: document.querySelector("#tourProgress"),
+  tourTitle: document.querySelector("#tourTitle"),
+  tourText: document.querySelector("#tourText"),
+  tourNext: document.querySelector("#tourNextButton"),
+  tourNextLabel: document.querySelector("#tourNextLabel"),
+  tourEnd: document.querySelector("#tourEndButton"),
   startCapture: document.querySelector("#startCaptureButton"),
   startPersonal: document.querySelector("#startPersonalButton"),
   exploreDemo: document.querySelector("#exploreDemoButton"),
@@ -310,6 +318,7 @@ const state = {
   editingCommitmentId: null,
   pendingCapture: null,
   pendingImport: null,
+  tourStep: -1,
   capturePreviewUrl: null,
   captureSourceUrl: null,
   captureRemovalArmed: null,
@@ -436,6 +445,9 @@ function initialize() {
 function bindEvents() {
   elements.startCapture.addEventListener("click", startCaptureWorkspace);
   elements.startPersonal.addEventListener("click", startPersonalWorkspace);
+  elements.startTour.addEventListener("click", startGuidedTour);
+  elements.tourNext.addEventListener("click", advanceGuidedTour);
+  elements.tourEnd.addEventListener("click", endGuidedTour);
   elements.exploreDemo.addEventListener("click", () =>
     loadWorkspace("/api/demo-case", "demo"),
   );
@@ -1912,6 +1924,78 @@ function resetImportReview({ keepStatus = false } = {}) {
     elements.importStatus.hidden = true;
     elements.importError.hidden = true;
   }
+}
+
+const TOUR_STEPS = [
+  {
+    view: "situation",
+    title: "One evening message, filed with its evidence",
+    text: "Maya wrote: “No worries, I’ll leave you to it.” The timeline keeps each event separate and linked to its source.",
+  },
+  {
+    view: "people",
+    title: "People, with history you control",
+    text: "Each person carries relationship type, boundaries, and trust. This is the context most AI never sees.",
+  },
+  {
+    view: "interpretation",
+    title: "Facts stay separate from guesses",
+    text: "Evidence is listed first. AI interpretations are labelled with confidence and alternative readings.",
+  },
+  {
+    view: "action",
+    title: "Compare responses",
+    text: "Second Mind drafts with and without context, so you can see exactly what the history changes.",
+  },
+  {
+    view: "coach",
+    title: "You stay the author",
+    text: "The Communication Studio reviews your draft against boundaries and goals. Nothing is sent or decided for you.",
+  },
+];
+
+async function startGuidedTour() {
+  await loadWorkspace("/api/demo-case", "demo");
+  if (!state.caseData) return;
+  try {
+    await runContext();
+  } catch {
+    // The tour still works panel by panel if the analysis call fails.
+  }
+  state.tourStep = 0;
+  showTourStep();
+}
+
+function showTourStep() {
+  const step = TOUR_STEPS[state.tourStep];
+  if (!step) return endGuidedTour();
+  showPanel(step.view);
+  elements.tourProgress.textContent = `Step ${state.tourStep + 1} of ${TOUR_STEPS.length}`;
+  elements.tourTitle.textContent = step.title;
+  elements.tourText.textContent = step.text;
+  elements.tourNextLabel.textContent =
+    state.tourStep === TOUR_STEPS.length - 1 ? "Finish" : "Next";
+  elements.tourCard.hidden = false;
+  document
+    .querySelector(".context-workspace")
+    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function advanceGuidedTour() {
+  state.tourStep += 1;
+  if (state.tourStep >= TOUR_STEPS.length) {
+    endGuidedTour();
+    showToast(
+      "That is the loop. Explore the demo freely, or start your own map.",
+    );
+    return;
+  }
+  showTourStep();
+}
+
+function endGuidedTour() {
+  state.tourStep = -1;
+  elements.tourCard.hidden = true;
 }
 
 async function openCaptureSourceFromTimeline(event) {
