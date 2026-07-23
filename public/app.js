@@ -141,6 +141,7 @@ const elements = {
   importConnectionList: document.querySelector("#importConnectionList"),
   recordMessage: document.querySelector("#recordMessageButton"),
   studioEngineBadge: document.querySelector("#studioEngineBadge"),
+  contextEngineBadge: document.querySelector("#contextEngineBadge"),
   profileQuickActions: document.querySelector("#profileQuickActions"),
   profileRecordMessage: document.querySelector("#profileRecordMessageButton"),
   profileAddScreenshot: document.querySelector("#profileAddScreenshotButton"),
@@ -1020,6 +1021,12 @@ async function runContext({ switchTo = null } = {}) {
     }
     if (requestVersion !== state.requestVersion) return;
     state.result = payload.result;
+    if (elements.contextEngineBadge) {
+      elements.contextEngineBadge.textContent =
+        payload.result?.meta?.source === "live"
+          ? `Live · ${payload.result.meta.model || "GPT-5.6"}`
+          : "Local deterministic demo";
+    }
     renderResult();
     const person = state.caseData.people.find((item) => item.id === senderId);
     if (person && fileIncomingRecord(person, message)) {
@@ -2998,11 +3005,11 @@ function editCommitmentFromControl(event) {
   elements.commitmentStatus.value = commitment.status;
   elements.commitmentIssueTitle.value = issue.title;
   elements.commitmentDescription.value = commitment.description;
-  elements.commitmentPromisedAt.value = toLocalDateTimeInput(
+  elements.commitmentPromisedAt.value = toLocalDateInput(
     commitment.promisedAt,
   );
   elements.commitmentDueAt.value = commitment.dueAt
-    ? toLocalDateTimeInput(commitment.dueAt)
+    ? toLocalDateInput(commitment.dueAt)
     : "";
   elements.commitmentSource.value =
     commitment.source?.reference || "User entry";
@@ -3406,6 +3413,11 @@ function toLocalDateTimeInput(value) {
   if (Number.isNaN(date.getTime())) return "";
   const offset = date.getTimezoneOffset() * 60_000;
   return new Date(date.getTime() - offset).toISOString().slice(0, 16);
+}
+
+function toLocalDateInput(value) {
+  const full = toLocalDateTimeInput(value);
+  return full ? full.slice(0, 10) : "";
 }
 
 function openPersonDialog() {

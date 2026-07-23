@@ -32,6 +32,12 @@ import {
   mergeStudioLiveResult,
   STUDIO_LIVE_SCHEMA,
 } from "./lib/communication-studio-live.mjs";
+import {
+  buildContextLiveInput,
+  buildContextLiveInstructions,
+  mergeContextLiveResult,
+  CONTEXT_LIVE_SCHEMA,
+} from "./lib/context-live.mjs";
 
 const ROOT = fileURLToPath(new URL(".", import.meta.url));
 const PUBLIC_DIR = join(ROOT, "public");
@@ -419,16 +425,84 @@ async function handleContextReason(request, response) {
     return json(response, 400, { error: "The case context is incomplete." });
   }
 
-  return json(response, 200, {
-    result: buildContextResult({
-      caseData,
-      message,
-      senderId,
-      selectedSituationIds,
-      goal,
-      desiredTone,
-    }),
+  const deterministic = buildContextResult({
+    caseData,
+    message,
+    senderId,
+    selectedSituationIds,
+    goal,
+    desiredTone,
   });
+
+  if (!LIVE_API_AVAILABLE) {
+    return json(response, 200, { result: deterministic });
+  }
+
+  try {
+    const person = caseData.people.find((item) => item.id === senderId);
+    const boundary = deterministic.contextual.basis.find(
+      (item) => item.id === `boundary-${senderId}`,
+    )?.text;
+    const apiResponse = await fetch("https://api.openai.com/v1/responses", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: OPENAI_MODEL,
+        store: false,
+        safety_identifier: createHash("sha256")
+          .update(`second-mind-context:${senderId}`)
+          .digest("hex"),
+        reasoning: { effort: "low", context: "current_turn" },
+        text: {
+          verbosity: "low",
+          format: {
+            type: "json_schema",
+            name: "context_card",
+            strict: true,
+            schema: CONTEXT_LIVE_SCHEMA,
+          },
+        },
+        instructions: buildContextLiveInstructions({ goal, desiredTone }),
+        input: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "input_text",
+                text: buildContextLiveInput({
+                  person,
+                  facts: deterministic.epistemic.facts,
+                  boundary,
+                  message,
+                }),
+              },
+            ],
+          },
+        ],
+      }),
+      signal: AbortSignal.timeout(45_000),
+    });
+    const payload = await apiResponse.json();
+    if (!apiResponse.ok) {
+      throw new Error(payload?.error?.code || `status ${apiResponse.status}`);
+    }
+    const extracted = extractResponseText(payload);
+    if (extracted.refusal) throw new Error("live model refusal");
+    const live = JSON.parse(extracted.text);
+    return json(response, 200, {
+      result: mergeContextLiveResult(
+        deterministic,
+        live,
+        payload.model || OPENAI_MODEL,
+      ),
+    });
+  } catch (error) {
+    console.error("Context live call failed:", error?.message || error);
+    return json(response, 200, { result: deterministic });
+  }
 }
 
 async function handleCommunicationCoach(request, response) {
