@@ -4312,3 +4312,12 @@ article.capture-finding {
   align-items: center;
   flex: 0 0 auto;
 }
+
+/* Intake: record vs respond */
+
+.intake-action-buttons {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}

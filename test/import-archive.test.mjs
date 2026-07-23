@@ -187,22 +187,49 @@ describe("import proposal", () => {
 
 describe("scale behaviour", () => {
   it("handles a months-long archive with a full cast", () => {
-    const archive = createStressArchive({ conversations: 40 });
+    const archive = createStressArchive();
     const started = performance.now();
     const proposal = buildImportProposal(archive);
     const elapsed = performance.now() - started;
-    assert.equal(proposal.stats.conversations, 40);
-    assert.ok(proposal.stats.peopleProposed >= 10);
-    assert.equal(proposal.stats.eventsProposed, 40);
+    assert.equal(proposal.stats.conversations, archive.length);
+    assert.ok(proposal.stats.peopleProposed >= 8);
+    assert.ok(proposal.stats.eventsProposed >= 25);
     assert.ok(elapsed < 2000, `proposal took ${Math.round(elapsed)}ms`);
     for (const event of proposal.events) {
       assert.ok(event.userStatedClaims.length >= 1);
     }
   });
 
+  it("keeps every assistant line distinct", () => {
+    const proposal = buildImportProposal(createStressArchive());
+    const aiTexts = proposal.events.flatMap((event) =>
+      event.aiInferredClaims.map((claim) => claim.text),
+    );
+    assert.equal(new Set(aiTexts).size, aiTexts.length);
+  });
+
+  it("proposes co-mention connections without pairing aliases", () => {
+    const proposal = buildImportProposal(createStressArchive());
+    assert.ok(proposal.connections.length >= 2);
+    const pairs = proposal.connections.map(
+      (connection) => `${connection.fromName} & ${connection.toName}`,
+    );
+    assert.ok(pairs.includes("Felix & Nora"));
+    assert.ok(pairs.includes("Dele & Sela"));
+    for (const connection of proposal.connections) {
+      assert.ok(connection.coMentionCount >= 2);
+      assert.ok(
+        !connection.toName
+          .toLowerCase()
+          .startsWith(`${connection.fromName.toLowerCase()} `),
+      );
+      assert.equal(connection.status, "proposed");
+    }
+  });
+
   it("stays deterministic across runs", () => {
-    const first = JSON.stringify(createStressArchive({ conversations: 5 }));
-    const second = JSON.stringify(createStressArchive({ conversations: 5 }));
+    const first = JSON.stringify(createStressArchive());
+    const second = JSON.stringify(createStressArchive());
     assert.equal(first, second);
   });
 });

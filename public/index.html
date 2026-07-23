@@ -288,10 +288,15 @@
           <p>
             The sender, goal, and selected history remain visible and editable.
           </p>
-          <button class="reason-button" id="analyseButton" type="button">
-            <span>Build with context</span>
-            <span aria-hidden="true">→</span>
-          </button>
+          <div class="intake-action-buttons">
+            <button class="reason-button" id="analyseButton" type="button">
+              <span>Build with context</span>
+              <span aria-hidden="true">→</span>
+            </button>
+            <button class="secondary-button" id="recordMessageButton" type="button">
+              Record only, no reply
+            </button>
+          </div>
         </div>
         <div class="error-message" id="errorMessage" role="alert"></div>
         <div class="commitment-suggestion" id="commitmentSuggestion" hidden>
@@ -617,6 +622,20 @@
                   <span id="importEventCount">0 events</span>
                 </div>
                 <div id="importEventList"></div>
+              </div>
+
+              <div class="capture-findings">
+                <div class="capture-findings-heading">
+                  <div>
+                    <span>POSSIBLE CONNECTIONS</span>
+                    <h4>
+                      People who appear together in your own messages.
+                      Co-mention is not proof of a relationship.
+                    </h4>
+                  </div>
+                  <span id="importConnectionCount">0 connections</span>
+                </div>
+                <div id="importConnectionList"></div>
               </div>
 
               <div class="capture-review-actions">

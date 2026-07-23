@@ -137,6 +137,9 @@ const elements = {
   importPeopleList: document.querySelector("#importPeopleList"),
   importEventCount: document.querySelector("#importEventCount"),
   importEventList: document.querySelector("#importEventList"),
+  importConnectionCount: document.querySelector("#importConnectionCount"),
+  importConnectionList: document.querySelector("#importConnectionList"),
+  recordMessage: document.querySelector("#recordMessageButton"),
   cancelImport: document.querySelector("#cancelImportButton"),
   captureSourceDialog: document.querySelector("#captureSourceDialog"),
   captureSourceDialogClose: document.querySelector("#captureSourceDialogClose"),
@@ -541,6 +544,7 @@ function bindEvents() {
     state.commitmentSuggestion = null;
     elements.commitmentSuggestion.hidden = true;
   });
+  elements.recordMessage.addEventListener("click", recordIncomingMessage);
   elements.importDropzone.addEventListener("dragover", (event) => {
     event.preventDefault();
     elements.importDropzone.classList.add("is-dragging");
@@ -728,7 +732,8 @@ function enterWorkspace(caseData, kind) {
   elements.product.hidden = false;
   hydrateWorkspace();
   const hasPeople = relationshipPeople().length > 0;
-  showPanel(hasPeople ? "situation" : "people");
+  // The relationship map is the home view once there is a map worth seeing.
+  showPanel(relationshipPeople().length >= 2 ? "people" : hasPeople ? "situation" : "people");
   if (hasPeople && state.caseData.incoming.text.trim()) {
     runContext();
   } else {
@@ -1661,6 +1666,68 @@ async function loadImportStressDemo() {
   }
 }
 
+function recordIncomingMessage() {
+  if (!state.caseData) return;
+  const message = elements.incoming.value.trim();
+  const senderId = elements.sender.value;
+  const person = state.caseData.people.find((item) => item.id === senderId);
+  if (!person) {
+    elements.error.textContent =
+      "Add or select a person before recording the message.";
+    showPanel("people");
+    return;
+  }
+  if (message.length < 2) {
+    elements.error.textContent = "Add the message or interaction to record.";
+    elements.incoming.focus();
+    return;
+  }
+  elements.error.textContent = "";
+  const now = new Date().toISOString();
+  const claimId = `claim-${crypto.randomUUID()}`;
+  const situationId = `situation-${crypto.randomUUID()}`;
+  state.caseData.claims.push({
+    id: claimId,
+    situationId,
+    personIds: ["person-you", person.id],
+    type: "direct_observation",
+    text: `${person.displayName}: ${message}`,
+    source: { kind: "user_entry", reference: "Typed message record" },
+    confidence: "high",
+    status: "current",
+    userConfirmation: "confirmed",
+    createdAt: now,
+  });
+  state.caseData.situations.push({
+    id: situationId,
+    title: `Message from ${person.displayName}`,
+    occurredAt: null,
+    datePrecision: "unknown",
+    dateSource: "not_visible",
+    capturedAt: now,
+    recordSequence: state.caseData.situations.length,
+    location: "Typed message record",
+    personIds: ["person-you", person.id],
+    sourceRefs: ["Typed message record"],
+    eventClaimIds: [claimId],
+    actionTaken: "",
+    unresolvedQuestions: [
+      "The event date was not recorded and remains unknown.",
+    ],
+    relatedSituationIds: [],
+  });
+  state.caseData.selectedSituationIds.push(situationId);
+  state.caseData.incoming.senderPersonId = person.id;
+  state.caseData.incoming.text = message;
+  detectCommitmentSuggestion(message, senderId);
+  hydrateWorkspace();
+  persistWorkspace();
+  showPanel("situation");
+  showToast(
+    `Recorded for ${person.displayName}. Nothing was drafted, and the record stays editable.`,
+  );
+}
+
 function detectCommitmentSuggestion(message, senderId) {
   elements.commitmentSuggestion.hidden = true;
   state.commitmentSuggestion = null;
@@ -1731,6 +1798,9 @@ async function requestImportProposal(archive, sourceName) {
         payload.proposal.people.map((person) => person.id),
       ),
       approvedEvents: new Set(payload.proposal.events.map((event) => event.id)),
+      approvedConnections: new Set(
+        (payload.proposal.connections || []).map((connection) => connection.id),
+      ),
     };
     elements.importStatus.hidden = true;
     renderImportReview();
@@ -1818,12 +1888,44 @@ function renderImportReview() {
         .join("")
     : `<p class="import-empty">No events referenced the proposed people.</p>`;
 
+  const connections = proposal.connections || [];
+  elements.importConnectionCount.textContent = `${connections.length} connection${connections.length === 1 ? "" : "s"}`;
+  elements.importConnectionList.innerHTML = connections.length
+    ? connections
+        .map(
+          (connection) => `<label class="capture-finding">
+            <input
+              type="checkbox"
+              data-import-connection="${escapeHtml(connection.id)}"
+              ${pending.approvedConnections.has(connection.id) ? "checked" : ""}
+            />
+            <span>
+              <strong>${escapeHtml(connection.fromName)} · ${escapeHtml(connection.toName)}</strong>
+              <p>Appear together in ${connection.coMentionCount} conversation${connection.coMentionCount === 1 ? "" : "s"}, including “${escapeHtml(connection.conversationTitles[0] || "")}”.</p>
+              <small>Provisional · co-mention only · you can edit or delete the link later</small>
+            </span>
+          </label>`,
+        )
+        .join("")
+    : `<p class="import-empty">No pair of people appeared together often enough to suggest a link.</p>`;
+
   elements.importPeopleList
     .querySelectorAll("input[data-import-person]")
     .forEach((input) =>
       input.addEventListener("change", () => {
         if (input.checked) pending.approvedPeople.add(input.dataset.importPerson);
         else pending.approvedPeople.delete(input.dataset.importPerson);
+      }),
+    );
+  elements.importConnectionList
+    .querySelectorAll("input[data-import-connection]")
+    .forEach((input) =>
+      input.addEventListener("change", () => {
+        if (input.checked) {
+          pending.approvedConnections.add(input.dataset.importConnection);
+        } else {
+          pending.approvedConnections.delete(input.dataset.importConnection);
+        }
       }),
     );
   elements.importEventList
@@ -1937,6 +2039,35 @@ function fileImportProposal(event) {
     filedClaims += claimIds.length;
   }
 
+  let filedConnections = 0;
+  for (const connection of proposal.connections || []) {
+    if (!pending.approvedConnections.has(connection.id)) continue;
+    const fromId = personIdByName.get(connection.fromName.toLowerCase());
+    const toId = personIdByName.get(connection.toName.toLowerCase());
+    if (!fromId || !toId || fromId === toId) continue;
+    const exists = state.caseData.relationshipConnections.some(
+      (item) =>
+        (item.fromPersonId === fromId && item.toPersonId === toId) ||
+        (item.fromPersonId === toId && item.toPersonId === fromId),
+    );
+    if (exists) continue;
+    state.caseData.relationshipConnections.push({
+      id: `connection-${crypto.randomUUID()}`,
+      schemaVersion: "1.0.0",
+      fromPersonId: fromId,
+      toPersonId: toId,
+      relationshipType: "Appear together (imported)",
+      dynamic: "unknown",
+      strength: Math.min(3, connection.coMentionCount),
+      confidence: 1,
+      notes: `Mentioned together in ${connection.coMentionCount} imported conversations. Co-mention is not proof of a relationship.`,
+      source: "llm_archive_import",
+      userConfirmation: "provisional",
+      updatedAt: now,
+    });
+    filedConnections += 1;
+  }
+
   state.caseData.captures.push({
     id: captureId,
     kind: "llm_archive",
@@ -1969,13 +2100,13 @@ function fileImportProposal(event) {
 
   resetImportReview();
   hydrateWorkspace();
-  showPanel("situation");
+  showPanel("people");
   persistWorkspace();
   const skippedNote = skippedEvents
     ? ` ${skippedEvents} event${skippedEvents === 1 ? "" : "s"} skipped because no approved person was involved.`
     : "";
   showToast(
-    `Imported ${approvedPeople.length} people, ${filedEvents} events, and ${filedClaims} labelled claims.${skippedNote}`,
+    `Imported ${approvedPeople.length} people, ${filedEvents} events, ${filedClaims} labelled claims, and ${filedConnections} provisional connection${filedConnections === 1 ? "" : "s"}.${skippedNote}`,
   );
 }
 
