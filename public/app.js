@@ -140,6 +140,7 @@ const elements = {
   importConnectionCount: document.querySelector("#importConnectionCount"),
   importConnectionList: document.querySelector("#importConnectionList"),
   recordMessage: document.querySelector("#recordMessageButton"),
+  studioEngineBadge: document.querySelector("#studioEngineBadge"),
   cancelImport: document.querySelector("#cancelImportButton"),
   captureSourceDialog: document.querySelector("#captureSourceDialog"),
   captureSourceDialogClose: document.querySelector("#captureSourceDialogClose"),
@@ -4535,6 +4536,12 @@ async function runCommunicationCoach(event) {
     }
     if (requestVersion !== state.requestVersion) return;
     state.coachResult = payload.result;
+    if (elements.studioEngineBadge) {
+      elements.studioEngineBadge.textContent =
+        payload.result?.meta?.source === "live"
+          ? `Live · ${payload.result.meta.model || "GPT-5.6"}`
+          : "Local · zero cost";
+    }
     state.caseData.communicationCoach = {
       senderId,
       draftReply,

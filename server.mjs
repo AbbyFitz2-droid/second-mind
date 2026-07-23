@@ -26,6 +26,12 @@ import {
   createDemoArchive,
   createStressArchive,
 } from "./lib/import-archive.mjs";
+import {
+  buildStudioLiveInput,
+  buildStudioLiveInstructions,
+  mergeStudioLiveResult,
+  STUDIO_LIVE_SCHEMA,
+} from "./lib/communication-studio-live.mjs";
 
 const ROOT = fileURLToPath(new URL(".", import.meta.url));
 const PUBLIC_DIR = join(ROOT, "public");
@@ -487,18 +493,84 @@ async function handleCommunicationCoach(request, response) {
     });
   }
 
-  return json(response, 200, {
-    result: analyzeCommunicationDraft({
-      caseData,
-      senderId,
-      receivedMessage,
-      draftReply,
-      selectedSituationIds,
-      goal,
-      desiredTone,
-      mode,
-    }),
+  const deterministic = analyzeCommunicationDraft({
+    caseData,
+    senderId,
+    receivedMessage,
+    draftReply,
+    selectedSituationIds,
+    goal,
+    desiredTone,
+    mode,
   });
+
+  if (!LIVE_API_AVAILABLE) {
+    return json(response, 200, { result: deterministic });
+  }
+
+  try {
+    const person = caseData.people.find((item) => item.id === senderId);
+    const apiResponse = await fetch("https://api.openai.com/v1/responses", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: OPENAI_MODEL,
+        store: false,
+        safety_identifier: createHash("sha256")
+          .update(`second-mind-studio:${senderId}`)
+          .digest("hex"),
+        reasoning: { effort: "low", context: "current_turn" },
+        text: {
+          verbosity: "low",
+          format: {
+            type: "json_schema",
+            name: "studio_card",
+            strict: true,
+            schema: STUDIO_LIVE_SCHEMA,
+          },
+        },
+        instructions: buildStudioLiveInstructions({ mode, goal, desiredTone }),
+        input: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "input_text",
+                text: buildStudioLiveInput({
+                  person,
+                  relevantContext: deterministic.relevantContext,
+                  receivedMessage,
+                  draftReply,
+                  mode,
+                }),
+              },
+            ],
+          },
+        ],
+      }),
+      signal: AbortSignal.timeout(45_000),
+    });
+    const payload = await apiResponse.json();
+    if (!apiResponse.ok) {
+      throw new Error(payload?.error?.code || `status ${apiResponse.status}`);
+    }
+    const extracted = extractResponseText(payload);
+    if (extracted.refusal) throw new Error("live model refusal");
+    const live = JSON.parse(extracted.text);
+    return json(response, 200, {
+      result: mergeStudioLiveResult(
+        deterministic,
+        live,
+        payload.model || OPENAI_MODEL,
+      ),
+    });
+  } catch (error) {
+    console.error("Studio live call failed:", error?.message || error);
+    return json(response, 200, { result: deterministic });
+  }
 }
 
 async function handleTranscribe(request, response) {
