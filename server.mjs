@@ -24,6 +24,7 @@ import {
 import {
   buildImportProposal,
   createDemoArchive,
+  createStressArchive,
 } from "./lib/import-archive.mjs";
 
 const ROOT = fileURLToPath(new URL(".", import.meta.url));
@@ -59,6 +60,7 @@ const DEMO_MODE = process.env.DEMO_MODE !== "false";
 const PAID_API_ENABLED = process.env.PAID_API_ENABLED === "true";
 const LIVE_API_AVAILABLE = Boolean(OPENAI_API_KEY && PAID_API_ENABLED);
 const MAX_JSON_BYTES = 64 * 1024;
+const MAX_CASE_BYTES = 4 * 1024 * 1024;
 const MAX_AUDIO_BYTES = 10 * 1024 * 1024;
 const MAX_IMPORT_BYTES = 16 * 1024 * 1024;
 
@@ -156,6 +158,21 @@ const server = createServer(async (request, response) => {
           fictional: true,
           ephemeral: true,
           paid_api_enabled: false,
+        },
+      });
+    }
+
+    if (
+      request.method === "GET" &&
+      request.url === "/api/import-stress-demo-archive"
+    ) {
+      return json(response, 200, {
+        archive: createStressArchive({ conversations: 40 }),
+        meta: {
+          fictional: true,
+          ephemeral: true,
+          paid_api_enabled: false,
+          scale_demo: true,
         },
       });
     }
@@ -362,7 +379,7 @@ async function handleImportArchive(request, response) {
 }
 
 async function handleContextReason(request, response) {
-  const body = await readJson(request, MAX_JSON_BYTES * 2);
+  const body = await readJson(request, MAX_CASE_BYTES);
   const caseData =
     body.case_data && typeof body.case_data === "object"
       ? body.case_data
@@ -409,7 +426,7 @@ async function handleContextReason(request, response) {
 }
 
 async function handleCommunicationCoach(request, response) {
-  const body = await readJson(request, MAX_JSON_BYTES * 2);
+  const body = await readJson(request, MAX_CASE_BYTES);
   const caseData =
     body.case_data && typeof body.case_data === "object"
       ? body.case_data

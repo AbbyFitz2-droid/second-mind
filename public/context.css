@@ -4252,3 +4252,63 @@ article.capture-finding {
   gap: 14px;
   align-items: center;
 }
+
+/* Studio sender picker */
+
+.coach-sender-field {
+  display: block;
+  margin: 18px 0 4px;
+  max-width: 340px;
+}
+
+.coach-sender-field span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coach-sender-field select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  font: inherit;
+}
+
+/* Commitment suggestion strip */
+
+.commitment-suggestion {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(201, 166, 91, 0.5);
+  border-radius: var(--radius-md);
+  background: rgba(201, 166, 91, 0.12);
+}
+
+.commitment-suggestion strong {
+  font-size: 0.8rem;
+}
+
+.commitment-suggestion p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.commitment-suggestion-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex: 0 0 auto;
+}

@@ -118,6 +118,14 @@ const elements = {
   importFile: document.querySelector("#importFile"),
   chooseImport: document.querySelector("#chooseImportButton"),
   tryImportDemo: document.querySelector("#tryImportDemoButton"),
+  tryImportStress: document.querySelector("#tryImportStressButton"),
+  coachSender: document.querySelector("#coachSenderSelect"),
+  commitmentSuggestion: document.querySelector("#commitmentSuggestion"),
+  commitmentSuggestionText: document.querySelector("#commitmentSuggestionText"),
+  commitmentSuggestionAdd: document.querySelector("#commitmentSuggestionAdd"),
+  commitmentSuggestionDismiss: document.querySelector(
+    "#commitmentSuggestionDismiss",
+  ),
   importDropzone: document.querySelector("#importDropzone"),
   importStatus: document.querySelector("#importStatus"),
   importError: document.querySelector("#importError"),
@@ -319,6 +327,7 @@ const state = {
   pendingCapture: null,
   pendingImport: null,
   tourStep: -1,
+  commitmentSuggestion: null,
   capturePreviewUrl: null,
   captureSourceUrl: null,
   captureRemovalArmed: null,
@@ -516,7 +525,22 @@ function bindEvents() {
     elements.importFile.click(),
   );
   elements.tryImportDemo.addEventListener("click", loadImportDemo);
+  elements.tryImportStress.addEventListener("click", loadImportStressDemo);
   elements.importFile.addEventListener("change", selectImportFile);
+  elements.coachSender.addEventListener("change", () => {
+    if (!elements.coachSender.value) return;
+    elements.sender.value = elements.coachSender.value;
+    elements.sender.dispatchEvent(new Event("change"));
+    renderCoachContextSummary();
+  });
+  elements.commitmentSuggestionAdd.addEventListener(
+    "click",
+    acceptCommitmentSuggestion,
+  );
+  elements.commitmentSuggestionDismiss.addEventListener("click", () => {
+    state.commitmentSuggestion = null;
+    elements.commitmentSuggestion.hidden = true;
+  });
   elements.importDropzone.addEventListener("dragover", (event) => {
     event.preventDefault();
     elements.importDropzone.classList.add("is-dragging");
@@ -913,6 +937,11 @@ function renderSenderOptions() {
   elements.sender.disabled = people.length === 0;
   state.caseData.incoming.senderPersonId = senderId;
   if (!state.selectedPersonId && senderId) state.selectedPersonId = senderId;
+  if (elements.coachSender) {
+    elements.coachSender.innerHTML = elements.sender.innerHTML;
+    elements.coachSender.value = senderId;
+    elements.coachSender.disabled = people.length === 0;
+  }
 }
 
 async function runContext({ switchTo = null } = {}) {
@@ -953,6 +982,7 @@ async function runContext({ switchTo = null } = {}) {
     if (requestVersion !== state.requestVersion) return;
     state.result = payload.result;
     renderResult();
+    detectCommitmentSuggestion(message, senderId);
     if (switchTo) showPanel(switchTo);
   } catch (error) {
     if (requestVersion !== state.requestVersion) return;
@@ -1610,6 +1640,76 @@ async function loadImportDemo() {
   } catch (error) {
     showImportError(error.message || "The fictional archive could not load.");
   }
+}
+
+async function loadImportStressDemo() {
+  if (!state.caseData) startPersonalWorkspace();
+  resetImportReview({ keepStatus: true });
+  setImportStatus("Loading the five-month fictional history…");
+  try {
+    const response = await fetch("/api/import-stress-demo-archive");
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.error || "Demo unavailable.");
+    await requestImportProposal(
+      payload.archive,
+      "Fictional five-month history",
+    );
+  } catch (error) {
+    showImportError(
+      error.message || "The fictional history could not load.",
+    );
+  }
+}
+
+function detectCommitmentSuggestion(message, senderId) {
+  elements.commitmentSuggestion.hidden = true;
+  state.commitmentSuggestion = null;
+  const person = state.caseData.people.find((item) => item.id === senderId);
+  if (!person) return;
+  const parsed = parseCaptureText(`${person.displayName}: ${message}`);
+  const finding = parsed.findings.find(
+    (item) =>
+      item.kind === "commitment" &&
+      item.speaker.toLowerCase() !== "you" &&
+      item.status !== "cancelled",
+  );
+  if (!finding) return;
+  const alreadyTracked = state.caseData.commitments.some(
+    (commitment) =>
+      commitment.committerPersonId === person.id &&
+      commitment.description.trim().toLowerCase() ===
+        finding.text.trim().toLowerCase() &&
+      !["completed", "cancelled"].includes(commitment.status),
+  );
+  if (alreadyTracked) return;
+  state.commitmentSuggestion = {
+    personId: person.id,
+    text: finding.text,
+    status: finding.status || "promised",
+  };
+  elements.commitmentSuggestionText.textContent = `${person.displayName}: “${finding.text}”`;
+  elements.commitmentSuggestion.hidden = false;
+}
+
+function acceptCommitmentSuggestion() {
+  const suggestion = state.commitmentSuggestion;
+  if (!suggestion) return;
+  elements.commitmentSuggestion.hidden = true;
+  showPanel("situation");
+  openNewCommitmentForm();
+  elements.commitmentPerson.value = suggestion.personId;
+  elements.commitmentDescription.value = suggestion.text;
+  if (
+    [...elements.commitmentStatus.options].some(
+      (option) => option.value === suggestion.status,
+    )
+  ) {
+    elements.commitmentStatus.value = suggestion.status;
+  }
+  state.commitmentSuggestion = null;
+  showToast(
+    "Check the details, then save. Nothing is recorded until you confirm.",
+  );
 }
 
 async function requestImportProposal(archive, sourceName) {
@@ -2308,6 +2408,9 @@ function changeSender() {
   const senderId = elements.sender.value;
   state.caseData.incoming.senderPersonId = senderId;
   state.selectedPersonId = senderId;
+  if (elements.coachSender && elements.coachSender.value !== senderId) {
+    elements.coachSender.value = senderId;
+  }
   const existingCoach = state.caseData.communicationCoach || {};
   state.caseData.communicationCoach = {
     senderId,
