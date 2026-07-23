@@ -57,6 +57,32 @@ judgment stays human) and no mainstream tool does it well.
 
 ## Phase B: relationship graph depth
 
+### The relationship card is multi-dimensional
+
+A person is not one label plus two sliders. The profile should hold
+separate, user-controlled measures, because they move independently:
+
+- **Trust**: how safe, reliable, and respectful you currently believe
+  they are (already exists)
+- **Closeness**: how close the relationship currently is (already exists)
+- **Comfort**: how relaxed or guarded you feel around them, including
+  whether one-to-one contact feels okay
+- **Your interest**: split into friendship, romantic, professional, and
+  curiosity, each its own small scale
+- **Desired trajectory**: grow, maintain, distance, or end
+- **Meeting preference**: one-to-one, group only, public setting only,
+  online only, or no further contact
+- **Their perceived interest**: the system's evidence-linked
+  interpretation of what they may want, always labelled uncertain,
+  never presented as fact
+- **Boundaries**: concrete rules the assistant must respect when
+  drafting ("do not suggest meeting X alone", "keep it non-flirtatious")
+
+The reasoning question this enables is the safe one: not "does X like
+the user?" but "given what the user knows, feels, and wants, what form
+of interaction is appropriate?" The product is a user-controlled
+decision layer, not a database of other people.
+
 - Connections between people, not only person-to-user timelines
 - Recurring patterns surfaced with confidence levels and evidence links
   ("this signal rests on three events; here they are")
